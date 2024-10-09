@@ -15,7 +15,7 @@ import os
 import sys
 import platform
 import torch.multiprocessing as mp
-import gymnasium
+import gym as gymnasium
 import minigrid
 
 if 'mac' in platform.platform():
