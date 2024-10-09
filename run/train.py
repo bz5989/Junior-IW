@@ -38,8 +38,8 @@ from garage.experiment.deterministic import set_seed
 from garage.torch.distributions import TanhNormal
 from garaged.src.garage.torch.modules import MLPModule
 
-from minigrid.envs import FourRoomsEnv, EmptyEnv
-from minigrid.wrappers import FullyObsWrapper
+# from minigrid.envs import FourRoomsEnv, EmptyEnv
+# from minigrid.wrappers import FullyObsWrapper
 
 from garagei.replay_buffer.path_buffer_ex import PathBufferEx
 from garagei.experiment.option_local_runner import OptionLocalRunner
@@ -68,7 +68,7 @@ from envs.point_env import PointEnv
 from iod.sac_jens import SAC as JensSAC
 from iod.sac import SAC
 from iod.utils import get_normalizer_preset
-from envs.fourrooms_wrapper import FourRoomsWrapper
+# from envs.fourrooms_wrapper import FourRoomsWrapper
 
 
 EXP_DIR = 'exp'
@@ -414,26 +414,26 @@ def make_env(args, max_path_length: int):
         env = SawyerBin()
     elif args.env == 'point':
         env = PointEnv()
-    elif args.env == 'fourrooms':
-        env = FourRoomsEnv(render_mode='rgb_array')
-        if not args.minigrid_use_po:
-            env = FullyObsWrapper(env)
-        env = FourRoomsWrapper(env)
-    elif args.env == 'empty':
-        env = gymnasium.make('MiniGrid-Empty-5x5-v0', render_mode='rgb_array')
-        if not args.minigrid_use_po:
-            env = FullyObsWrapper(env)
-        env = FourRoomsWrapper(env, continuous=(not args.use_discrete_sac))
-    elif args.env == 'empty_16x16':
-        env = gymnasium.make('MiniGrid-Empty-16x16-v0', render_mode='rgb_array', agent_start_pos=(8, 8))
-        if not args.minigrid_use_po:
-            env = FullyObsWrapper(env)
-        env = FourRoomsWrapper(env, continuous=(not args.use_discrete_sac))
-    elif args.env == 'empty_random_6x6':
-        env = gymnasium.make('MiniGrid-Empty-Random-6x6-v0', render_mode='rgb_array')
-        if not args.minigrid_use_po:
-            env = FullyObsWrapper(env)
-        env = FourRoomsWrapper(env, continuous=(not args.use_discrete_sac))
+    # elif args.env == 'fourrooms':
+    #     env = FourRoomsEnv(render_mode='rgb_array')
+    #     if not args.minigrid_use_po:
+    #         env = FullyObsWrapper(env)
+    #     env = FourRoomsWrapper(env)
+    # elif args.env == 'empty':
+    #     env = gymnasium.make('MiniGrid-Empty-5x5-v0', render_mode='rgb_array')
+    #     if not args.minigrid_use_po:
+    #         env = FullyObsWrapper(env)
+    #     env = FourRoomsWrapper(env, continuous=(not args.use_discrete_sac))
+    # elif args.env == 'empty_16x16':
+    #     env = gymnasium.make('MiniGrid-Empty-16x16-v0', render_mode='rgb_array', agent_start_pos=(8, 8))
+    #     if not args.minigrid_use_po:
+    #         env = FullyObsWrapper(env)
+    #     env = FourRoomsWrapper(env, continuous=(not args.use_discrete_sac))
+    # elif args.env == 'empty_random_6x6':
+    #     env = gymnasium.make('MiniGrid-Empty-Random-6x6-v0', render_mode='rgb_array')
+    #     if not args.minigrid_use_po:
+    #         env = FullyObsWrapper(env)
+    #     env = FourRoomsWrapper(env, continuous=(not args.use_discrete_sac))
     elif args.env == 'ant_nav_prime':
         from envs.mujoco.ant_nav_prime_env import AntNavPrimeEnv
 
@@ -532,8 +532,8 @@ def run(ctxt=None):
                 pixel_shape = env.ob_info['pixel_shape']
         else:
             pixel_shape = (64, 64, 3)
-            if args.env == 'fourrooms':
-                pixel_shape = (7, 7, 3)
+            # if args.env == 'fourrooms':
+            #     pixel_shape = (7, 7, 3)
             if args.env == 'empty':
                 pixel_shape = (5, 5, 3)
     else:
@@ -560,15 +560,15 @@ def run(ctxt=None):
         def with_encoder(module, encoder=None):
             if encoder is None:
                 kwargs = {}
-                if args.env == 'fourrooms':
-                    kwargs['cnn_kernels'] = (3, 3)
+                # if args.env == 'fourrooms':
+                #     kwargs['cnn_kernels'] = (3, 3)
                 encoder = make_encoder(**kwargs)
 
             return WithEncoder(encoder=encoder, module=module)
 
         kwargs = {}
-        if args.env == 'fourrooms':
-            kwargs['cnn_kernels'] = (3, 3)
+        # if args.env == 'fourrooms':
+        #     kwargs['cnn_kernels'] = (3, 3)
         example_encoder = make_encoder(**kwargs)
         module_obs_dim = example_encoder(torch.as_tensor(example_ob).float().unsqueeze(0)).shape[-1]
     else:
