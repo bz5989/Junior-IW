@@ -36,7 +36,7 @@ from torch.distributions.one_hot_categorical import OneHotCategorical
 from garage import wrap_experiment
 from garage.experiment.deterministic import set_seed
 from garage.torch.distributions import TanhNormal
-from garaged.src.garage.torch.modules import MLPModule
+# from garaged.src.garage.torch.modules import MLPModule
 
 # from minigrid.envs import FourRoomsEnv, EmptyEnv
 # from minigrid.wrappers import FullyObsWrapper
@@ -889,20 +889,20 @@ def run(ctxt=None):
             ]),
         })
 
-    elif args.algo == 'ppo':
-        # TODO: Currently not support pixel obs
-        vf = MLPModule(
-            input_dim=policy_q_input_dim,
-            output_dim=1,
-            hidden_sizes=master_dims,
-            hidden_nonlinearity=nonlinearity or torch.relu,
-            layer_normalization=False,
-        )
-        optimizers.update({
-            'vf': torch.optim.Adam([
-                {'params': vf.parameters(), 'lr': _finalize_lr(args.lr_op)},
-            ]),
-        })
+    # elif args.algo == 'ppo':
+    #     # TODO: Currently not support pixel obs
+    #     vf = MLPModule(
+    #         input_dim=policy_q_input_dim,
+    #         output_dim=1,
+    #         hidden_sizes=master_dims,
+    #         hidden_nonlinearity=nonlinearity or torch.relu,
+    #         layer_normalization=False,
+    #     )
+    #     optimizers.update({
+    #         'vf': torch.optim.Adam([
+    #             {'params': vf.parameters(), 'lr': _finalize_lr(args.lr_op)},
+    #         ]),
+    #     })
 
     f_encoder = None
     if args.metra_mlp_rep:
