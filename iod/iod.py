@@ -269,12 +269,6 @@ class IOD(RLAlgorithm):
         )
         kwargs = dict(default_kwargs, **self._get_train_trajectories_kwargs(runner))
 
-        if self.env_name == 'fetch_reach' or self.env_name == 'ant_with_goals' or self.env_name == 'sawyer_bin' or self.env_name == 'point':
-            kwargs['batch_size'] = len(kwargs['extras'])
-            kwargs['extras'] = None
-            if self.use_goal_rep:
-                kwargs['extras'] = [{'traj_encoder':self.traj_encoder}]* runner._train_args.batch_size
-
         paths = self._get_trajectories(**kwargs)
 
         return paths

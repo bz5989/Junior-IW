@@ -5,14 +5,10 @@ import torch
 from torch import nn
 from torch.distributions import Normal
 from torch.distributions.independent import Independent
-from mamba_ssm.models.config_mamba import MambaConfig
 
 from garage.torch.distributions import TanhNormal
 from garage.torch.modules.mlp_module import MLPModule
 from garage.torch.modules.multi_headed_mlp_module import MultiHeadedMLPModule
-from networks.mamba_core import MambaCore
-from networks.state_embedder import StateEmbedder
-from networks.action_embedder import ActionEmbedder
 
 
 class GaussianMLPBaseModule(nn.Module):
@@ -167,10 +163,10 @@ class GaussianMLPBaseModule(nn.Module):
         return ret
 
     @abc.abstractmethod
-    def _get_mean_and_log_std(self, *inputs, prev_actions=None, inference_params=None):
+    def _get_mean_and_log_std(self, *inputs):
         pass
 
-    def forward(self, *inputs, prev_actions=None, inference_params = None):
+    def forward(self, *inputs):
         """Forward method.
 
         Args:
@@ -181,7 +177,7 @@ class GaussianMLPBaseModule(nn.Module):
                 distribution.
 
         """
-        mean, log_std_uncentered = self._get_mean_and_log_std(*inputs, prev_actions=prev_actions, inference_params=inference_params)
+        mean, log_std_uncentered = self._get_mean_and_log_std(*inputs)
 
         if self._std_parameterization not in ['softplus_real']:
             if self._min_std_param or self._max_std_param:
@@ -312,7 +308,7 @@ class GaussianMLPModule(GaussianMLPBaseModule):
             **kwargs
         )
 
-    def _get_mean_and_log_std(self, *inputs, prev_actions=None, inference_params=None):
+    def _get_mean_and_log_std(self, *inputs):
         """Get mean and std of Gaussian distribution given inputs.
 
         Args:
@@ -489,7 +485,7 @@ class GaussianMLPIndependentStdModule(GaussianMLPBaseModule):
         else:
             return nn.init.constant_(b, self._init_std.exp().exp().add(-1.0).log().item())
 
-    def _get_mean_and_log_std(self, *inputs, prev_actions=None, inference_params=None):
+    def _get_mean_and_log_std(self, *inputs):
         """Get mean and std of Gaussian distribution given inputs.
 
         Args:
@@ -571,11 +567,7 @@ class GaussianMLPTwoHeadedModule(GaussianMLPBaseModule):
                  max_std=None,
                  std_parameterization='exp',
                  layer_normalization=False,
-                 normal_distribution_cls=Normal,
-                 recurrent: bool = False,
-                 seq_model_hdim: int = 256,
-                 seq_model_num_layers: int = 3,
-                 seq_model_type: str = 'mamba'):
+                 normal_distribution_cls=Normal):
         super(GaussianMLPTwoHeadedModule,
               self).__init__(input_dim=input_dim,
                              output_dim=output_dim,
@@ -594,64 +586,28 @@ class GaussianMLPTwoHeadedModule(GaussianMLPBaseModule):
                              layer_normalization=layer_normalization,
                              normal_distribution_cls=normal_distribution_cls)
 
-        self.recurrent = recurrent
-        if self.recurrent:
-            self.obs_embedder = StateEmbedder(input_dim, seq_model_hdim // 4 * 3)
-            # self.obs_embedder = StateEmbedder(input_dim, seq_model_hdim)
-            self.action_embedder = ActionEmbedder(output_dim, seq_model_hdim // 4)
 
-            if seq_model_type == 'mamba':
-                mamba_config = MambaConfig(
-                    d_model=seq_model_hdim,
-                    n_layer=seq_model_num_layers
-                )
-                self.seq_model = MambaCore(mamba_config)
-            elif seq_model_type == 'lstm':
-                self.seq_model = nn.LSTM(seq_model_hdim, seq_model_hdim, seq_model_num_layers, batch_first=False)
-            else:
-                raise NotImplementedError
-
-            self._shared_mean_log_std_network = MultiHeadedMLPModule(
-                n_heads=2,
-                input_dim=seq_model_hdim,
-                # input_dim=self._input_dim,
-                output_dims=self._action_dim,
-                hidden_sizes=self._hidden_sizes,
-                hidden_nonlinearity=self._hidden_nonlinearity,
-                hidden_w_init=self._hidden_w_init,
-                hidden_b_init=self._hidden_b_init,
-                output_nonlinearities=self._output_nonlinearity,
-                output_w_inits=self._output_w_init,
-                output_b_inits=[
-                    nn.init.zeros_,
-                    (lambda x: nn.init.constant_(x, self._init_std.item())
-                    if self._std_parameterization not in ['softplus_real']
-                    else lambda x: nn.init.constant_(x, self._init_std.exp().exp().add(-1.0).log().item())),
-                ],
-                layer_normalization=self._layer_normalization)
-
-        else:
-            self._shared_mean_log_std_network = MultiHeadedMLPModule(
-                n_heads=2,
-                input_dim=self._input_dim,
-                output_dims=self._action_dim,
-                hidden_sizes=self._hidden_sizes,
-                hidden_nonlinearity=self._hidden_nonlinearity,
-                hidden_w_init=self._hidden_w_init,
-                hidden_b_init=self._hidden_b_init,
-                output_nonlinearities=self._output_nonlinearity,
-                output_w_inits=self._output_w_init,
-                output_b_inits=[
-                    nn.init.zeros_,
-                    (lambda x: nn.init.constant_(x, self._init_std.item())
-                    if self._std_parameterization not in ['softplus_real']
-                    else lambda x: nn.init.constant_(x, self._init_std.exp().exp().add(-1.0).log().item())),
-                ],
-                layer_normalization=self._layer_normalization)
+        self._shared_mean_log_std_network = MultiHeadedMLPModule(
+            n_heads=2,
+            input_dim=self._input_dim,
+            output_dims=self._action_dim,
+            hidden_sizes=self._hidden_sizes,
+            hidden_nonlinearity=self._hidden_nonlinearity,
+            hidden_w_init=self._hidden_w_init,
+            hidden_b_init=self._hidden_b_init,
+            output_nonlinearities=self._output_nonlinearity,
+            output_w_inits=self._output_w_init,
+            output_b_inits=[
+                nn.init.zeros_,
+                (lambda x: nn.init.constant_(x, self._init_std.item())
+                if self._std_parameterization not in ['softplus_real']
+                else lambda x: nn.init.constant_(x, self._init_std.exp().exp().add(-1.0).log().item())),
+            ],
+            layer_normalization=self._layer_normalization)
         
         
 
-    def _get_mean_and_log_std(self, *inputs, prev_actions=None, inference_params=None):
+    def _get_mean_and_log_std(self, *inputs):
         """Get mean and std of Gaussian distribution given inputs.
 
         Args:
@@ -662,35 +618,8 @@ class GaussianMLPTwoHeadedModule(GaussianMLPBaseModule):
             torch.Tensor: The variance of Gaussian distribution.
 
         """
-        # if self.recurrent:
-        #     observs = inputs[0]
-        #     hidden_states = self.get_hidden_states(
-        #         prev_actions=prev_actions, observs=observs, inference_params=inference_params
-        #     )
-
-        #     return self._shared_mean_log_std_network(hidden_states)
 
         return self._shared_mean_log_std_network(*inputs)
-
-    def get_hidden_states(
-        self, prev_actions, observs, inference_params=None
-    ):
-        # all the input have the shape of (1 or T+1, B, *)
-        # get embedding of initial transition
-        input_a = self.action_embedder(prev_actions)
-        input_s = self.obs_embedder(observs)
-        inputs = torch.cat((input_a, input_s), dim=-1)
-
-        # feed into RNN: output (T+1, B, hidden_size)
-        if inference_params is None:  # initial_internal_state is zeros
-            inputs = inputs.transpose(0, 1)
-            output = self.seq_model(inputs).last_hidden_state
-            output = output.transpose(0, 1)
-        else:  # useful for one-step rollout
-            inputs = inputs.unsqueeze(1)
-            output = self.seq_model(inputs, inference_params=inference_params).last_hidden_state[:, -1, :]
-        
-        return output
 
     def get_last_linear_layers(self):
         return {

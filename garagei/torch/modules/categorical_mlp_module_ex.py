@@ -73,7 +73,7 @@ class CategoricalMLPModuleEx(nn.Module):
     def _get_logits(self, *inputs):
         return self._logits_module(*inputs)
 
-    def forward(self, *inputs, prev_actions=None, inference_params=None):
+    def forward(self, *inputs):
         logits = self._get_logits(*inputs)
 
         dist = self._categorical_dist_class(logits=logits)
@@ -93,7 +93,7 @@ class CategoricalMLPModuleEx(nn.Module):
 
         return dist
 
-    def forward_mode(self, *inputs, prev_actions=None, inference_params=None):
+    def forward_mode(self, *inputs):
         logits = self._get_logits(*inputs)
 
         dist = self._categorical_dist_class(logits=logits)
@@ -113,7 +113,7 @@ class CategoricalMLPModuleEx(nn.Module):
 
         return dist.mode
 
-    def forward_with_transform(self, *inputs, transform, prev_actions=None, inference_params=None):
+    def forward_with_transform(self, *inputs, transform):
         logits = self._get_logits(*inputs)
 
         dist = self._categorical_dist_class(logits=logits)
@@ -150,7 +150,7 @@ class CategoricalMLPModuleEx(nn.Module):
 
         return dist, dist_transformed
 
-    def forward_with_chunks(self, *inputs, merge, prev_actions=None, inference_params=None):
+    def forward_with_chunks(self, *inputs, merge):
         logits = []
         for chunk_inputs in zip(*inputs):
             chunk_logits = self._get_logits(*chunk_inputs)

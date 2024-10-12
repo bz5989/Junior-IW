@@ -2,6 +2,7 @@ import copy
 import pathlib
 import time
 import os
+import sys
 
 import dowel_wrapper
 import numpy as np
@@ -31,7 +32,6 @@ def get_torch_concat_obs(obs, option, dim=1):
 def get_np_concat_obs(obs, option):
     concat_obs = np.concatenate([obs] + [option])
     return concat_obs
-
 
 def get_normalizer_preset(normalizer_type, coord_only: bool = False):
     # Precomputed mean and std of the state dimensions from 10000 length-50 random rollouts (without early termination)

@@ -1,4 +1,4 @@
-import os
+import copy
 from typing import Dict, List
 from collections import defaultdict
 
@@ -11,15 +11,9 @@ from garage import TrajectoryBatch
 from garagei import log_performance_ex
 from iod import sac_utils
 from iod.iod import IOD
-import copy
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 from iod.utils import get_torch_concat_obs, FigManager, get_option_colors, record_video, draw_2d_gaussians
 from iod.sac_utils import _clip_actions
-
-# from envs.craftax_wrapper import CraftaxWrapper
-
 
 class MetraSf(IOD):
     def __init__(
@@ -43,59 +37,21 @@ class MetraSf(IOD):
             dual_dist,
 
             pixel_shape=None,
-            log_eval_return: bool = False,
-            use_l2_penalty: bool = False,
             self_normalizing: bool = False,
             log_sum_exp: bool = False,
-            symmetrize_log_sum_exp: bool = False,
-            add_log_sum_exp_to_rewards: bool = False,
-            record_corr_m: bool = False,
-            contrastive: bool = False,
-            contrastive_every: bool = False,
-            phi_encoder: torch.nn.Module = None,
             fixed_lam: float = None,
-            metra_rep: bool = False,
-            use_metra_penalty: bool = False,
-            use_mse: bool = False,
-            metra_include_actions: bool = False,
-            crl_standardize_output: bool = False,
-            use_info_nce: bool = False,
-            use_oracle_goals: bool = False,
-            use_half_random_goals: bool = False,
-            add_penalty_to_rewards: bool = False,
-            no_diff_in_penalty: bool = False,
             no_diff_in_rep: bool = False,
-            include_one_minus_gamma: bool = False,
-            use_positive_log_sum_exp: bool = False,
-            scale_std: float = 1.0,
-            use_next_state: bool = False,
             use_discrete_sac: bool = False,
             turn_off_dones: bool = False,
-            use_diff_term: bool = False,
-            sf_use_td: bool = False,
-            sf_use_infonce_repr: bool = False,
-            sf_geometric_entropy: bool = False,
-            sf_exp_bonus: bool = False,
-            sf_use_contrastive: bool = False,
-            sf_freeze_traj_encoder: bool = False,
-            sf_bonus: bool = False,
             goal_range: float = None,
             frame_stack: int = None, 
             eval_goal_metrics: int = None,
-            relabel_critic_z: bool = False,
-            relabel_actor_z: bool = False,
-            use_bessel_penalty: bool = False,
             sample_new_z: bool = False,
             num_negative_z: int = 256,
-            use_fp: bool = False,
-            no_actor_ent_bonus: bool = False,
             infonce_lam: float = 1.0,
-            rep_temp: float = 1.0,
-            actor_temp: float = 1.0,
             metra_mlp_rep: bool = False,
             f_encoder: torch.nn.Module = None,
             num_zero_shot_goals: int = 50,
-            scale_radius: float = 1.0,
             **kwargs,
     ):
         super().__init__(**kwargs)
@@ -133,55 +89,22 @@ class MetraSf(IOD):
         self._target_entropy = -np.prod(self._env_spec.action_space.shape).item() / 2. * target_coef
 
         self.pixel_shape = pixel_shape
-        self.log_eval_return = log_eval_return
-        self.use_l2_penalty = use_l2_penalty
         self.self_normalizing = self_normalizing
         self.log_sum_exp = log_sum_exp
-        self.symmetrize_log_sum_exp = symmetrize_log_sum_exp
-        self.add_log_sum_exp_to_rewards = add_log_sum_exp_to_rewards
-        self.record_corr_m = record_corr_m
-        self.contrastive = contrastive
-        self.contrastive_every = contrastive_every
         self.fixed_lam = fixed_lam
-        self.metra_include_actions = metra_include_actions
-        self.use_oracle_goals = use_oracle_goals
-        self.use_half_random_goals = use_half_random_goals
-        self.add_penalty_to_rewards = add_penalty_to_rewards
-        self.no_diff_in_penalty = no_diff_in_penalty
         self.no_diff_in_rep = no_diff_in_rep
-        self.include_one_minus_gamma = include_one_minus_gamma
-        self.scale_std = scale_std
-        self.use_next_state = use_next_state
         self.turn_off_dones = turn_off_dones
         self.use_discrete_sac = use_discrete_sac
-        self.use_diff_term = use_diff_term
-        self.sf_use_td = sf_use_td
-        self.sf_use_infonce_repr = sf_use_infonce_repr
-        self.sf_geometric_entropy = sf_geometric_entropy
-        self.sf_exp_bonus = sf_exp_bonus
-        self.use_mse = use_mse
-        self.use_info_nce = use_info_nce
-        self.sf_use_contrastive = sf_use_contrastive
-        self.sf_freeze_traj_encoder = sf_freeze_traj_encoder
-        self.sf_bonus = sf_bonus
         self.goal_range = goal_range
         self.frame_stack = frame_stack
         self.eval_goal_metrics = eval_goal_metrics
-        self.relabel_critic_z = relabel_critic_z
-        self.relabel_actor_z = relabel_actor_z
-        self.use_bessel_penalty = use_bessel_penalty
         self.sample_new_z = sample_new_z
         self.num_negative_z = num_negative_z
-        self.use_fp = use_fp
-        self.no_actor_ent_bonus = no_actor_ent_bonus
         self.infonce_lam = infonce_lam
-        self.rep_temp = rep_temp
-        self.actor_temp = actor_temp
         self.metra_mlp_rep = metra_mlp_rep
         if self.metra_mlp_rep:
             self.f_encoder = f_encoder.to(self.device)
         self.num_zero_shot_goals = num_zero_shot_goals
-        self.scale_radius = scale_radius
 
         assert self._trans_optimization_epochs is not None
 
@@ -198,10 +121,9 @@ class MetraSf(IOD):
         if self.discrete:
             extras = self._generate_option_extras(np.eye(self.dim_option)[np.random.randint(0, self.dim_option, runner._train_args.batch_size)])
         else:
-            random_options = np.random.randn(runner._train_args.batch_size, self.dim_option) * self.scale_std
+            random_options = np.random.randn(runner._train_args.batch_size, self.dim_option)
             if self.unit_length:
                 random_options /= np.linalg.norm(random_options, axis=-1, keepdims=True)
-                random_options *= self.scale_radius
             extras = self._generate_option_extras(random_options)
 
         return dict(
@@ -274,17 +196,14 @@ class MetraSf(IOD):
         return tensors
 
     def _optimize_te(self, tensors, internal_vars):
-        if self.sf_use_infonce_repr:
-            self._update_loss_te_infonce(tensors, internal_vars)
-        else:
-            self._update_loss_te(tensors, internal_vars)
+        self._update_loss_te(tensors, internal_vars)
 
         self._gradient_descent(
             tensors['LossTe'],
             optimizer_keys=(['traj_encoder'] if not self.metra_mlp_rep else ['f_encoder'])
         )
 
-        if self.dual_reg and not self.sf_use_infonce_repr and not self.log_sum_exp:
+        if self.dual_reg and not self.log_sum_exp:
             self._update_loss_dual_lam(tensors, internal_vars)
             self._gradient_descent(
                 tensors['LossDualLam'],
@@ -296,83 +215,17 @@ class MetraSf(IOD):
                     optimizer_keys=['dist_predictor'],
                 )
 
-        if self.use_fp:
-            self._update_target_te()
-
     def _optimize_sf(self, tensors, internal_vars):
-        if self.sf_use_td:
-            self._update_loss_sf_td(tensors, internal_vars)
-        elif self.sf_use_contrastive:
-            self._update_loss_sf_contrastive(tensors, internal_vars)
-        else:
-            self._update_loss_sf_mc(tensors, internal_vars)
+        self._update_loss_sf_td(tensors, internal_vars)        
 
-        if self.sf_use_td:
-            self._gradient_descent(
-                tensors['LossQf1'] + tensors['LossQf2'],
-                optimizer_keys=['qf'],
-            )
+        self._gradient_descent(
+            tensors['LossQf1'] + tensors['LossQf2'],
+            optimizer_keys=['qf'],
+        )
 
-            self._update_targets()
-        elif self.sf_use_contrastive:
-            optim_keys = ['qf', 'traj_encoder']
-            if self.sf_freeze_traj_encoder:
-                optim_keys = ['qf']
-            self._gradient_descent(
-                tensors['LossContrastive'],
-                optimizer_keys=optim_keys,
-            )
-        else:
-            self._gradient_descent(
-                tensors['LossSf'],
-                optimizer_keys=['qf'],
-            )
-
-    def _update_loss_sf_contrastive(self, tensors, v):
-        criterion = torch.nn.BCEWithLogitsLoss()
-
-        states = v['obs']
-        options = v['options']
-        processed_obs = self._get_concat_obs(self.option_policy.process_observations(states), options)
-        future_states = v['future_obs']
-        actions = v['actions']
-
-        sa_repr = self.qf1(processed_obs, actions)
-        g_repr = self.traj_encoder(future_states).mean
-
-        if self.use_mse:
-            sa_repr_m = sa_repr.unsqueeze(1).repeat((1, g_repr.shape[0], 1))
-            g_repr_m = g_repr.unsqueeze(1).permute(1, 0, 2).repeat((sa_repr.shape[0], 1, 1))
-            logits = -1 * torch.square(sa_repr_m - g_repr_m).sum(dim=-1)
-        else:
-            logits = torch.einsum('ik, jk -> ij', sa_repr, g_repr)
-
-        if self.use_info_nce:
-            # take diagonal of logits matrix
-            align = torch.diag(logits)
-            uniformity = torch.logsumexp(logits, dim=-1)
-            if self.symmetrize_log_sum_exp:
-                uniformity = (uniformity + torch.logsumexp(logits.t(), dim=-1)) / 2.0
-
-            loss = -1 * (align - uniformity).mean()
-        else:
-            loss = criterion(logits, torch.eye(logits.shape[0]).to(self.device))  
-
-
-        tensors.update({
-            'LossContrastive': loss,
-        })
+        self._update_targets()
 
     def _optimize_op(self, tensors, internal_vars):
-        if self.relabel_actor_z:
-            relabeled_options = np.random.randn(self._trans_minibatch_size, self.dim_option) * self.scale_std
-            if self.unit_length:
-                relabeled_options /= np.linalg.norm(relabeled_options, axis=-1, keepdims=True)
-                relabeled_options *= self.scale_radius
-            relabeled_options = torch.from_numpy(relabeled_options).to(internal_vars['options'].device).float()
-            internal_vars['options'] = relabeled_options
-            internal_vars['next_options'] = relabeled_options
-
         states = self._get_concat_obs(self.option_policy.process_observations(internal_vars['obs']), internal_vars['options'])
         action_dists, *_ = self.option_policy(states)
         if hasattr(action_dists, 'rsample_with_pre_tanh_value'):
@@ -383,41 +236,17 @@ class MetraSf(IOD):
             new_actions = _clip_actions(self, new_actions)
             new_action_log_probs = action_dists.log_prob(new_actions)
 
-        if self.sf_geometric_entropy:
-            future_states = self._get_concat_obs(self.option_policy.process_observations(internal_vars['future_obs']), internal_vars['options'])
-            future_action_dists, *_ = self.option_policy(future_states)
-            if hasattr(future_action_dists, 'rsample_with_pre_tanh_value'):
-                future_new_actions_pre_tanh, future_new_actions = future_action_dists.rsample_with_pre_tanh_value()
-                new_action_log_probs = future_action_dists.log_prob(future_new_actions, pre_tanh_value=future_new_actions_pre_tanh)
-            else:
-                future_new_actions = future_action_dists.rsample()
-                future_new_actions = _clip_actions(self, future_new_actions)
-                new_action_log_probs = future_action_dists.log_prob(future_new_actions)
-
         with torch.no_grad():
             alpha = self.log_alpha.param.exp()
 
-        if self.sf_use_td:
-            sf1_feature = self.qf1(states, new_actions)
-            sf2_feature = self.qf2(states, new_actions)
+        sf1_feature = self.qf1(states, new_actions)
+        sf2_feature = self.qf2(states, new_actions)
 
-            q1_values = (sf1_feature * internal_vars['options']).sum(dim=-1)
-            q2_values = (sf2_feature * internal_vars['options']).sum(dim=-1)
-            q_values = torch.min(q1_values, q2_values)
-        else:
-            sf_feature = self.qf1(states, new_actions)
-            q_values = (sf_feature * internal_vars['options']).sum(dim=-1)
+        q1_values = (sf1_feature * internal_vars['options']).sum(dim=-1)
+        q2_values = (sf2_feature * internal_vars['options']).sum(dim=-1)
+        q_values = torch.min(q1_values, q2_values)
 
-            if self.sf_exp_bonus:
-                q_values *= 0.5 * torch.exp(torch.square(sf_feature).sum(dim=-1))
-
-            if self.sf_bonus:
-                q_values += 0.5 * torch.square(sf_feature).sum(dim=-1)
-
-        if self.no_actor_ent_bonus:
-            logits = -1 * q_values
-        else:
-            logits = -1 * q_values + alpha * new_action_log_probs
+        logits = -1 * q_values + alpha * new_action_log_probs
 
         loss_op = logits.mean()
 
@@ -434,31 +263,25 @@ class MetraSf(IOD):
             optimizer_keys=['option_policy'],
         )
 
-        if not self.no_actor_ent_bonus:
-            self._update_loss_alpha(tensors, internal_vars)
-            self._gradient_descent(
-                tensors['LossAlpha'],
-                optimizer_keys=['log_alpha'],
-            )
+        self._update_loss_alpha(tensors, internal_vars)
+        self._gradient_descent(
+            tensors['LossAlpha'],
+            optimizer_keys=['log_alpha'],
+        )
 
     def _update_loss_alpha(self, tensors, v):
         sac_utils.update_loss_alpha(
             self, tensors, v
         )
 
-    def _update_rewards(self, tensors, v, temp: float = 1.0):
+    def _update_rewards(self, tensors, v):
         obs = v['obs']
         next_obs = v['next_obs']
 
         if self.inner:
-            if self.metra_include_actions:
-                cur_z = self.traj_encoder(obs, v['actions'])
-                next_z = self.traj_encoder(next_obs, v['actions'])
-                target_z = next_z - cur_z
-            else:
-                cur_z = self.traj_encoder(obs).mean
-                next_z = self.traj_encoder(next_obs).mean
-                target_z = next_z - cur_z
+            cur_z = self.traj_encoder(obs).mean
+            next_z = self.traj_encoder(next_obs).mean
+            target_z = next_z - cur_z
 
             if self.no_diff_in_rep:
                 target_z = cur_z
@@ -466,21 +289,15 @@ class MetraSf(IOD):
             if self.self_normalizing:
                 target_z = target_z / target_z.norm(dim=-1, keepdim=True)
 
-            target_z /= temp
-
             if self.log_sum_exp:
                 if self.sample_new_z:
-                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device) * self.scale_std
+                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                     if self.unit_length:
                         new_z /= torch.norm(new_z, dim=-1, keepdim=True)
-                        new_z *= self.scale_radius
                     pairwise_scores = target_z @ new_z.t()
                 else:
                     pairwise_scores = target_z @ v['options'].t()
                 log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
-
-                if self.symmetrize_log_sum_exp:
-                    log_sum_exp = (log_sum_exp + torch.logsumexp(pairwise_scores.t(), dim=-1)) / 2.0
 
             if self.discrete:
                 masks = (v['options'] - v['options'].mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
@@ -508,16 +325,15 @@ class MetraSf(IOD):
 
             if self.log_sum_exp:
                 if self.sample_new_z:
-                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device) * self.scale_std
+                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                     if self.unit_length:
                         new_z /= torch.norm(new_z, dim=-1, keepdim=True)
-                        new_z *= self.scale_radius
                     pairwise_scores = rep @ new_z.t()
                 else:
                     pairwise_scores = rep @ v['options'].t()
                 log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
         else:
-            target_dists = self.traj_encoder(next_obs) # NOTE: breaks if not inner product and using actions
+            target_dists = self.traj_encoder(next_obs)
 
             if self.discrete:
                 logits = target_dists.mean
@@ -535,7 +351,7 @@ class MetraSf(IOD):
             v['log_sum_exp'] = log_sum_exp
 
     def _update_loss_te(self, tensors, v):
-        self._update_rewards(tensors, v, temp=self.rep_temp)
+        self._update_rewards(tensors, v)
         rewards = v['rewards']
 
         obs = v['obs']
@@ -575,16 +391,10 @@ class MetraSf(IOD):
             else:
                 raise NotImplementedError
 
-            if self.no_diff_in_penalty:
-                inside_l2 = phi_x
-            else:
-                inside_l2 = phi_y - phi_x
+            inside_l2 = phi_y - phi_x
 
             cst_penalty = cst_dist - torch.square(inside_l2).sum(dim=1)
             cst_penalty = torch.clamp(cst_penalty, max=self.dual_slack)
-
-            if self.use_l2_penalty:
-                cst_penalty = -1 * torch.square(inside_l2).mean(dim=1)
 
             if self.self_normalizing:
                 te_obj = rewards
@@ -611,68 +421,20 @@ class MetraSf(IOD):
             'LossTe': loss_te,
         })
 
-    def _update_loss_te_infonce(self, tensors, v):
-        self._update_rewards(tensors, v)
-
-        cur_repr = v['cur_z']
-        next_repr = v['next_z']
-        options = v['options']
-
-        I = torch.eye(self._trans_minibatch_size, device=cur_repr.device)
-        logits = torch.einsum('ik,jk->ij', next_repr - cur_repr, options)
-        loss_cr = F.cross_entropy(logits, I, reduction='none')
-        loss_te = loss_cr.mean()
-
-        tensors.update({
-            'TeObjMean': loss_cr.mean(),
-            'LossTe': loss_te,
-        })
-            
-    def _update_loss_sf_mc(self, tensors, v):
-        processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['options'])
-        future_states = v['future_obs']
-        actions = v['actions']
-
-        sf_feature = self.qf1(processed_cat_obs, actions)
-        future_pred = self.traj_encoder(future_states).mean
-
-        if self.use_diff_term:
-            future_states_prev = v['future_obs_prev']
-            future_pred_prev = self.traj_encoder(future_states_prev).mean
-            future_pred = 1/(1 - self.discount) * (future_pred - future_pred_prev)
-
-        loss_sf = F.mse_loss(sf_feature, future_pred)
-
-        tensors.update({
-            'LossSf': loss_sf,
-        })
-
     def _update_loss_sf_td(self, tensors, v):
         obs = v['obs']
         next_obs = v['next_obs']
         actions = v['actions']
-        if self.relabel_critic_z:
-            relabeled_options = np.random.randn(self._trans_minibatch_size, self.dim_option) * self.scale_std
-            if self.unit_length:
-                relabeled_options /= np.linalg.norm(relabeled_options, axis=-1, keepdims=True)
-                relabeled_options *= self.scale_radius
-            options = torch.from_numpy(relabeled_options).to(v['options'].device).float()
-            next_options = options
-        else:
-            options = v['options']
-            next_options = v['next_options']
+        options = v['options']
+        next_options = v['next_options']
         dones = v['dones']
         assert torch.allclose(options, next_options)
         processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(obs), options)
         next_processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(next_obs),
                                                       next_options)
 
-        if self.use_fp:
-            cur_repr = self.target_te(obs).mean
-            next_repr = self.target_te(next_obs).mean
-        else:
-            cur_repr = self.traj_encoder(obs).mean
-            next_repr = self.traj_encoder(next_obs).mean
+        cur_repr = self.traj_encoder(obs).mean
+        next_repr = self.traj_encoder(next_obs).mean
 
         sf1_pred = self.qf1(processed_cat_obs, actions)
         sf2_pred = self.qf2(processed_cat_obs, actions)
@@ -699,11 +461,11 @@ class MetraSf(IOD):
                 dones[...] = 0
             
             if self.metra_mlp_rep:
-                sf_target = self.f_encoder(v['obs'], v['next_obs']) / self.actor_temp + self.discount * (1. - dones[:, None]) * target_next_sf
+                sf_target = self.f_encoder(v['obs'], v['next_obs']) + self.discount * (1. - dones[:, None]) * target_next_sf
             elif self.no_diff_in_rep:
-                sf_target = cur_repr / self.actor_temp + self.discount * (1. - dones[:, None]) * target_next_sf
+                sf_target = cur_repr + self.discount * (1. - dones[:, None]) * target_next_sf
             else:
-                sf_target = (next_repr - cur_repr) / self.actor_temp + self.discount * (1. - dones[:, None]) * target_next_sf
+                sf_target = (next_repr - cur_repr) + self.discount * (1. - dones[:, None]) * target_next_sf
 
         loss_sf1 = F.mse_loss(sf1_pred, sf_target)
         loss_sf2 = F.mse_loss(sf2_pred, sf_target)
@@ -769,10 +531,9 @@ class MetraSf(IOD):
                 random_option_colors.extend([cm.get_cmap(cmap)(colors[i])[:3]])
             random_option_colors = np.array(random_option_colors)
         else:
-            random_options = np.random.randn(self.num_random_trajectories, self.dim_option) * self.scale_std
+            random_options = np.random.randn(self.num_random_trajectories, self.dim_option)
             if self.unit_length:
                 random_options = random_options / np.linalg.norm(random_options, axis=1, keepdims=True)
-                random_options *= self.scale_radius
             random_option_colors = get_option_colors(random_options * 4)
         random_trajectories = self._get_trajectories(
             runner,
@@ -785,7 +546,6 @@ class MetraSf(IOD):
             env_update=dict(_action_noise_std=None),
         )
 
-        # if not isinstance(runner._env.env, CraftaxWrapper):
         with FigManager(runner, 'TrajPlot_RandomZ') as fm:
             runner._env.render_trajectories(
                 random_trajectories, random_option_colors, self.eval_plot_axis, fm.ax
@@ -793,24 +553,15 @@ class MetraSf(IOD):
 
         data = self.process_samples(random_trajectories)
         last_obs = torch.stack([torch.from_numpy(ob[-1]).to(self.device) for ob in data['obs']])
-        if self.metra_include_actions:
-            last_actions = torch.stack([torch.from_numpy(ac[-1]).to(self.device) for ac in data['actions']])
-            option_dists = self.traj_encoder(last_obs, last_actions)
-            if self.inner:
-                option_stddevs = torch.ones_like(option_dists.detach().cpu()).numpy()
-            else:
-                option_stddevs = option_dists.stddev.detach().cpu().numpy()
-            option_means = option_dists.detach().cpu().numpy()
-            option_samples = option_dists.detach().cpu().numpy()
-        else:
-            option_dists = self.traj_encoder(last_obs)
+        
+        option_dists = self.traj_encoder(last_obs)
 
-            option_means = option_dists.mean.detach().cpu().numpy()
-            if self.inner:
-                option_stddevs = torch.ones_like(option_dists.stddev.detach().cpu()).numpy()
-            else:
-                option_stddevs = option_dists.stddev.detach().cpu().numpy()
-            option_samples = option_dists.mean.detach().cpu().numpy()
+        option_means = option_dists.mean.detach().cpu().numpy()
+        if self.inner:
+            option_stddevs = torch.ones_like(option_dists.stddev.detach().cpu()).numpy()
+        else:
+            option_stddevs = option_dists.stddev.detach().cpu().numpy()
+        option_samples = option_dists.mean.detach().cpu().numpy()
 
         option_colors = random_option_colors
 
@@ -891,7 +642,7 @@ class MetraSf(IOD):
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
 
             if self.unit_length:
-                mean_length = 1. * self.scale_radius
+                mean_length = 1.
             else:
                 mean_length = np.linalg.norm(np.random.randn(1000000, self.dim_option), axis=1).mean()
             for method in ['Single', 'Adaptive'] if (self.discrete and self.inner) else ['']:
@@ -1027,7 +778,7 @@ class MetraSf(IOD):
                 video_options = video_options.repeat(self.num_video_repeats, axis=0)
             else:
                 if self.dim_option == 2:
-                    radius = 1. * self.scale_radius if self.unit_length else 1.5
+                    radius = 1. if self.unit_length else 1.5
                     video_options = []
                     for angle in [3, 2, 1, 4]:
                         video_options.append([radius * np.cos(angle * np.pi / 4), radius * np.sin(angle * np.pi / 4)])
@@ -1038,7 +789,7 @@ class MetraSf(IOD):
                 else:
                     video_options = np.random.randn(9, self.dim_option)
                     if self.unit_length:
-                        video_options = video_options / np.linalg.norm(video_options, axis=1, keepdims=True) * self.scale_radius
+                        video_options = video_options / np.linalg.norm(video_options, axis=1, keepdims=True)
                 video_options = video_options.repeat(self.num_video_repeats, axis=0)
             video_trajectories = self._get_trajectories(
                 runner,
@@ -1050,66 +801,6 @@ class MetraSf(IOD):
                 ),
             )
             record_video(runner, 'Video_RandomZ', video_trajectories, skip_frames=self.video_skip_frames)
-
-        with torch.no_grad():
-            if self.log_eval_return:
-                epoch_data = self._flatten_data(data)
-                tensors = {}
-                self._update_rewards(tensors, epoch_data, temp=self.actor_temp)
-                for key in tensors:
-                    eval_option_metrics[key] = tensors[key].item()
-
-                if self.record_corr_m and self.dim_option == 2:
-                    corr_m = np.zeros((29, 2))
-                    for s_dim in range(epoch_data['obs'].shape[-1]):
-                        for z_dim in range(epoch_data['cur_z'].shape[-1]):
-                            corr_m[s_dim, z_dim] = np.corrcoef(x=epoch_data['obs'][:, s_dim].cpu().numpy(), y=epoch_data['cur_z'][:, z_dim].cpu().numpy())[0, 1]
-
-                    # save
-                    np.save(os.path.join(runner._snapshotter.snapshot_dir, f'corr_m_{runner.step_itr}.npy'), corr_m)
-
-                    YLABELS = [
-                        'torso z coord',
-                        'torso x orient',
-                        'torso y orient',
-                        'torso z orient',
-                        'torso w orient',
-                        'angle torso, first link front left',
-                        'angle two links, front left',
-                        'angle torso, first link front right',
-                        'angle two links, front right',
-                        'angle torso, first link back left',
-                        'angle two links, back left',
-                        'angle torso, first link back right',
-                        'angle two links, back right',
-                        'torso x coord vel',
-                        'torso y coord vel',
-                        'torso z coord vel',
-                        'torso x coord ang vel',
-                        'torso y coord ang vel',
-                        'torso z coord ang vel',
-                        'angle torso, front left link, av',
-                        'angle front left links, av',
-                        'angle torso, front right link, av',
-                        'angle front right links, av',
-                        'angle torso, back left link, av',
-                        'angle back left links, av',
-                        'angle torso, back right link, av',
-                        'angle back right links, av',
-                        'torso x coord',
-                        'torso y coord',
-                    ]
-
-                    # plot
-                    sns.heatmap(corr_m, cmap='coolwarm', center=0)
-                    plt.yticks(ticks=list(map(lambda x: x + 0.5, range(29))), labels=YLABELS, rotation=0)
-
-                    plt.xlabel('Z')
-                    plt.ylabel('Observations')
-                    plt.tight_layout()
-
-                    plt.savefig(os.path.join(runner._snapshotter.snapshot_dir, 'plots', f'corr_m_{runner.step_itr}.pdf'))
-                    plt.clf()
 
         eval_option_metrics.update(runner._env.calc_eval_metrics(random_trajectories, is_option_trajectories=True))
         with global_context.GlobalContext({'phase': 'eval', 'policy': 'option'}):

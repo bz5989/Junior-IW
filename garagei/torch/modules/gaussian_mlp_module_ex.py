@@ -10,8 +10,8 @@ from torch.distributions.independent import Independent
 
 
 class ForwardWithTransformTrait(object):
-    def forward_with_transform(self, *inputs, transform, prev_actions=None, inference_params=None):
-        mean, log_std_uncentered = self._get_mean_and_log_std(*inputs, prev_actions=prev_actions, inference_params=inference_params)
+    def forward_with_transform(self, *inputs, transform):
+        mean, log_std_uncentered = self._get_mean_and_log_std(*inputs)
 
         if self._min_std_param or self._max_std_param:
             log_std_uncentered = log_std_uncentered.clamp(
@@ -51,11 +51,11 @@ class ForwardWithTransformTrait(object):
         return dist, dist_transformed
 
 class ForwardWithChunksTrait(object):
-    def forward_with_chunks(self, *inputs, merge, prev_actions=None, inference_params=None):
+    def forward_with_chunks(self, *inputs, merge):
         mean = []
         log_std_uncentered = []
         for chunk_inputs in zip(*inputs):
-            chunk_mean, chunk_log_std_uncentered = self._get_mean_and_log_std(*chunk_inputs, prev_actions=prev_actions, inference_params=inference_params)
+            chunk_mean, chunk_log_std_uncentered = self._get_mean_and_log_std(*chunk_inputs)
             mean.append(chunk_mean)
             log_std_uncentered.append(chunk_log_std_uncentered)
         mean = merge(mean, batch_dim=0)
@@ -85,8 +85,8 @@ class ForwardWithChunksTrait(object):
         return dist
 
 class ForwardModeTrait(object):
-    def forward_mode(self, *inputs, prev_actions=None, inference_params=None):
-        mean, log_std_uncentered = self._get_mean_and_log_std(*inputs, prev_actions=prev_actions, inference_params=inference_params)
+    def forward_mode(self, *inputs):
+        mean, log_std_uncentered = self._get_mean_and_log_std(*inputs)
 
         if self._min_std_param or self._max_std_param:
             log_std_uncentered = log_std_uncentered.clamp(

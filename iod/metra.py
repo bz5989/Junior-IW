@@ -17,9 +17,6 @@ from sklearn.neighbors import KernelDensity
 
 from iod.utils import get_torch_concat_obs, FigManager, get_option_colors, record_video, draw_2d_gaussians
 
-# from envs.craftax_wrapper import CraftaxWrapper
-
-
 class METRA(IOD):
     def __init__(
             self,
@@ -42,57 +39,25 @@ class METRA(IOD):
             dual_dist,
 
             pixel_shape=None,
-            log_eval_return: bool = False,
-            use_l2_penalty: bool = False,
             self_normalizing: bool = False,
             log_sum_exp: bool = False,
-            symmetrize_log_sum_exp: bool = False,
             add_log_sum_exp_to_rewards: bool = False,
-            record_corr_m: bool = False,
-            contrastive: bool = False,
-            contrastive_every: bool = False,
-            phi_encoder: torch.nn.Module = None,
             fixed_lam: float = None,
-            metra_rep: bool = False,
-            use_metra_penalty: bool = False,
-            use_mse: bool = False,
-            metra_include_actions: bool = False,
-            crl_standardize_output: bool = False,
-            use_info_nce: bool = False,
-            use_oracle_goals: bool = False,
-            use_half_random_goals: bool = False,
             add_penalty_to_rewards: bool = False,
-            no_diff_in_penalty: bool = False,
             no_diff_in_rep: bool = False,
-            include_one_minus_gamma: bool = False,
-            use_positive_log_sum_exp: bool = False,
-            scale_std: float = 1.0,
-            use_next_state: bool = False,
             use_discrete_sac: bool = False,
             turn_off_dones: bool = False,
             f_encoder: torch.nn.Module = None,
             metra_mlp_rep: bool = False,
-            log_logp_vs_l2: bool = False,
-            reward_lam: float = None,
-            add_diff_norm_bonus: bool = False,
-            add_angle_bonus: bool = False,
-            add_norm_bonus: bool = False,
             eval_goal_metrics: bool = False,
             goal_range: float = None,
             frame_stack: int = None,
-            relabel_actor_z: bool = False,
-            relabel_critic_z: bool = False,
-            use_bessel_penalty: bool = False,
             sample_new_z: bool = False,
             num_negative_z: int = 256,
-            use_fp: bool = False,
             infonce_lam: float = 1.0,
-            rep_temp: float = 1.0,
-            actor_temp: float = 1.0,
             diayn_include_baseline: bool = False,
             uniform_z: bool = False,
             num_zero_shot_goals: int = 50,
-            scale_radius: float = 1.0,
             **kwargs,
     ):
         super().__init__(**kwargs)
@@ -134,50 +99,25 @@ class METRA(IOD):
             self._target_entropy = -np.prod(self._env_spec.action_space.shape).item() / 2. * target_coef
 
         self.pixel_shape = pixel_shape
-        self.log_eval_return = log_eval_return
-        self.use_l2_penalty = use_l2_penalty
         self.self_normalizing = self_normalizing
         self.log_sum_exp = log_sum_exp
-        self.symmetrize_log_sum_exp = symmetrize_log_sum_exp
         self.add_log_sum_exp_to_rewards = add_log_sum_exp_to_rewards
-        self.record_corr_m = record_corr_m
-        self.contrastive = contrastive
-        self.contrastive_every = contrastive_every
         self.fixed_lam = fixed_lam
-        self.metra_include_actions = metra_include_actions
-        self.use_oracle_goals = use_oracle_goals
-        self.use_half_random_goals = use_half_random_goals
         self.add_penalty_to_rewards = add_penalty_to_rewards
-        self.no_diff_in_penalty = no_diff_in_penalty
         self.no_diff_in_rep = no_diff_in_rep
-        self.include_one_minus_gamma = include_one_minus_gamma
-        self.scale_std = scale_std
-        self.use_next_state = use_next_state
         self.turn_off_dones = turn_off_dones
         self.metra_mlp_rep = metra_mlp_rep
         if self.metra_mlp_rep:
             self.f_encoder = f_encoder.to(self.device)
-        self.log_logp_vs_l2 = log_logp_vs_l2
-        self.reward_lam = reward_lam
-        self.add_diff_norm_bonus = add_diff_norm_bonus
-        self.add_angle_bonus = add_angle_bonus
-        self.add_norm_bonus = add_norm_bonus
         self.eval_goal_metrics = eval_goal_metrics
         self.goal_range = goal_range
         self.frame_stack = frame_stack
-        self.relabel_actor_z = relabel_actor_z
-        self.relabel_critic_z = relabel_critic_z
-        self.use_bessel_penalty = use_bessel_penalty
         self.sample_new_z = sample_new_z
         self.num_negative_z = num_negative_z
-        self.use_fp = use_fp
         self.infonce_lam = infonce_lam
-        self.rep_temp = rep_temp
-        self.actor_temp = actor_temp
         self.diayn_include_baseline = diayn_include_baseline
         self.uniform_z = uniform_z
         self.num_zero_shot_goals = num_zero_shot_goals
-        self.scale_radius = scale_radius
 
         assert self._trans_optimization_epochs is not None
 
@@ -197,10 +137,9 @@ class METRA(IOD):
             if self.uniform_z:
                 random_options = np.random.uniform(low=-1.0, high=1.0, size=(runner._train_args.batch_size, self.dim_option))
             else:
-                random_options = np.random.randn(runner._train_args.batch_size, self.dim_option) * self.scale_std
+                random_options = np.random.randn(runner._train_args.batch_size, self.dim_option)
                 if self.unit_length:
                     random_options /= np.linalg.norm(random_options, axis=-1, keepdims=True)
-                    random_options *= self.scale_radius
             extras = self._generate_option_extras(random_options)
 
         return dict(
@@ -270,7 +209,7 @@ class METRA(IOD):
                 v = self._sample_replay_buffer()
 
             self._optimize_te(tensors, v)
-            self._update_rewards(tensors, v, relabel_rewards=(self.relabel_critic_z or self.relabel_actor_z), use_fp=self.use_fp, temp=self.actor_temp)
+            self._update_rewards(tensors, v)
             self._optimize_op(tensors, v)
 
         return tensors
@@ -295,9 +234,6 @@ class METRA(IOD):
                     optimizer_keys=['dist_predictor'],
                 )
 
-        if self.use_fp:
-            self._update_target_te()
-
     def _optimize_op(self, tensors, internal_vars):
         self._update_loss_qf(tensors, internal_vars)
 
@@ -320,67 +256,39 @@ class METRA(IOD):
 
         sac_utils.update_targets(self)
 
-    def _update_rewards(self, tensors, v, relabel_rewards: bool = False, use_fp: bool = False, temp: bool = 1.0):
+    def _update_rewards(self, tensors, v):
         obs = v['obs']
         next_obs = v['next_obs']
 
         if self.inner:
-            if self.metra_include_actions:
-                cur_z = self.traj_encoder(obs, v['actions'])
-                next_z = self.traj_encoder(next_obs, v['actions'])
-                target_z = next_z - cur_z
-            else:
-                if use_fp:
-                    cur_z = self.target_te(obs).mean
-                    next_z = self.target_te(next_obs).mean
-                else:
-                    cur_z = self.traj_encoder(obs).mean
-                    next_z = self.traj_encoder(next_obs).mean
+            cur_z = self.traj_encoder(obs).mean
+            next_z = self.traj_encoder(next_obs).mean
 
-                target_z = next_z - cur_z
+            target_z = next_z - cur_z
 
             if self.no_diff_in_rep:
                 target_z = cur_z
-
-            target_z /= temp
 
             if self.self_normalizing:
                 target_z = target_z / target_z.norm(dim=-1, keepdim=True)
 
             if self.log_sum_exp:
                 if self.sample_new_z:
-                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device) * self.scale_std
+                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                     if self.unit_length:
                         new_z /= torch.norm(new_z, dim=-1, keepdim=True)
-                        new_z *= self.scale_radius
                     pairwise_scores = target_z @ new_z.t()
                 else:
                     pairwise_scores = target_z @ v['options'].t()
                 log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
 
-                if self.symmetrize_log_sum_exp:
-                    log_sum_exp = (log_sum_exp + torch.logsumexp(pairwise_scores.t(), dim=-1)) / 2.0
-
             if self.discrete:
                 masks = (v['options'] - v['options'].mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
                 rewards = (target_z * masks).sum(dim=1)
 
-                if relabel_rewards:
-                    relabeled_options = torch.from_numpy(np.eye(self.dim_option)[np.random.randint(0, self.dim_option, self._trans_minibatch_size)]).to(v['options'].device).float()
-                    relabeled_masks = (relabeled_options - relabeled_options.mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
-                    relabeled_rewards = (target_z * relabeled_masks).sum(dim=1)
-
             else:
                 inner = (target_z * v['options']).sum(dim=1)
                 rewards = inner
-
-                if relabel_rewards:
-                    relabeled_options = np.random.randn(self._trans_minibatch_size, self.dim_option) * self.scale_std
-                    if self.unit_length:
-                        relabeled_options /= np.linalg.norm(relabeled_options, axis=-1, keepdims=True)
-                        relabeled_options *= self.scale_radius
-                    relabeled_options = torch.from_numpy(relabeled_options).to(v['options'].device).float()
-                    relabeled_rewards = (target_z * relabeled_options).sum(dim=1)
 
             # For dual objectives
             v.update({
@@ -401,16 +309,15 @@ class METRA(IOD):
 
             if self.log_sum_exp:
                 if self.sample_new_z:
-                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device) * self.scale_std
+                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                     if self.unit_length:
                         new_z /= torch.norm(new_z, dim=-1, keepdim=True)
-                        new_z *= self.scale_radius
                     pairwise_scores = rep @ new_z.t()
                 else:
                     pairwise_scores = rep @ v['options'].t()
                 log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
         else:
-            target_dists = self.traj_encoder(next_obs) # NOTE: breaks if not inner product and using actions
+            target_dists = self.traj_encoder(next_obs)
 
             if self.discrete:
                 logits = target_dists.mean
@@ -427,14 +334,11 @@ class METRA(IOD):
         })
 
         v['rewards'] = rewards
-        if relabel_rewards:
-            v['relabeled_rewards'] = relabeled_rewards
-            v['relabeled_options'] = relabeled_options
         if self.log_sum_exp:
             v['log_sum_exp'] = log_sum_exp
 
     def _update_loss_te(self, tensors, v):
-        self._update_rewards(tensors, v, temp=self.rep_temp)
+        self._update_rewards(tensors, v)
         rewards = v['rewards']
 
         obs = v['obs']
@@ -474,32 +378,10 @@ class METRA(IOD):
             else:
                 raise NotImplementedError
 
-            if self.no_diff_in_penalty:
-                inside_l2 = phi_x
-            else:
-                inside_l2 = phi_y - phi_x
+            inside_l2 = phi_y - phi_x
 
             cst_penalty = cst_dist - torch.square(inside_l2).sum(dim=1)
             cst_penalty = torch.clamp(cst_penalty, max=self.dual_slack)
-
-            if self.use_l2_penalty:
-                cst_penalty = -1 * torch.square(inside_l2).sum(dim=1)
-
-            if self.use_bessel_penalty:
-                if self.dim_option == 2:
-                    gamma_fn = 1
-                    numerator = 1
-                    bessel_fn = torch.special.i0
-                    denominator = 1
-                elif self.dim_option == 4:
-                    gamma_fn = 1
-                    numerator = 2
-                    bessel_fn = torch.special.i1
-                    denominator = torch.norm(inside_l2, dim=-1)
-                else:
-                    raise NotImplementedError("Bessel function cannot be computed for dim_option != 2 or 4")
-                
-                cst_penalty = -1 * torch.log(gamma_fn * numerator * bessel_fn(torch.norm(inside_l2, dim=-1)) / denominator)
 
             if self.self_normalizing:
                 te_obj = rewards
@@ -539,25 +421,18 @@ class METRA(IOD):
         })
 
     def _update_loss_qf(self, tensors, v):
-        if self.relabel_critic_z:
-            processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['relabeled_options'])
-            next_processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['next_obs']), v['relabeled_options'])
+        processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['options'])
+        next_processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['next_obs']), v['next_options'])
 
-            rewards = v['relabeled_rewards'] * self._reward_scale_factor
-        else:
-            processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['options'])
-            next_processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['next_obs']), v['next_options'])
-
-            rewards = v['rewards'] * self._reward_scale_factor
+        rewards = v['rewards'] * self._reward_scale_factor
 
         if self.add_log_sum_exp_to_rewards:
             # recompute log sum exp since traj encoder has been updated
             target_z = v['next_z'] - v['cur_z']
             if self.sample_new_z:
-                new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device) * self.scale_std
+                new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                 if self.unit_length:
                     new_z /= torch.norm(new_z, dim=-1, keepdim=True)
-                    new_z *= self.scale_radius
                 pairwise_scores = target_z @ new_z.t()
             else:
                 pairwise_scores = target_z @ v['options'].t()
@@ -566,47 +441,13 @@ class METRA(IOD):
             rewards -= self.infonce_lam * log_sum_exp
 
         if self.add_penalty_to_rewards:
-            if self.reward_lam is not None:
-                rewards += (self.reward_lam * v['cst_penalty']).detach()
-            elif self.fixed_lam is not None:
-                rewards += (self.fixed_lam * v['cst_penalty']).detach()
-
-                if self.add_diff_norm_bonus:
-                    rewards += self.fixed_lam * (torch.norm(v['next_z'], dim=-1) - torch.norm(v['cur_z'], dim=-1))**2
-
-                if self.add_angle_bonus:
-                    cos_theta = (v['cur_z'] * v['next_z']).sum(dim=-1) / (torch.norm(v['cur_z'], dim=-1) * torch.norm(v['next_z'], dim=-1))
-                    eps = torch.norm(v['next_z'], dim=-1) - torch.norm(v['cur_z'], dim=-1)
-                    rewards += self.fixed_lam * (2 * torch.square(v['cur_z']).sum(dim=-1) * (1 - cos_theta) + 2 * torch.norm(v['cur_z'], dim=-1) * eps * (1 - cos_theta))
-
-                if self.add_norm_bonus:
-                    rewards += (1 - self.discount) * torch.norm(v['cur_z'], dim=-1)
-
-            else:
-                x = v['obs']
-                y = v['next_obs']
-                phi_x = v['cur_z']
-                phi_y = v['next_z']
-                cst_dist = torch.ones_like(x[:, 0])
-                cst_penalty = cst_dist - torch.square(phi_y - phi_x).sum(dim=1)
-                cst_penalty = torch.clamp(cst_penalty, max=self.dual_slack)
-                rewards += (self.dual_lam.param.exp() * cst_penalty).detach()
-
-        if self.contrastive:
-            rewards[v['dones'] != 1] = 0
-            rewards[v['dones'].bool()] = (v['next_z'] * v['options']).sum(dim=1)[v['dones'].bool()]
-
-        if self.contrastive_every:
-            if self.include_one_minus_gamma:
-                if self.use_next_state:
-                    rewards = (1 - self.discount) * (v['next_z'] * v['options']).sum(dim=1)
-                else:
-                    rewards = (1 - self.discount) * (v['cur_z'] * v['options']).sum(dim=1)
-            else:
-                if self.use_next_state:
-                    rewards = (v['next_z'] * v['options']).sum(dim=1)
-                else:
-                    rewards = (v['cur_z'] * v['options']).sum(dim=1)
+            x = v['obs']
+            phi_x = v['cur_z']
+            phi_y = v['next_z']
+            cst_dist = torch.ones_like(x[:, 0])
+            cst_penalty = cst_dist - torch.square(phi_y - phi_x).sum(dim=1)
+            cst_penalty = torch.clamp(cst_penalty, max=self.dual_slack)
+            rewards += (self.dual_lam.param.exp() * cst_penalty).detach()
 
         sac_utils.update_loss_qf(
             self, tensors, v,
@@ -616,7 +457,6 @@ class METRA(IOD):
             dones=v['dones'],
             rewards=rewards,
             policy=self.option_policy,
-            contrastive_every=self.contrastive_every,
             turn_off_dones=self.turn_off_dones,
             use_discrete_sac=self.use_discrete_sac
         )
@@ -627,15 +467,11 @@ class METRA(IOD):
         })
 
     def _update_loss_op(self, tensors, v):
-        if self.relabel_actor_z:
-            processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['relabeled_options'])
-        else:
-            processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['options'])
+        processed_cat_obs = self._get_concat_obs(self.option_policy.process_observations(v['obs']), v['options'])
         sac_utils.update_loss_sacp(
             self, tensors, v,
             obs=processed_cat_obs,
             policy=self.option_policy,
-            contrastive_every=self.contrastive_every,
             use_discrete_sac=self.use_discrete_sac
         )
 
@@ -674,10 +510,9 @@ class METRA(IOD):
             if self.uniform_z:
                 random_options = np.random.uniform(low=-1.0, high=1.0, size=(self.num_random_trajectories, self.dim_option))
             else:
-                random_options = np.random.randn(self.num_random_trajectories, self.dim_option) * self.scale_std
+                random_options = np.random.randn(self.num_random_trajectories, self.dim_option)
                 if self.unit_length:
                     random_options = random_options / np.linalg.norm(random_options, axis=1, keepdims=True)
-                    random_options *= self.scale_radius
             random_option_colors = get_option_colors(random_options * 4)
         random_trajectories = self._get_trajectories(
             runner,
@@ -690,7 +525,6 @@ class METRA(IOD):
             env_update=dict(_action_noise_std=None),
         )
 
-        # if not isinstance(runner._env.env, CraftaxWrapper):
         with FigManager(runner, 'TrajPlot_RandomZ') as fm:
             runner._env.render_trajectories(
                 random_trajectories, random_option_colors, self.eval_plot_axis, fm.ax
@@ -698,24 +532,15 @@ class METRA(IOD):
 
         data = self.process_samples(random_trajectories)
         last_obs = torch.stack([torch.from_numpy(ob[-1]).to(self.device) for ob in data['obs']])
-        if self.metra_include_actions:
-            last_actions = torch.stack([torch.from_numpy(ac[-1]).to(self.device) for ac in data['actions']])
-            option_dists = self.traj_encoder(last_obs, last_actions)
-            if self.inner:
-                option_stddevs = torch.ones_like(option_dists.detach().cpu()).numpy()
-            else:
-                option_stddevs = option_dists.stddev.detach().cpu().numpy()
-            option_means = option_dists.detach().cpu().numpy()
-            option_samples = option_dists.detach().cpu().numpy()
-        else:
-            option_dists = self.traj_encoder(last_obs)
+        
+        option_dists = self.traj_encoder(last_obs)
 
-            option_means = option_dists.mean.detach().cpu().numpy()
-            if self.inner:
-                option_stddevs = torch.ones_like(option_dists.stddev.detach().cpu()).numpy()
-            else:
-                option_stddevs = option_dists.stddev.detach().cpu().numpy()
-            option_samples = option_dists.mean.detach().cpu().numpy()
+        option_means = option_dists.mean.detach().cpu().numpy()
+        if self.inner:
+            option_stddevs = torch.ones_like(option_dists.stddev.detach().cpu()).numpy()
+        else:
+            option_stddevs = option_dists.stddev.detach().cpu().numpy()
+        option_samples = option_dists.mean.detach().cpu().numpy()
 
         option_colors = random_option_colors
 
@@ -796,7 +621,7 @@ class METRA(IOD):
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
 
             if self.unit_length:
-                mean_length = 1. * self.scale_radius
+                mean_length = 1.
             else:
                 mean_length = np.linalg.norm(np.random.randn(1000000, self.dim_option), axis=1).mean()
 
@@ -920,7 +745,7 @@ class METRA(IOD):
                 video_options = video_options.repeat(self.num_video_repeats, axis=0)
             else:
                 if self.dim_option == 2:
-                    radius = 1. * self.scale_radius if self.unit_length else 1.5
+                    radius = 1. if self.unit_length else 1.5
                     video_options = []
                     for angle in [3, 2, 1, 4]:
                         video_options.append([radius * np.cos(angle * np.pi / 4), radius * np.sin(angle * np.pi / 4)])
@@ -932,7 +757,6 @@ class METRA(IOD):
                     video_options = np.random.randn(9, self.dim_option)
                     if self.unit_length:
                         video_options = video_options / np.linalg.norm(video_options, axis=1, keepdims=True)
-                        video_options *= self.scale_radius
                 video_options = video_options.repeat(self.num_video_repeats, axis=0)
             video_trajectories = self._get_trajectories(
                 runner,
@@ -945,89 +769,6 @@ class METRA(IOD):
             )
             record_video(runner, 'Video_RandomZ', video_trajectories, skip_frames=self.video_skip_frames)
 
-        with torch.no_grad():
-            if self.log_eval_return:
-                epoch_data = self._flatten_data(data)
-                tensors = {}
-                self._update_rewards(tensors, epoch_data, temp=self.actor_temp)
-                for key in tensors:
-                    eval_option_metrics[key] = tensors[key].item()
-
-                if self.record_corr_m:
-                    corr_m = np.zeros((29, 2))
-                    for s_dim in range(epoch_data['obs'].shape[-1]):
-                        for z_dim in range(epoch_data['cur_z'].shape[-1]):
-                            corr_m[s_dim, z_dim] = np.corrcoef(x=epoch_data['obs'][:, s_dim].cpu().numpy(), y=epoch_data['cur_z'][:, z_dim].cpu().numpy())[0, 1]
-
-                    # save
-                    np.save(os.path.join(runner._snapshotter.snapshot_dir, f'corr_m_{runner.step_itr}.npy'), corr_m)
-
-                    YLABELS = [
-                        'torso z coord',
-                        'torso x orient',
-                        'torso y orient',
-                        'torso z orient',
-                        'torso w orient',
-                        'angle torso, first link front left',
-                        'angle two links, front left',
-                        'angle torso, first link front right',
-                        'angle two links, front right',
-                        'angle torso, first link back left',
-                        'angle two links, back left',
-                        'angle torso, first link back right',
-                        'angle two links, back right',
-                        'torso x coord vel',
-                        'torso y coord vel',
-                        'torso z coord vel',
-                        'torso x coord ang vel',
-                        'torso y coord ang vel',
-                        'torso z coord ang vel',
-                        'angle torso, front left link, av',
-                        'angle front left links, av',
-                        'angle torso, front right link, av',
-                        'angle front right links, av',
-                        'angle torso, back left link, av',
-                        'angle back left links, av',
-                        'angle torso, back right link, av',
-                        'angle back right links, av',
-                        'torso x coord',
-                        'torso y coord',
-                    ]
-
-                    # plot
-                    sns.heatmap(corr_m, cmap='coolwarm', center=0)
-                    plt.yticks(ticks=list(map(lambda x: x + 0.5, range(29))), labels=YLABELS, rotation=0)
-
-                    plt.xlabel('Z')
-                    plt.ylabel('Observations')
-                    plt.tight_layout()
-
-                    plt.savefig(os.path.join(runner._snapshotter.snapshot_dir, 'plots', f'corr_m_{runner.step_itr}.pdf'))
-                    plt.clf()
-
-            if self.log_logp_vs_l2 and self.replay_buffer is not None and self.replay_buffer.n_transitions_stored >= self.min_buffer_size:
-                # From replay buffer
-                replay_samples = self._sample_replay_buffer(1000)
-
-                self._plot_kde(runner, replay_samples, kde_type='phi', data_type='replay', bandwidth=1.0)
-                self._plot_kde(runner, replay_samples, kde_type='phi', data_type='replay', bandwidth=0.5)
-                self._plot_kde(runner, replay_samples, kde_type='phi', data_type='replay', bandwidth=2.0)
-
-                self._plot_kde(runner, replay_samples, kde_type='s', data_type='replay', bandwidth=1.0)
-                self._plot_kde(runner, replay_samples, kde_type='s', data_type='replay', bandwidth=0.5)
-                self._plot_kde(runner, replay_samples, kde_type='s', data_type='replay', bandwidth=2.0)
-
-                # From rollouts
-                rollout_data = self._flatten_data(data)
-
-                self._plot_kde(runner, rollout_data, kde_type='phi', data_type='rollout', bandwidth=1.0)
-                self._plot_kde(runner, rollout_data, kde_type='phi', data_type='rollout', bandwidth=0.5)
-                self._plot_kde(runner, rollout_data, kde_type='phi', data_type='rollout', bandwidth=2.0)
-
-                self._plot_kde(runner, rollout_data, kde_type='s', data_type='rollout', bandwidth=1.0)
-                self._plot_kde(runner, rollout_data, kde_type='s', data_type='rollout', bandwidth=0.5)
-                self._plot_kde(runner, rollout_data, kde_type='s', data_type='rollout', bandwidth=2.0)
-                
         eval_option_metrics.update(runner._env.calc_eval_metrics(random_trajectories, is_option_trajectories=True))
         with global_context.GlobalContext({'phase': 'eval', 'policy': 'option'}):
             log_performance_ex(

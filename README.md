@@ -17,7 +17,7 @@ pip install --upgrade joblib
 pip install patchelf
 ```
 
-> [!NOTE] 
+> [!WARNING] 
 > Pip might complain about incompatible versions -- this is expected and can be safely ignored.
 
 Next, we need to do some Mujoco setup.
@@ -48,33 +48,37 @@ Remember to source your `.bashrc` file after changing it: `source ~/.bashrc`.
 
 ## Running Experiments 🏃‍♂️
 
-For **unsupervised pretraining** (state coverage), you can use the following commands. Make sure to run these from the root of the project.
+(1) For **unsupervised pretraining** (state coverage), you can use the following general command. Make sure to run this from the root of the project.
 ```
-# Ant
-sh scripts/pretrain/csf_ant.sh
-
-# HalfCheetah
-sh scripts/pretrain/csf_halfcheetah.sh
-
-# Humanoid
-sh scripts/pretrain/csf_humanoid.sh
-
-# Quadruped
-sh scripts/pretrain/csf_quadruped.sh
-
-# Kitchen 
-sh scripts/pretrain/csf_kitchen.sh
-
-# Robobin
-sh scripts/pretrain/csf_robobin.sh
+sh scripts/pretrain/[method_name]/[method_name]_[env_name].sh
 ```
+For example, in order to run our CSF method on the Ant environment, you would run:
+```
+sh scripts/pretrain/csf/csf_ant.sh
+```
+
+> [!NOTE] 
+> The zero-shot goal reaching performance gets logged during the pretraining phase, and hence we don't have separate scripts for them.
+
+(2) For **hierarchical control**, you can use the following general command. Again, make sure to run this from the root of the project.
+```
+sh scripts/hierarchical_control/[task].sh [method_name]
+```
+For example, in order to run a pretrained CSF policy on the AntMultiGoal environment, you would run:
+```
+sh scripts/hierarchical_control/ant_multi_goal.sh csf
+```
+
+> [!WARNING]
+> All hierarchical control experiments require a pretrained policy path referred to using the `cp_path` argument. 
+> Make sure to update this in the corresponding scripts.
+
+Once experiments are running, they will be logged under the `exp` folder.
 
 > [!NOTE] 
 > All experiments were run on a single GPU, usually with between 8 - 10 workers (see the `--n_parallel` flag).
 > In addition, we found we needed 32GB of CPU memory (RAM) for all state-based experiments (Ant and HalfCheetah), while
 > we needed 40GB of CPU memory for all image-based experiments (Humanoid, Quadruped, Kitchen, Robobin).
-
-Once experiments are running, they will be logged under the `exp` folder.
 
 ## Acknowledgements
 This code repo was built on the original [METRA repo](https://github.com/seohongpark/METRA).

@@ -131,8 +131,8 @@ class TensorBoardOutput(LogOutput):
             self._writer.add_text(key, value, step)
         elif isinstance(value, np.ScalarType):
             self._writer.add_scalar(key, value, step)
-            if self.wandb:
-                wandb.log({key: value}, step=step)
+            # if self.wandb:
+            #     wandb.log({key: value}, step=step)
         elif isinstance(value, plt.Figure):
             self._writer.add_figure(key, value, step)
             # if self.wandb:

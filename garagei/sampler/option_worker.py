@@ -4,7 +4,6 @@ from garage.experiment import deterministic
 
 import torch
 from garage.sampler import DefaultWorker
-from mamba_ssm.utils.generation import InferenceParams
 
 from iod.utils import get_np_concat_obs
 
@@ -92,11 +91,6 @@ class OptionWorker(DefaultWorker):
             self._prev_obs = np.concatenate([obs, self.goal_rep], axis=-1)
             self._cur_extra_keys = set()
 
-        if self.agent.recurrent:
-            # NOTE: max_seqlen is dummy var here, can set it to whatever
-            self.inference_params = InferenceParams(max_seqlen=1000, max_batch_size=1)
-            self.prev_actions = np.zeros((1, self.env.spec.action_space.flat_dim))
-
         self.agent.reset()
 
     def step_rollout(self):
@@ -133,12 +127,7 @@ class OptionWorker(DefaultWorker):
             if self._deterministic_policy is not None:
                 self.agent._force_use_mode_actions = self._deterministic_policy
 
-            if self.agent.recurrent:
-                a, agent_info = self.agent.get_action(agent_input, prev_actions=self.prev_actions, inference_params=self.inference_params)
-                self.inference_params.seqlen_offset += 1
-                self.prev_actions = a[None, ...]
-            else:
-                a, agent_info = self.agent.get_action(agent_input)
+            a, agent_info = self.agent.get_action(agent_input)
 
             if self._render:
                 next_o, r, d, env_info = self.env.step(a, render=self._render)

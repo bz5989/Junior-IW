@@ -49,7 +49,7 @@ class CNN(nn.Module):
             self._conv_model.append(self._act)
         self._conv_model = nn.Sequential(*self._conv_model)
 
-    def forward(self, data, prev_actions=None, inference_params=None):
+    def forward(self, data):
         output = self._conv_model(data)
         output = output.reshape(output.shape[0], -1)
         return output
@@ -71,7 +71,7 @@ class Encoder(nn.Module):
 
         self.encoder = CNN(self.pixel_depth, spectral_normalization=spectral_normalization, cnn_kernels=cnn_kernels)
 
-    def forward(self, input, prev_actions=None, inference_params=None):
+    def forward(self, input):
         assert len(input.shape) == 2
 
         pixel = input[..., :self.pixel_dim].reshape(-1, *self.pixel_shape).permute(0, 3, 1, 2)
@@ -100,10 +100,10 @@ class WithEncoder(nn.Module):
     def get_rep(self, input):
         return self.encoder(input)
 
-    def forward(self, *inputs, prev_actions=None, inference_params=None):
+    def forward(self, *inputs):
         rep = self.get_rep(inputs[0])
         return self.module(rep, *inputs[1:])
 
-    def forward_mode(self, *inputs, prev_actions=None, inference_params=None):
+    def forward_mode(self, *inputs):
         rep = self.get_rep(inputs[0])
         return self.module.forward_mode(rep, *inputs[1:])
