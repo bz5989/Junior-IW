@@ -32,7 +32,7 @@ from garage import wrap_experiment
 from garage.experiment.deterministic import set_seed
 from garage.torch.distributions import TanhNormal
 
-from garaged.src.garage.torch.modules import MLPModule
+# from garaged.src.garage.torch.modules import MLPModule
 
 from garagei.replay_buffer.path_buffer_ex import PathBufferEx
 from garagei.experiment.option_local_runner import OptionLocalRunner
@@ -51,10 +51,10 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
-from iod.dads import DADS
-from iod.ppo import PPO
-from iod.cic import CIC
-from iod.sac import SAC
+# from iod.dads import DADS
+# from iod.ppo import PPO
+# from iod.cic import CIC
+# from iod.sac import SAC
 from iod.utils import get_normalizer_preset
 
 
@@ -73,71 +73,71 @@ def make_env(args, max_path_length: int):
         from envs.mujoco.ant_env import AntEnv
         env = AntEnv(render_hw=100, model_path='ant.xml')
 
-    elif args.env.startswith('dmc'):
-        from envs.custom_dmc_tasks import dmc
-        from envs.custom_dmc_tasks.pixel_wrappers import RenderWrapper
-        assert args.encoder  # Only support pixel-based environments
-        if 'dmc_quadruped' in args.env:
-            env = dmc.make('quadruped_run_forward_color', obs_type='states', frame_stack=1, action_repeat=2, seed=args.seed)
-            env = RenderWrapper(env)
-        elif 'dmc_humanoid' in args.env:
-            env = dmc.make('humanoid_run_color', obs_type='states', frame_stack=1, action_repeat=2, seed=args.seed)
-            env = RenderWrapper(env)
-        else:
-            raise NotImplementedError
+    # elif args.env.startswith('dmc'):
+    #     from envs.custom_dmc_tasks import dmc
+    #     from envs.custom_dmc_tasks.pixel_wrappers import RenderWrapper
+    #     assert args.encoder  # Only support pixel-based environments
+    #     if 'dmc_quadruped' in args.env:
+    #         env = dmc.make('quadruped_run_forward_color', obs_type='states', frame_stack=1, action_repeat=2, seed=args.seed)
+    #         env = RenderWrapper(env)
+    #     elif 'dmc_humanoid' in args.env:
+    #         env = dmc.make('humanoid_run_color', obs_type='states', frame_stack=1, action_repeat=2, seed=args.seed)
+    #         env = RenderWrapper(env)
+    #     else:
+    #         raise NotImplementedError
         
-        if args.env in ['dmc_quadruped_goal', 'dmc_humanoid_goal']:
-            from envs.custom_dmc_tasks.goal_wrappers import GoalWrapper
+    #     if args.env in ['dmc_quadruped_goal', 'dmc_humanoid_goal']:
+    #         from envs.custom_dmc_tasks.goal_wrappers import GoalWrapper
 
-            env = GoalWrapper(
-                env,
-                max_path_length=max_path_length,
-                goal_range=args.goal_range,
-                num_goal_steps=args.downstream_num_goal_steps,
-            )
-            cp_num_truncate_obs = 2
+    #         env = GoalWrapper(
+    #             env,
+    #             max_path_length=max_path_length,
+    #             goal_range=args.goal_range,
+    #             num_goal_steps=args.downstream_num_goal_steps,
+    #         )
+    #         cp_num_truncate_obs = 2
 
-    elif args.env.startswith('robobin'):
-        sys.path.append('lexa')
-        from envs.lexa.robobin import MyRoboBinEnv
-        if args.env == 'robobin':
-            env = MyRoboBinEnv(log_per_goal=True)
-        elif args.env == 'robobin_image':
-            env = MyRoboBinEnv(obs_type='image', log_per_goal=True)
+    # elif args.env.startswith('robobin'):
+    #     sys.path.append('lexa')
+    #     from envs.lexa.robobin import MyRoboBinEnv
+    #     if args.env == 'robobin':
+    #         env = MyRoboBinEnv(log_per_goal=True)
+    #     elif args.env == 'robobin_image':
+    #         env = MyRoboBinEnv(obs_type='image', log_per_goal=True)
 
-    elif args.env == 'kitchen':
-        sys.path.append('lexa')
-        from envs.lexa.mykitchen import MyKitchenEnv
-        assert args.encoder  # Only support pixel-based environments
-        env = MyKitchenEnv(log_per_goal=True)
+    # elif args.env == 'kitchen':
+    #     sys.path.append('lexa')
+    #     from envs.lexa.mykitchen import MyKitchenEnv
+    #     assert args.encoder  # Only support pixel-based environments
+    #     env = MyKitchenEnv(log_per_goal=True)
 
-    elif args.env == 'ant_nav_prime':
-        from envs.mujoco.ant_nav_prime_env import AntNavPrimeEnv
+    # elif args.env == 'ant_nav_prime':
+    #     from envs.mujoco.ant_nav_prime_env import AntNavPrimeEnv
 
-        env = AntNavPrimeEnv(
-            max_path_length=max_path_length,
-            goal_range=args.goal_range,
-            num_goal_steps=args.downstream_num_goal_steps,
-            reward_type=args.downstream_reward_type,
-        )
-        cp_num_truncate_obs = 2
+    #     env = AntNavPrimeEnv(
+    #         max_path_length=max_path_length,
+    #         goal_range=args.goal_range,
+    #         num_goal_steps=args.downstream_num_goal_steps,
+    #         reward_type=args.downstream_reward_type,
+    #     )
+    #     cp_num_truncate_obs = 2
 
-    elif args.env == 'half_cheetah_goal':
-        from envs.mujoco.half_cheetah_goal_env import HalfCheetahGoalEnv
-        env = HalfCheetahGoalEnv(
-            max_path_length=max_path_length,
-            goal_range=args.goal_range,
-            reward_type=args.downstream_reward_type,
-        )
-        cp_num_truncate_obs = 1
+    # elif args.env == 'half_cheetah_goal':
+    #     from envs.mujoco.half_cheetah_goal_env import HalfCheetahGoalEnv
+    #     env = HalfCheetahGoalEnv(
+    #         max_path_length=max_path_length,
+    #         goal_range=args.goal_range,
+    #         reward_type=args.downstream_reward_type,
+    #     )
+    #     cp_num_truncate_obs = 1
 
-    elif args.env == 'half_cheetah_hurdle':
-        from envs.mujoco.half_cheetah_hurdle_env import HalfCheetahHurdleEnv
+    # elif args.env == 'half_cheetah_hurdle':
+        # from envs.mujoco.half_cheetah_hurdle_env import HalfCheetahHurdleEnv
 
-        env = HalfCheetahHurdleEnv(
-            reward_type=args.downstream_reward_type,
-        )
-        cp_num_truncate_obs = 2
+        # env = HalfCheetahHurdleEnv(
+        #     reward_type=args.downstream_reward_type,
+        # )
+        # cp_num_truncate_obs = 2
     
     else:
         raise NotImplementedError
@@ -494,8 +494,8 @@ def run(ctxt=None):
 
     policy_q_input_dim = module_obs_dim + args.dim_option
 
-    if args.algo in ['sac', 'ppo']:
-        policy_q_input_dim = module_obs_dim
+    # if args.algo in ['sac', 'ppo']:
+    #     policy_q_input_dim = module_obs_dim
 
     policy_module = module_cls(
         input_dim=policy_q_input_dim,
@@ -717,20 +717,20 @@ def run(ctxt=None):
             ])
         })
 
-    elif args.algo == 'ppo':
-        # TODO: Currently not support pixel obs
-        vf = MLPModule(
-            input_dim=policy_q_input_dim,
-            output_dim=1,
-            hidden_sizes=master_dims,
-            hidden_nonlinearity=nonlinearity or torch.relu,
-            layer_normalization=False,
-        )
-        optimizers.update({
-            'vf': torch.optim.Adam([
-                {'params': vf.parameters(), 'lr': _finalize_lr(args.lr_op)},
-            ]),
-        })
+    # elif args.algo == 'ppo':
+    #     # TODO: Currently not support pixel obs
+    #     vf = MLPModule(
+    #         input_dim=policy_q_input_dim,
+    #         output_dim=1,
+    #         hidden_sizes=master_dims,
+    #         hidden_nonlinearity=nonlinearity or torch.relu,
+    #         layer_normalization=False,
+    #     )
+    #     optimizers.update({
+    #         'vf': torch.optim.Adam([
+    #             {'params': vf.parameters(), 'lr': _finalize_lr(args.lr_op)},
+    #         ]),
+    #     })
 
     f_encoder = None
     if args.metra_mlp_rep:
@@ -868,89 +868,89 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args,
         )
-    elif args.algo == 'cic':
-        skill_common_args.update(
-            inner=args.inner,
-            num_alt_samples=args.num_alt_samples,
-            split_group=args.split_group,
-            dual_reg=args.dual_reg,
-            dual_slack=args.dual_slack,
-            dual_dist=args.dual_dist,
-        )
+    # elif args.algo == 'cic':
+    #     skill_common_args.update(
+    #         inner=args.inner,
+    #         num_alt_samples=args.num_alt_samples,
+    #         split_group=args.split_group,
+    #         dual_reg=args.dual_reg,
+    #         dual_slack=args.dual_slack,
+    #         dual_dist=args.dual_dist,
+    #     )
 
-        algo = CIC(
-            **algo_kwargs,
-            **skill_common_args,
+    #     algo = CIC(
+    #         **algo_kwargs,
+    #         **skill_common_args,
 
-            pred_net=pred_net,
-            z_encoder=z_encoder,
-            cic_temp=args.cic_temp,
-            cic_alpha=args.cic_alpha,
-            knn_k=args.apt_knn_k,
-            rms=args.apt_rms,
-            alive_reward=args.alive_reward,
+    #         pred_net=pred_net,
+    #         z_encoder=z_encoder,
+    #         cic_temp=args.cic_temp,
+    #         cic_alpha=args.cic_alpha,
+    #         knn_k=args.apt_knn_k,
+    #         rms=args.apt_rms,
+    #         alive_reward=args.alive_reward,
 
-            dual_dist_scaling=args.dual_dist_scaling,
-            const_scaler=args.const_scaler,
-            wdm=args.wdm,
-            wdm_cpc=args.wdm_cpc,
-            wdm_idz=args.wdm_idz,
-            wdm_ids=args.wdm_ids,
-            wdm_diff=args.wdm_diff,
-            aug=args.aug,
-            joint_train=args.joint_train,
-        )
-    elif args.algo == 'sac':
-        algo_kwargs.update(
-            use_discrete_sac=args.use_discrete_sac,
-        )
+    #         dual_dist_scaling=args.dual_dist_scaling,
+    #         const_scaler=args.const_scaler,
+    #         wdm=args.wdm,
+    #         wdm_cpc=args.wdm_cpc,
+    #         wdm_idz=args.wdm_idz,
+    #         wdm_ids=args.wdm_ids,
+    #         wdm_diff=args.wdm_diff,
+    #         aug=args.aug,
+    #         joint_train=args.joint_train,
+    #     )
+    # elif args.algo == 'sac':
+    #     algo_kwargs.update(
+    #         use_discrete_sac=args.use_discrete_sac,
+    #     )
 
-        algo = SAC(
-            **algo_kwargs,
-            **skill_common_args
-        )
-    elif args.algo == 'dads': # TODO: check args here if we do run it ourselves
-        algo_kwargs.update(
-            metra_mlp_rep=args.metra_mlp_rep,
-            f_encoder=f_encoder,
-            self_normalizing=args.self_normalizing,
-            log_sum_exp=args.log_sum_exp,
-            add_log_sum_exp_to_rewards=args.add_log_sum_exp_to_rewards,
-            fixed_lam=args.fixed_lam,
-            add_penalty_to_rewards=args.add_penalty_to_rewards,
-            no_diff_in_rep=args.no_diff_in_rep,
-            use_discrete_sac=args.use_discrete_sac,
-            turn_off_dones=args.turn_off_dones,
-            eval_goal_metrics=args.eval_goal_metrics,
-            goal_range=args.goal_range,
-            frame_stack=args.frame_stack,
-            sample_new_z=args.sample_new_z,
-            num_negative_z=args.num_negative_z,
-            infonce_lam=args.infonce_lam,
-            diayn_include_baseline=args.diayn_include_baseline,
-            uniform_z=args.uniform_z,
-        )
+    #     algo = SAC(
+    #         **algo_kwargs,
+    #         **skill_common_args
+    #     )
+    # elif args.algo == 'dads': # TODO: check args here if we do run it ourselves
+    #     algo_kwargs.update(
+    #         metra_mlp_rep=args.metra_mlp_rep,
+    #         f_encoder=f_encoder,
+    #         self_normalizing=args.self_normalizing,
+    #         log_sum_exp=args.log_sum_exp,
+    #         add_log_sum_exp_to_rewards=args.add_log_sum_exp_to_rewards,
+    #         fixed_lam=args.fixed_lam,
+    #         add_penalty_to_rewards=args.add_penalty_to_rewards,
+    #         no_diff_in_rep=args.no_diff_in_rep,
+    #         use_discrete_sac=args.use_discrete_sac,
+    #         turn_off_dones=args.turn_off_dones,
+    #         eval_goal_metrics=args.eval_goal_metrics,
+    #         goal_range=args.goal_range,
+    #         frame_stack=args.frame_stack,
+    #         sample_new_z=args.sample_new_z,
+    #         num_negative_z=args.num_negative_z,
+    #         infonce_lam=args.infonce_lam,
+    #         diayn_include_baseline=args.diayn_include_baseline,
+    #         uniform_z=args.uniform_z,
+    #     )
 
-        skill_common_args.update(
-            inner=args.inner,
-            num_alt_samples=args.num_alt_samples,
-            split_group=args.split_group,
-            dual_reg=args.dual_reg,
-            dual_slack=args.dual_slack,
-            dual_dist=args.dual_dist,
-        )
+    #     skill_common_args.update(
+    #         inner=args.inner,
+    #         num_alt_samples=args.num_alt_samples,
+    #         split_group=args.split_group,
+    #         dual_reg=args.dual_reg,
+    #         dual_slack=args.dual_slack,
+    #         dual_dist=args.dual_dist,
+    #     )
 
-        algo = DADS(
-            **algo_kwargs,
-            **skill_common_args,
-        )
-    elif args.algo == 'ppo':
-        algo = PPO(
-            **algo_kwargs,
-            vf=vf,
-            gae_lambda=0.95,
-            ppo_clip=0.2,
-        )
+    #     algo = DADS(
+    #         **algo_kwargs,
+    #         **skill_common_args,
+    #     )
+    # elif args.algo == 'ppo':
+        # algo = PPO(
+        #     **algo_kwargs,
+        #     vf=vf,
+        #     gae_lambda=0.95,
+        #     ppo_clip=0.2,
+        # )
     else:
         raise NotImplementedError
 
