@@ -51,10 +51,6 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
-# from iod.dads import DADS
-# from iod.ppo import PPO
-# from iod.cic import CIC
-# from iod.sac import SAC
 from iod.utils import get_normalizer_preset
 
 
@@ -141,10 +137,6 @@ def make_env(args, max_path_length: int):
     
     else:
         raise NotImplementedError
-
-    # if args.frame_stack is not None:
-        # from envs.custom_dmc_tasks.pixel_wrappers import FrameStackWrapper
-        # env = FrameStackWrapper(env, args.frame_stack)
 
     normalizer_type = args.normalizer_type
     normalizer_kwargs = {}
@@ -420,14 +412,6 @@ def run(ctxt=None):
     env = contextualized_make_env()
     example_ob = env.reset()
 
-    # if args.encoder:
-    #     if hasattr(env, 'ob_info'):
-    #         if env.ob_info['type'] in ['hybrid', 'pixel']:
-    #             pixel_shape = env.ob_info['pixel_shape']
-    #     else:
-    #         pixel_shape = (64, 64, 3)
-    # else:
-    #     pixel_shape = None
     pixel_shape = None
 
     # uses cuda
@@ -447,22 +431,6 @@ def run(ctxt=None):
     obs_dim = env.spec.observation_space.flat_dim
     action_dim = env.spec.action_space.flat_dim
     
-    # if args.encoder:
-    #     def make_encoder(**kwargs):
-    #         return Encoder(pixel_shape=pixel_shape, **kwargs)
-
-    #     def with_encoder(module, encoder=None):
-    #         if encoder is None:
-    #             kwargs = {}
-    #             encoder = make_encoder(**kwargs)
-
-    #         return WithEncoder(encoder=encoder, module=module)
-
-    #     kwargs = {}
-    #     example_encoder = make_encoder(**kwargs)
-    #     module_obs_dim = example_encoder(torch.as_tensor(example_ob).float().unsqueeze(0)).shape[-1]
-    # else:
-    #     module_obs_dim = obs_dim
     module_obs_dim = obs_dim
 
     option_info = {
@@ -503,17 +471,11 @@ def run(ctxt=None):
     # dim_option=2
     policy_q_input_dim = module_obs_dim + args.dim_option
 
-    # if args.algo in ['sac', 'ppo']:
-    #     policy_q_input_dim = module_obs_dim
-
     policy_module = module_cls(
         input_dim=policy_q_input_dim,
         output_dim=action_dim,
         **module_kwargs
     )
-    # ignored (encoder is false)
-    # if args.encoder:
-        # policy_module = with_encoder(policy_module)
 
     policy_kwargs['module'] = policy_module
     option_policy = PolicyEx(**policy_kwargs)
@@ -531,13 +493,7 @@ def run(ctxt=None):
         output_dim=output_dim,
         layer_normalization=args.use_layer_norm
     )
-    traj_encoder = module_cls(**module_kwargs)
-    # if args.encoder:
-    #     if args.spectral_normalization:
-    #         te_encoder = make_encoder(spectral_normalization=True)
-    #     else:
-    #         te_encoder = None
-    #     traj_encoder = with_encoder(traj_encoder, encoder=te_encoder)    
+    traj_encoder = module_cls(**module_kwargs) 
 
     module_cls, module_kwargs = get_gaussian_module_construction(
         args,
@@ -556,52 +512,7 @@ def run(ctxt=None):
         dist_predictor = None
 
     dual_lam = ParameterModule(torch.Tensor([np.log(args.dual_lam)]))
-
-    # can ignore this chunk
-    # Skill dynamics do not support pixel obs
-    sd_dim_option = args.dim_option
-    skill_dynamics_obs_dim = obs_dim
-    skill_dynamics_input_dim = skill_dynamics_obs_dim + sd_dim_option
-    module_cls, module_kwargs = get_gaussian_module_construction(
-        args,
-        const_std=args.sd_const_std,
-        hidden_sizes=master_dims,
-        hidden_nonlinearity=nonlinearity or torch.relu,
-        input_dim=skill_dynamics_input_dim,
-        output_dim=skill_dynamics_obs_dim,
-        min_std=0.3,
-        max_std=10.0,
-    )
     
-    # if args.algo == 'dads':
-    #     skill_dynamics = module_cls(**module_kwargs)
-    # else:
-    #     skill_dynamics = None
-    # if args.algo == 'cic':
-    #     module_cls, module_kwargs = get_gaussian_module_construction(
-    #         args,
-    #         hidden_sizes=master_dims,
-    #         hidden_nonlinearity=nonlinearity or torch.relu,
-    #         w_init=torch.nn.init.xavier_uniform_,
-    #         input_dim=args.dim_option * 2,
-    #         output_dim=args.dim_option,
-    #         layer_normalization=False, #args.phi_layer_norm,
-    #     )
-    #     pred_net = module_cls(**module_kwargs)
-
-    #     module_cls, module_kwargs = get_gaussian_module_construction(
-    #         args,
-    #         hidden_sizes=master_dims,
-    #         hidden_nonlinearity=nonlinearity or torch.relu,
-    #         w_init=torch.nn.init.xavier_uniform_,
-    #         input_dim=args.dim_option,
-    #         output_dim=output_dim,
-    #         layer_normalization=False, #args.phi_layer_norm,
-    #         spectral_normalization=True,
-    #     )
-    #     z_encoder = module_cls(**module_kwargs)
-    # else:
-        # pred_net = None
     skill_dynamics = None
     pred_net = None
 
@@ -615,10 +526,6 @@ def run(ctxt=None):
             lr = 0.0
         return lr
 
-    # if pred_net is not None:
-    #     te_params = list(traj_encoder.parameters()) + list(z_encoder.parameters()) + list(pred_net.parameters())
-    # else:
-        # te_params = list(traj_encoder.parameters())
     te_params = list(traj_encoder.parameters())
 
     optimizers = {
@@ -633,13 +540,7 @@ def run(ctxt=None):
         ]),
     }
 
-    # both are none
-    # if skill_dynamics is not None:
-        # optimizers.update({
-        #     'skill_dynamics': torch.optim.Adam([
-        #         {'params': skill_dynamics.parameters(), 'lr': _finalize_lr(args.lr_te)},
-        #     ]),
-        # })
+    # dist_predictor is none
     if dist_predictor is not None:
         optimizers.update({
             'dist_predictor': torch.optim.Adam([
@@ -673,8 +574,6 @@ def run(ctxt=None):
                 hidden_sizes=master_dims,
                 hidden_nonlinearity=nonlinearity or torch.relu,
             )
-        if args.encoder:
-            qf1 = with_encoder(qf1)
 
         if args.use_discrete_sac:
             qf2 = DiscreteMLPQFunctionEx(
@@ -690,8 +589,6 @@ def run(ctxt=None):
                 hidden_sizes=master_dims,
                 hidden_nonlinearity=nonlinearity or torch.relu,
             )
-        if args.encoder:
-            qf2 = with_encoder(qf2)
         log_alpha = ParameterModule(torch.Tensor([np.log(args.alpha)]))
 
         optimizers.update({
@@ -711,8 +608,6 @@ def run(ctxt=None):
             hidden_nonlinearity=nonlinearity or torch.relu,
             output_dim=args.dim_option,
         )
-        # if args.encoder:
-            # qf1 = with_encoder(qf1)
 
         qf2 = ContinuousMLPQFunctionEx(
             obs_dim=policy_q_input_dim,
@@ -721,8 +616,6 @@ def run(ctxt=None):
             hidden_nonlinearity=nonlinearity or torch.relu,
             output_dim=args.dim_option,
         )
-        # if args.encoder:
-            # qf2 = with_encoder(qf2)
 
         log_alpha = ParameterModule(torch.Tensor([np.log(args.alpha)]))
         optimizers.update({
@@ -733,21 +626,6 @@ def run(ctxt=None):
                 {'params': log_alpha.parameters(), 'lr': _finalize_lr(args.sac_lr_a)},
             ])
         })
-
-    # elif args.algo == 'ppo':
-    #     # TODO: Currently not support pixel obs
-    #     vf = MLPModule(
-    #         input_dim=policy_q_input_dim,
-    #         output_dim=1,
-    #         hidden_sizes=master_dims,
-    #         hidden_nonlinearity=nonlinearity or torch.relu,
-    #         layer_normalization=False,
-    #     )
-    #     optimizers.update({
-    #         'vf': torch.optim.Adam([
-    #             {'params': vf.parameters(), 'lr': _finalize_lr(args.lr_op)},
-    #         ]),
-    #     })
 
     f_encoder = None
 
@@ -888,89 +766,6 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args,
         )
-    # elif args.algo == 'cic':
-    #     skill_common_args.update(
-    #         inner=args.inner,
-    #         num_alt_samples=args.num_alt_samples,
-    #         split_group=args.split_group,
-    #         dual_reg=args.dual_reg,
-    #         dual_slack=args.dual_slack,
-    #         dual_dist=args.dual_dist,
-    #     )
-
-    #     algo = CIC(
-    #         **algo_kwargs,
-    #         **skill_common_args,
-
-    #         pred_net=pred_net,
-    #         z_encoder=z_encoder,
-    #         cic_temp=args.cic_temp,
-    #         cic_alpha=args.cic_alpha,
-    #         knn_k=args.apt_knn_k,
-    #         rms=args.apt_rms,
-    #         alive_reward=args.alive_reward,
-
-    #         dual_dist_scaling=args.dual_dist_scaling,
-    #         const_scaler=args.const_scaler,
-    #         wdm=args.wdm,
-    #         wdm_cpc=args.wdm_cpc,
-    #         wdm_idz=args.wdm_idz,
-    #         wdm_ids=args.wdm_ids,
-    #         wdm_diff=args.wdm_diff,
-    #         aug=args.aug,
-    #         joint_train=args.joint_train,
-    #     )
-    # elif args.algo == 'sac':
-    #     algo_kwargs.update(
-    #         use_discrete_sac=args.use_discrete_sac,
-    #     )
-
-    #     algo = SAC(
-    #         **algo_kwargs,
-    #         **skill_common_args
-    #     )
-    # elif args.algo == 'dads': # TODO: check args here if we do run it ourselves
-    #     algo_kwargs.update(
-    #         metra_mlp_rep=args.metra_mlp_rep,
-    #         f_encoder=f_encoder,
-    #         self_normalizing=args.self_normalizing,
-    #         log_sum_exp=args.log_sum_exp,
-    #         add_log_sum_exp_to_rewards=args.add_log_sum_exp_to_rewards,
-    #         fixed_lam=args.fixed_lam,
-    #         add_penalty_to_rewards=args.add_penalty_to_rewards,
-    #         no_diff_in_rep=args.no_diff_in_rep,
-    #         use_discrete_sac=args.use_discrete_sac,
-    #         turn_off_dones=args.turn_off_dones,
-    #         eval_goal_metrics=args.eval_goal_metrics,
-    #         goal_range=args.goal_range,
-    #         frame_stack=args.frame_stack,
-    #         sample_new_z=args.sample_new_z,
-    #         num_negative_z=args.num_negative_z,
-    #         infonce_lam=args.infonce_lam,
-    #         diayn_include_baseline=args.diayn_include_baseline,
-    #         uniform_z=args.uniform_z,
-    #     )
-
-    #     skill_common_args.update(
-    #         inner=args.inner,
-    #         num_alt_samples=args.num_alt_samples,
-    #         split_group=args.split_group,
-    #         dual_reg=args.dual_reg,
-    #         dual_slack=args.dual_slack,
-    #         dual_dist=args.dual_dist,
-    #     )
-
-    #     algo = DADS(
-    #         **algo_kwargs,
-    #         **skill_common_args,
-    #     )
-    # elif args.algo == 'ppo':
-        # algo = PPO(
-        #     **algo_kwargs,
-        #     vf=vf,
-        #     gae_lambda=0.95,
-        #     ppo_clip=0.2,
-        # )
     else:
         raise NotImplementedError
 
