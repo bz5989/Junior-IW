@@ -51,9 +51,9 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
-from iod.dads import DADS
-from iod.ppo import PPO
-from iod.cic import CIC
+# from iod.dads import DADS
+# from iod.ppo import PPO
+# from iod.cic import CIC
 from iod.sac import SAC
 from iod.utils import get_normalizer_preset
 
@@ -888,38 +888,38 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args,
         )
-    elif args.algo == 'cic':
-        skill_common_args.update(
-            inner=args.inner,
-            num_alt_samples=args.num_alt_samples,
-            split_group=args.split_group,
-            dual_reg=args.dual_reg,
-            dual_slack=args.dual_slack,
-            dual_dist=args.dual_dist,
-        )
+    # elif args.algo == 'cic':
+    #     skill_common_args.update(
+    #         inner=args.inner,
+    #         num_alt_samples=args.num_alt_samples,
+    #         split_group=args.split_group,
+    #         dual_reg=args.dual_reg,
+    #         dual_slack=args.dual_slack,
+    #         dual_dist=args.dual_dist,
+    #     )
 
-        algo = CIC(
-            **algo_kwargs,
-            **skill_common_args,
+    #     algo = CIC(
+    #         **algo_kwargs,
+    #         **skill_common_args,
 
-            pred_net=pred_net,
-            z_encoder=z_encoder,
-            cic_temp=args.cic_temp,
-            cic_alpha=args.cic_alpha,
-            knn_k=args.apt_knn_k,
-            rms=args.apt_rms,
-            alive_reward=args.alive_reward,
+    #         pred_net=pred_net,
+    #         z_encoder=z_encoder,
+    #         cic_temp=args.cic_temp,
+    #         cic_alpha=args.cic_alpha,
+    #         knn_k=args.apt_knn_k,
+    #         rms=args.apt_rms,
+    #         alive_reward=args.alive_reward,
 
-            dual_dist_scaling=args.dual_dist_scaling,
-            const_scaler=args.const_scaler,
-            wdm=args.wdm,
-            wdm_cpc=args.wdm_cpc,
-            wdm_idz=args.wdm_idz,
-            wdm_ids=args.wdm_ids,
-            wdm_diff=args.wdm_diff,
-            aug=args.aug,
-            joint_train=args.joint_train,
-        )
+    #         dual_dist_scaling=args.dual_dist_scaling,
+    #         const_scaler=args.const_scaler,
+    #         wdm=args.wdm,
+    #         wdm_cpc=args.wdm_cpc,
+    #         wdm_idz=args.wdm_idz,
+    #         wdm_ids=args.wdm_ids,
+    #         wdm_diff=args.wdm_diff,
+    #         aug=args.aug,
+    #         joint_train=args.joint_train,
+    #     )
     elif args.algo == 'sac':
         algo_kwargs.update(
             use_discrete_sac=args.use_discrete_sac,
@@ -929,41 +929,41 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args
         )
-    elif args.algo == 'dads': # TODO: check args here if we do run it ourselves
-        algo_kwargs.update(
-            metra_mlp_rep=args.metra_mlp_rep,
-            f_encoder=f_encoder,
-            self_normalizing=args.self_normalizing,
-            log_sum_exp=args.log_sum_exp,
-            add_log_sum_exp_to_rewards=args.add_log_sum_exp_to_rewards,
-            fixed_lam=args.fixed_lam,
-            add_penalty_to_rewards=args.add_penalty_to_rewards,
-            no_diff_in_rep=args.no_diff_in_rep,
-            use_discrete_sac=args.use_discrete_sac,
-            turn_off_dones=args.turn_off_dones,
-            eval_goal_metrics=args.eval_goal_metrics,
-            goal_range=args.goal_range,
-            frame_stack=args.frame_stack,
-            sample_new_z=args.sample_new_z,
-            num_negative_z=args.num_negative_z,
-            infonce_lam=args.infonce_lam,
-            diayn_include_baseline=args.diayn_include_baseline,
-            uniform_z=args.uniform_z,
-        )
+    # elif args.algo == 'dads': # TODO: check args here if we do run it ourselves
+    #     algo_kwargs.update(
+    #         metra_mlp_rep=args.metra_mlp_rep,
+    #         f_encoder=f_encoder,
+    #         self_normalizing=args.self_normalizing,
+    #         log_sum_exp=args.log_sum_exp,
+    #         add_log_sum_exp_to_rewards=args.add_log_sum_exp_to_rewards,
+    #         fixed_lam=args.fixed_lam,
+    #         add_penalty_to_rewards=args.add_penalty_to_rewards,
+    #         no_diff_in_rep=args.no_diff_in_rep,
+    #         use_discrete_sac=args.use_discrete_sac,
+    #         turn_off_dones=args.turn_off_dones,
+    #         eval_goal_metrics=args.eval_goal_metrics,
+    #         goal_range=args.goal_range,
+    #         frame_stack=args.frame_stack,
+    #         sample_new_z=args.sample_new_z,
+    #         num_negative_z=args.num_negative_z,
+    #         infonce_lam=args.infonce_lam,
+    #         diayn_include_baseline=args.diayn_include_baseline,
+    #         uniform_z=args.uniform_z,
+    #     )
 
-        skill_common_args.update(
-            inner=args.inner,
-            num_alt_samples=args.num_alt_samples,
-            split_group=args.split_group,
-            dual_reg=args.dual_reg,
-            dual_slack=args.dual_slack,
-            dual_dist=args.dual_dist,
-        )
+    #     skill_common_args.update(
+    #         inner=args.inner,
+    #         num_alt_samples=args.num_alt_samples,
+    #         split_group=args.split_group,
+    #         dual_reg=args.dual_reg,
+    #         dual_slack=args.dual_slack,
+    #         dual_dist=args.dual_dist,
+    #     )
 
-        algo = DADS(
-            **algo_kwargs,
-            **skill_common_args,
-        )
+    #     algo = DADS(
+    #         **algo_kwargs,
+    #         **skill_common_args,
+    #     )
     # elif args.algo == 'ppo':
     #     algo = PPO(
     #         **algo_kwargs,
