@@ -51,10 +51,10 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
-# from iod.dads import DADS
-# from iod.ppo import PPO
-# from iod.cic import CIC
-# from iod.sac import SAC
+from iod.dads import DADS
+from iod.ppo import PPO
+from iod.cic import CIC
+from iod.sac import SAC
 from iod.utils import get_normalizer_preset
 
 
@@ -964,13 +964,13 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args,
         )
-    elif args.algo == 'ppo':
-        algo = PPO(
-            **algo_kwargs,
-            vf=vf,
-            gae_lambda=0.95,
-            ppo_clip=0.2,
-        )
+    # elif args.algo == 'ppo':
+    #     algo = PPO(
+    #         **algo_kwargs,
+    #         vf=vf,
+    #         gae_lambda=0.95,
+    #         ppo_clip=0.2,
+    #     )
     else:
         raise NotImplementedError
 
