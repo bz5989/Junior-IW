@@ -48,7 +48,7 @@ else
 fi
 
 # Run command
-python3 -u run/main.py --run_group $job_name \
+python3 -u run/train.py --run_group $job_name \
                         --env ant_nav_prime \
                         --max_path_length 8 \
                         --dim_option 2 \
