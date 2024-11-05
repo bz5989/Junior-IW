@@ -12,6 +12,12 @@ elif [ $1 == "csf" ]; then
     cp_unit_length=1
     policy_type=gaussian
     use_discrete_sac=0
+elif [ $1 == "csf2" ]; then
+    job_name=csf_ant_multi_goal
+    cp_path="exp/csf_ant2/sd000_1730796181_ant_metra_sf/option_policy9000.pt" # NEEDS TO BE REPLACED WITH REAL PATH
+    cp_unit_length=1
+    policy_type=gaussian
+    use_discrete_sac=0
 elif [ $1 == "dads" ]; then
     job_name=dads_ant_multi_goal
     cp_path="/path/to/dads/option_policy*.pt" # NEEDS TO BE REPLACED WITH REAL PATH
