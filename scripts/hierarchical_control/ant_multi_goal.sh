@@ -64,7 +64,7 @@ python3 -u tests/main.py --run_group $job_name \
                         --model_master_dim 1024 \
                         --n_epochs_per_log 25 \
                         --eval_record_video 1 \
-                        --n_epochs 200001 \
+                        --n_epochs 10001 \
                         --discrete 0 \
                         --sac_discount 0.99 \
                         --eval_plot_axis -50 50 -50 50 \
