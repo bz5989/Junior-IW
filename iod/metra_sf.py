@@ -194,7 +194,7 @@ class MetraSf(IOD):
             self._optimize_op(tensors, v)
 
         return tensors
-
+    # can probably ignore?
     def _optimize_te(self, tensors, internal_vars):
         self._update_loss_te(tensors, internal_vars)
 
@@ -225,6 +225,7 @@ class MetraSf(IOD):
 
         self._update_targets()
 
+    # can probably ignore?
     def _optimize_op(self, tensors, internal_vars):
         states = self._get_concat_obs(self.option_policy.process_observations(internal_vars['obs']), internal_vars['options'])
         action_dists, *_ = self.option_policy(states)
@@ -350,6 +351,7 @@ class MetraSf(IOD):
         if self.log_sum_exp:
             v['log_sum_exp'] = log_sum_exp
 
+    # can probably ignore?
     def _update_loss_te(self, tensors, v):
         self._update_rewards(tensors, v)
         rewards = v['rewards']
@@ -459,12 +461,13 @@ class MetraSf(IOD):
         with torch.no_grad():
             if self.turn_off_dones:
                 dones[...] = 0
-            
+            # final else
             if self.metra_mlp_rep:
                 sf_target = self.f_encoder(v['obs'], v['next_obs']) + self.discount * (1. - dones[:, None]) * target_next_sf
             elif self.no_diff_in_rep:
                 sf_target = cur_repr + self.discount * (1. - dones[:, None]) * target_next_sf
             else:
+                # Eysenbach recommended adding reward here?
                 sf_target = (next_repr - cur_repr) + self.discount * (1. - dones[:, None]) * target_next_sf
 
         loss_sf1 = F.mse_loss(sf1_pred, sf_target)
@@ -484,6 +487,7 @@ class MetraSf(IOD):
             'next_processed_cat_obs': next_processed_cat_obs,
         })
 
+    # not used
     def _update_loss_dual_lam(self, tensors, v):
         log_dual_lam = self.dual_lam.param
         dual_lam = log_dual_lam.exp()
@@ -504,7 +508,7 @@ class MetraSf(IOD):
                 t_param.data.copy_(t_param.data * (1.0 - self.tau) +
                                    param.data * self.tau)
 
-    
+    # not called here
     def _update_target_te(self):
         for t_param, param in zip(self.target_te.parameters(), self.traj_encoder.parameters()):
             t_param.data.copy_(t_param.data * (1.0 - self.tau) +
