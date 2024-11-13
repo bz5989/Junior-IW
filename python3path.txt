@@ -1,0 +1,7 @@
+/scratch/network/yw0947/anaconda3/bin/python3
+# conda environments:
+#
+base                     /scratch/network/yw0947/anaconda3
+csf                      /scratch/network/yw0947/anaconda3/envs/csf
+mujoco_env               /scratch/network/yw0947/anaconda3/envs/mujoco_env
+

@@ -10,7 +10,8 @@ conda create --name csf python=3.9
 conda activate csf
 
 # Installing dependencies
-pip install -r requirements.txt --no-deps
+pip install -r requirements.txt --no-depspip uninstall mujoco mujoco-py
+
 pip install -e .
 pip install -e garaged
 pip install --upgrade joblib
