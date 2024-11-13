@@ -51,6 +51,7 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
+from iod.relabel_skills_metra_sf import RelabelMetraSf
 # from iod.dads import DADS
 # from iod.ppo import PPO
 # from iod.cic import CIC
@@ -245,7 +246,7 @@ def get_argparser():
     parser.add_argument('--alpha', type=float, default=0.01, help="Specifies the entropy coefficient (initial value if adaptive).")
     parser.add_argument('--algo', type=str, default='metra', choices=[
         # CSF (our method) & skill discovery baseliens
-        'metra', 'metra_sf', 'dads', 'cic',
+        'metra', 'metra_sf', 'dads', 'cic','relabel_skills_metra_sf',
         # Hierarchical control algorithms
         'sac', 'ppo',
     ], help="Specifies the algorithm to use for training.")
@@ -325,6 +326,10 @@ def get_argparser():
     parser.add_argument('--wdm_diff', type=int, default=1, choices=[0, 1])
     parser.add_argument('--aug', type=int, default=0, choices=[0, 1])
     parser.add_argument('--joint_train', type=int, default=1, choices=[0, 1])
+    
+    ## relabel skills parameters
+    parser.add_argument('--relabel_to_nearby_skill', type=bool, default=False, choices=[True, False])
+    parser.add_argument('--noise_factor', type=float, default=0.)
 
     return parser
 
@@ -703,7 +708,7 @@ def run(ctxt=None):
             ])
         })
     
-    elif args.algo == 'metra_sf':
+    elif args.algo in ['metra_sf', 'relabel_skills_metra_sf']:
         qf1 = ContinuousMLPQFunctionEx(
             obs_dim=policy_q_input_dim,
             action_dim=action_dim,
@@ -888,6 +893,40 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args,
         )
+        
+    elif args.algo == 'relabel_skills_metra_sf':
+        algo_kwargs.update(
+            metra_mlp_rep=args.metra_mlp_rep,
+            f_encoder=f_encoder,
+            self_normalizing=args.self_normalizing,
+            log_sum_exp=args.log_sum_exp,
+            fixed_lam=args.fixed_lam,
+            no_diff_in_rep=args.no_diff_in_rep,
+            use_discrete_sac=args.use_discrete_sac,
+            turn_off_dones=args.turn_off_dones,
+            eval_goal_metrics=args.eval_goal_metrics,
+            goal_range=args.goal_range,
+            frame_stack=args.frame_stack,
+            sample_new_z=args.sample_new_z,
+            num_negative_z=args.num_negative_z,
+            infonce_lam=args.infonce_lam,
+            num_zero_shot_goals=args.num_zero_shot_goals,
+            relabel_to_nearby_skill = args.relabel_to_nearby_skill,
+            noise_factor = args.noise_factor
+        )
+        skill_common_args.update(
+            inner=args.inner,
+            num_alt_samples=args.num_alt_samples,
+            split_group=args.split_group,
+            dual_reg=args.dual_reg,
+            dual_slack=args.dual_slack,
+            dual_dist=args.dual_dist,
+        )
+        algo = RelabelMetraSf(
+            **algo_kwargs,
+            **skill_common_args,
+        )
+    
     # elif args.algo == 'cic':
     #     skill_common_args.update(
     #         inner=args.inner,
