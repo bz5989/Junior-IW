@@ -276,6 +276,7 @@ class MetraSf(IOD):
         )
 
     def _update_rewards(self, tensors, v):
+        # v is state
         obs = v['obs']
         next_obs = v['next_obs']
 
@@ -284,63 +285,65 @@ class MetraSf(IOD):
             next_z = self.traj_encoder(next_obs).mean
             target_z = next_z - cur_z
 
-            if self.no_diff_in_rep:
-                target_z = cur_z
-
-            if self.self_normalizing:
-                target_z = target_z / target_z.norm(dim=-1, keepdim=True)
+            # if self.no_diff_in_rep:
+            #     target_z = cur_z
+            # if self.self_normalizing:
+            #     target_z = target_z / target_z.norm(dim=-1, keepdim=True)            
 
             if self.log_sum_exp:
+                # modify this for adversary
                 if self.sample_new_z:
                     new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                     if self.unit_length:
                         new_z /= torch.norm(new_z, dim=-1, keepdim=True)
                     pairwise_scores = target_z @ new_z.t()
-                else:
-                    pairwise_scores = target_z @ v['options'].t()
+                # else:
+                #     pairwise_scores = target_z @ v['options'].t()
                 log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
 
-            if self.discrete:
-                masks = (v['options'] - v['options'].mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
-                rewards = (target_z * masks).sum(dim=1)
-            else:
-                inner = (target_z * v['options']).sum(dim=1)
-                rewards = inner
+            # if self.discrete:
+            #     masks = (v['options'] - v['options'].mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
+            #     rewards = (target_z * masks).sum(dim=1)
+            # else:
+            #     inner = (target_z * v['options']).sum(dim=1)
+            #     rewards = inner
+            inner = (target_z * v['options']).sum(dim=1)
+            rewards = inner
 
             # For dual objectives
             v.update({
                 'cur_z': cur_z,
                 'next_z': next_z,
             })
-        elif self.metra_mlp_rep:
-            # unneccessary but avoids key errors for now
-            cur_z = self.traj_encoder(obs).mean
-            next_z = self.traj_encoder(next_obs).mean
-            v.update({
-                'cur_z': cur_z,
-                'next_z': next_z,
-            })
+        # elif self.metra_mlp_rep:
+        #     # unneccessary but avoids key errors for now
+        #     cur_z = self.traj_encoder(obs).mean
+        #     next_z = self.traj_encoder(next_obs).mean
+        #     v.update({
+        #         'cur_z': cur_z,
+        #         'next_z': next_z,
+        #     })
 
-            rep = self.f_encoder(obs, next_obs)
-            rewards = (rep * v['options']).sum(dim=1)
+        #     rep = self.f_encoder(obs, next_obs)
+        #     rewards = (rep * v['options']).sum(dim=1)
 
-            if self.log_sum_exp:
-                if self.sample_new_z:
-                    new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
-                    if self.unit_length:
-                        new_z /= torch.norm(new_z, dim=-1, keepdim=True)
-                    pairwise_scores = rep @ new_z.t()
-                else:
-                    pairwise_scores = rep @ v['options'].t()
-                log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
-        else:
-            target_dists = self.traj_encoder(next_obs)
+        #     if self.log_sum_exp:
+        #         if self.sample_new_z:
+        #             new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
+        #             if self.unit_length:
+        #                 new_z /= torch.norm(new_z, dim=-1, keepdim=True)
+        #             pairwise_scores = rep @ new_z.t()
+        #         else:
+        #             pairwise_scores = rep @ v['options'].t()
+        #         log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)
+        # else:
+        #     target_dists = self.traj_encoder(next_obs)
 
-            if self.discrete:
-                logits = target_dists.mean
-                rewards = -torch.nn.functional.cross_entropy(logits, v['options'].argmax(dim=1), reduction='none')
-            else:
-                rewards = target_dists.log_prob(v['options'])
+        #     if self.discrete:
+        #         logits = target_dists.mean
+        #         rewards = -torch.nn.functional.cross_entropy(logits, v['options'].argmax(dim=1), reduction='none')
+        #     else:
+        #         rewards = target_dists.log_prob(v['options'])
 
         tensors.update({
             'PureRewardMean': rewards.mean(),
@@ -633,6 +636,7 @@ class MetraSf(IOD):
                         state[:1] = goal_loc
                         env.set_state(state[:9], state[9:])
                     else:
+                        # for shift, simply move goalpost (goal_loc) by k uniformly
                         goal_loc = (np.random.rand(2) * 2 - 1) * self.goal_range
                         state[:2] = goal_loc
                         env.set_state(state[:15], state[15:])
@@ -704,15 +708,14 @@ class MetraSf(IOD):
                         next_obs, _, done, info = env.step(action)
                         obs = next_obs
 
-                        if self.env_name == 'kitchen':
-                            _success = env.compute_success(goal_info['goal_idx'])[0]
-                            success = max(success, _success)
-                            staying_time += _success
+                        # if self.env_name == 'kitchen':
+                        #     _success = env.compute_success(goal_info['goal_idx'])[0]
+                        #     success = max(success, _success)
+                        #     staying_time += _success
 
-                        if self.env_name == 'robobin_image':
-                            success = max(success, info['success'])
-                            staying_time += info['success']
-
+                        # if self.env_name == 'robobin_image':
+                        #     success = max(success, info['success'])
+                        #     staying_time += info['success']
                         if self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant_pixel', 'half_cheetah']:
                             if self.env_name in ['dmc_cheetah']:
                                 cur_loc = env.physics.get_state()[:1]
@@ -722,7 +725,6 @@ class MetraSf(IOD):
                                 cur_loc = env.unwrapped._get_obs()[:1]
                             else:
                                 cur_loc = env.unwrapped._get_obs()[:2] 
-
                             if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 3:
                                 hit_success_3 = 1.
                                 at_success_3 += 1.

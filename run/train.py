@@ -863,6 +863,7 @@ def run(ctxt=None):
             **algo_kwargs,
             **skill_common_args,
         )
+        
     elif args.algo == 'metra_sf':
         algo_kwargs.update(
             metra_mlp_rep=args.metra_mlp_rep,
@@ -959,15 +960,16 @@ def run(ctxt=None):
     #         aug=args.aug,
     #         joint_train=args.joint_train,
     #     )
-    elif args.algo == 'sac':
-        algo_kwargs.update(
-            use_discrete_sac=args.use_discrete_sac,
-        )
 
-        algo = SAC(
-            **algo_kwargs,
-            **skill_common_args
-        )
+    # elif args.algo == 'sac':
+    #     algo_kwargs.update(
+    #         use_discrete_sac=args.use_discrete_sac,
+    #     )
+
+    #     algo = SAC(
+    #         **algo_kwargs,
+    #         **skill_common_args
+    #     )
     # elif args.algo == 'dads': # TODO: check args here if we do run it ourselves
     #     algo_kwargs.update(
     #         metra_mlp_rep=args.metra_mlp_rep,
@@ -1010,6 +1012,7 @@ def run(ctxt=None):
     #         gae_lambda=0.95,
     #         ppo_clip=0.2,
     #     )
+
     else:
         raise NotImplementedError
 
