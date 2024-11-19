@@ -5,7 +5,7 @@ option_dim=2
 
 # Run command
 python3 -u run/train.py --run_group $job_name \
-                        --env ant \
+                        --env ant2 \
                         --max_path_length 200 \
                         --seed $seed \
                         --traj_batch_size 8 \

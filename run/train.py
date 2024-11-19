@@ -73,7 +73,9 @@ def make_env(args, max_path_length: int):
     elif args.env == 'ant':
         from envs.mujoco.ant_env import AntEnv
         env = AntEnv(render_hw=100, model_path='ant.xml')
-
+    elif args.env == 'ant2':
+        from envs.mujoco.ant_env2 import AntEnv
+        env = AntEnv(render_hw=100, model_path='ant2.xml')
     # elif args.env.startswith('dmc'):
     #     from envs.custom_dmc_tasks import dmc
     #     from envs.custom_dmc_tasks.pixel_wrappers import RenderWrapper
