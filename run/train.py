@@ -223,7 +223,7 @@ def get_argparser():
     parser.add_argument('--max_path_length', type=int, default=200, help="Specifies the maximum number of timesteps of a single rollout.")
     parser.add_argument('--env', type=str, default='maze', choices=[
         # Exploration & goal reaching environments
-        'ant', 'half_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'kitchen', 'robobin_image',
+        'ant', 'ant2', 'half_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'kitchen', 'robobin_image',
         # Hierarchical control environments
         'ant_nav_prime', 'half_cheetah_hurdle', 'half_cheetah_goal', 'dmc_quadruped_goal', 'dmc_humanoid_goal'
     ])
