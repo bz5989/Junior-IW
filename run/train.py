@@ -157,9 +157,11 @@ def make_env(args, max_path_length: int):
     elif normalizer_type == 'preset':
         normalizer_name = args.env
         additional_dim = 0
-        if args.env in ['ant_nav_prime', 'ant2']:
+        if args.env in ['ant_nav_prime']:
             normalizer_name = 'ant'
             additional_dim = cp_num_truncate_obs
+        elif args.env in ['ant2']:
+            normalizer_name = 'ant'
         elif args.env in ['half_cheetah_goal', 'half_cheetah_hurdle']:
             normalizer_name = 'half_cheetah'
             additional_dim = cp_num_truncate_obs
