@@ -333,6 +333,7 @@ def get_argparser():
     
     ## relabel skills parameters
     parser.add_argument('--relabel_to_nearby_skill', type=bool, default=False, choices=[True, False])
+    parser.add_argument('--noise_type', type=str, default=None, choices=["random_noise", False])
     parser.add_argument('--noise_factor', type=float, default=0.)
 
     return parser
@@ -917,6 +918,7 @@ def run(ctxt=None):
             infonce_lam=args.infonce_lam,
             num_zero_shot_goals=args.num_zero_shot_goals,
             relabel_to_nearby_skill = args.relabel_to_nearby_skill,
+            noise_type = args.noise_type,
             noise_factor = args.noise_factor
         )
         skill_common_args.update(

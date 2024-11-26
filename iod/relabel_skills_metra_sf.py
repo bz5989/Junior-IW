@@ -53,6 +53,7 @@ class RelabelMetraSf(IOD):
             f_encoder: torch.nn.Module = None,
             num_zero_shot_goals: int = 50,
             relabel_to_nearby_skill: bool = False,  # relabel skills
+            noise_type: str = None, 
             noise_factor: float = 0.1, # relabel noise factor
             **kwargs,
     ):
@@ -109,6 +110,7 @@ class RelabelMetraSf(IOD):
         self.num_zero_shot_goals = num_zero_shot_goals
         
         self.relabel_to_nearby_skill = relabel_to_nearby_skill
+        self.noise_type = noise_type
         self.noise_factor = noise_factor
 
         assert self._trans_optimization_epochs is not None
@@ -297,9 +299,14 @@ class RelabelMetraSf(IOD):
 
             # Skill relabeling: Adjust target_z to a nearby skill
             if self.relabel_to_nearby_skill:  # New condition for relabeling to nearby skills
-                # Generate a small perturbation to simulate a nearby skill
-                noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
-                target_z += noise  # Adds noise to target_z to slightly change it towards a nearby skill
+                if self.noise_type == "random_noise":
+                    # Generate a small perturbation to simulate a nearby skill
+                    noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
+                    target_z += noise  # Adds noise to target_z to slightly change it towards a nearby skill
+                else:
+                    raise ValueError("This is an example of a ValueError.")
+            
+            
 
             if self.log_sum_exp:
                 if self.sample_new_z:
