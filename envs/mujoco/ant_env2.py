@@ -205,7 +205,7 @@ class AntEnv(MujocoTrait, mujoco_env.MujocoEnv, utils.EzPickle):
         return self._get_obs()
 
     def viewer_setup(self):
-        # self.viewer.cam.distance = self.model.stat.extent * 2.5
+        self.viewer.cam.distance = 2.5
         pass
 
     @property

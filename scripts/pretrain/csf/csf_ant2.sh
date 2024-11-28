@@ -28,4 +28,4 @@ python3 -u run/train.py --run_group $job_name \
                         --num_negative_z 256 \
                         --log_sum_exp 1 \
                         --infonce_lam 5.0 \
-                        --eval_record_video 0
+                        --eval_record_video 1
