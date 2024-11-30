@@ -15,6 +15,7 @@ python3 -u run/train.py --run_group $job_name \
                         --n_epochs_per_log 100 \
                         --n_epochs_per_eval 1000 \
                         --n_epochs_per_save 10000 \
+                        --n_epochs 10001 \
                         --sac_max_buffer_size 1000000 \
                         --algo metra_sf \
                         --discrete 0 \

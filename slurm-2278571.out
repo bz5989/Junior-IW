@@ -1,0 +1,54 @@
+2024-11-28 11:53:02.176001: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 11:53:02.278646: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-11-28 11:53:02.304664: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 11:53:03.240459: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: :/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 11:53:03.240525: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: :/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 11:53:03.240530: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 11:53:06 | [sd000_s_2278571.0.1732812785_dmc_humanoid_metra_sf] Logging to /scratch/network/yw0947/Junior-IW/exp/csf_humanoid/sd000_s_2278571.0.1732812785_dmc_humanoid_metra_sf
+2024-11-28 11:53:06 | [sd000_s_2278571.0.1732812785_dmc_humanoid_metra_sf] Git commit: 3e3540c61df9084cb09b6ad62fa754109d40e571
+2024-11-28 11:53:06 | [sd000_s_2278571.0.1732812785_dmc_humanoid_metra_sf] ARGS: Namespace(run_group='csf_humanoid', n_epochs_per_eval=125, n_epochs_per_log=25, n_epochs_per_save=1000, n_epochs_per_pt_save=1000, n_epochs_per_pkl_update=None, num_random_trajectories=48, num_video_repeats=2, eval_record_video=1, eval_plot_axis=[-15.0, 15.0, -15.0, 15.0], normalizer_type='off', frame_stack=3, video_skip_frames=2, encoder=1, spectral_normalization=0, model_master_dim=1024, model_master_num_layers=2, model_master_nonlinearity=None, sd_const_std=1, sd_batch_norm=1, use_layer_norm=0, max_path_length=200, env='dmc_humanoid', use_gpu=1, sample_cpu=0, seed=0, n_parallel=8, n_thread=1, n_epochs=10001, traj_batch_size=8, trans_minibatch_size=256, trans_optimization_epochs=200, common_lr=0.0001, lr_op=None, lr_te=None, dim_option=8, discrete=0, alpha=0.01, algo='metra_sf', sac_tau=0.005, sac_lr_q=None, sac_lr_a=None, sac_discount=0.99, sac_scale_reward=1.0, sac_target_coef=1.0, sac_min_buffer_size=10000, sac_max_buffer_size=300000, use_discrete_sac=0, unit_length=1, inner=1, turn_off_dones=1, num_alt_samples=100, split_group=65536, uniform_z=0, dual_reg=1, dual_lam=30, dual_slack=0.001, dual_dist='one', dual_lr=None, fixed_lam=None, self_normalizing=0, no_diff_in_rep=0, log_sum_exp=1, sample_new_z=1, num_negative_z=256, infonce_lam=5.0, diayn_include_baseline=0, add_log_sum_exp_to_rewards=0, add_penalty_to_rewards=0, metra_mlp_rep=0, goal_range=10.0, num_zero_shot_goals=50, eval_goal_metrics=1, cp_path=None, cp_path_idx=None, cp_multi_step=1, cp_unit_length=0, downstream_reward_type='esparse', downstream_num_goal_steps=50, policy_type='gaussian', cic_temp=0.5, cic_alpha=1.0, apt_knn_k=16, apt_use_icm=0, apt_rms=1, alive_reward=None, dual_dist_scaling='geom', const_scaler=1.0, wdm=0, wdm_cpc=0, wdm_idz=1, wdm_ids=0, wdm_diff=1, aug=0, joint_train=1, relabel_to_nearby_skill=False, noise_type=None, noise_factor=0.0)
+2024-11-28 11:53:06 | [sd000_s_2278571.0.1732812785_dmc_humanoid_metra_sf] Setting seed to 0
+libEGL warning: egl: failed to create dri2 screen
+libEGL warning: failed to open /dev/dri/card4: Permission denied
+
+libEGL warning: egl: failed to create dri2 screen
+libEGL warning: failed to open /dev/dri/card3: Permission denied
+
+libEGL warning: egl: failed to create dri2 screen
+libEGL warning: failed to open /dev/dri/card2: Permission denied
+
+libEGL warning: egl: failed to create dri2 screen
+libEGL warning: failed to open /dev/dri/card1: Permission denied
+
+Traceback (most recent call last):
+  File "/scratch/network/yw0947/Junior-IW/run/train.py", line 1047, in <module>
+    run()
+    └ <garage.experiment.experiment.ExperimentTemplate object at 0x1465fa8b1c10>
+  File "/scratch/network/yw0947/Junior-IW/garaged/src/garage/experiment/experiment.py", line 594, in __call__
+    result = self.function(ctxt, **kwargs)
+             │             │       └ {}
+             │             └ <garage.experiment.experiment.ExperimentContext object at 0x1464ec0fb7c0>
+             └ <garage.experiment.experiment.ExperimentTemplate object at 0x1465fa8b1c10>
+  File "/scratch/network/yw0947/Junior-IW/run/train.py", line 430, in run
+    env = contextualized_make_env()
+          └ functools.partial(<function make_env at 0x1464f925a1f0>, args=Namespace(run_group='csf_humanoid', n_epochs_per_eval=125, n_epoch...
+  File "/scratch/network/yw0947/Junior-IW/run/train.py", line 80, in make_env
+    from envs.custom_dmc_tasks import dmc
+  File "/scratch/network/yw0947/Junior-IW/envs/custom_dmc_tasks/__init__.py", line 1, in <module>
+    from envs.custom_dmc_tasks import cheetah
+  File "/scratch/network/yw0947/Junior-IW/envs/custom_dmc_tasks/cheetah.py", line 20, in <module>
+    from dm_control import mujoco
+  File "/scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/dm_control/mujoco/__init__.py", line 18, in <module>
+    from dm_control.mujoco.engine import action_spec
+  File "/scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/dm_control/mujoco/engine.py", line 42, in <module>
+    from dm_control.mujoco import index
+  File "/scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/dm_control/mujoco/index.py", line 88, in <module>
+    from dm_control.mujoco.wrapper import util
+  File "/scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/dm_control/mujoco/wrapper/__init__.py", line 18, in <module>
+    from dm_control.mujoco.wrapper import mjbindings
+  File "/scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/dm_control/mujoco/wrapper/mjbindings/__init__.py", line 29, in <module>
+    from dm_control.mujoco.wrapper.mjbindings import functions
+  File "/scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/dm_control/mujoco/wrapper/mjbindings/functions.py", line 21, in <module>
+    import mujoco
+ModuleNotFoundError: No module named 'mujoco'

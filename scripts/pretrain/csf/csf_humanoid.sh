@@ -21,6 +21,7 @@ python3 -u run/train.py --run_group $job_name \
                         --n_epochs_per_eval 125 \
                         --n_epochs_per_save 1000 \
                         --n_epochs_per_pt_save 1000 \
+                        --n_epochs 10001 \
                         --discrete 0 \
                         --encoder 1 \
                         --sample_cpu 0 \

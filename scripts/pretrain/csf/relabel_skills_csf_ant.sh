@@ -21,7 +21,7 @@ python3 -u run/train.py --run_group $job_name \
                         --algo relabel_skills_metra_sf \
                         --relabel_to_nearby_skill True \
                         --noise_type random_noise\
-                        --noise_factor 0.05 \
+                        --noise_factor 0.001 \
                         --discrete 0 \
                         --dim_option $option_dim \
                         --eval_goal_metrics 1 \

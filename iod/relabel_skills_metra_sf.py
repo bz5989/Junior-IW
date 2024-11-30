@@ -58,6 +58,10 @@ class RelabelMetraSf(IOD):
             **kwargs,
     ):
         super().__init__(**kwargs)
+        # self.skill_vectors = None  # Initialize as None
+
+        # if load_learned_skills and skill_dataset is not None:
+        #     self.initialize_learned_skills(skill_dataset)
 
         self.qf1 = qf1.to(self.device)
         self.qf2 = qf2.to(self.device)
@@ -137,6 +141,35 @@ class RelabelMetraSf(IOD):
             extras=extras,
             sampler_key='option_policy',
         )
+    
+    # def load_skill_vectors(self, dataset: Dict[str, torch.Tensor]) -> torch.Tensor:
+    #     """
+    #     Extracts the learned skill vectors from the trajectory encoder.
+
+    #     Args:
+    #         dataset (Dict[str, torch.Tensor]): A dataset containing observations or states.
+    #             Typically, this is a set of representative states for each skill/option.
+
+    #     Returns:
+    #         torch.Tensor: A tensor of shape (num_skills, dim_option) containing the skill vectors.
+    #     """
+    #     obs = dataset["obs"]  # Use observations from the dataset
+    #     with torch.no_grad():
+    #         skill_distributions = self.traj_encoder(obs)  # Forward pass through trajectory encoder
+    #         skill_vectors = skill_distributions.mean  # Extract the mean of the skill distributions
+    #     return skill_vectors
+
+    # def initialize_learned_skills(self, dataset: Dict[str, torch.Tensor]):
+    #     """
+    #     Initializes the skill vectors using the learned trajectory encoder.
+
+    #     Args:
+    #         dataset (Dict[str, torch.Tensor]): A dataset containing representative observations.
+    #     """
+    #     self.skill_vectors = self.load_skill_vectors(dataset)
+
+
+
 
     def _flatten_data(self, data: Dict[str, List[np.ndarray]]) -> Dict[str, torch.tensor]:
         """
@@ -303,6 +336,15 @@ class RelabelMetraSf(IOD):
                     # Generate a small perturbation to simulate a nearby skill
                     noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
                     target_z += noise  # Adds noise to target_z to slightly change it towards a nearby skill
+                elif self.noise_type == 'relabel':
+                    if self.relabel_to_nearby_skill and self.skill_vectors is not None:
+                        # Compute distances to learned skill vectors
+                        distances = torch.norm(self.skill_vectors - target_z.unsqueeze(1), dim=2)  # Shape: (batch_size, num_skills)
+                        nearest_skill_idx = torch.argmin(distances, dim=1)  # Index of the closest skill
+                        nearest_skill = self.skill_vectors[nearest_skill_idx]  # Nearest skill vector
+
+                        # Relabel target_z to the nearest learned skill
+                        target_z = nearest_skill
                 else:
                     raise ValueError("This is an example of a ValueError.")
             

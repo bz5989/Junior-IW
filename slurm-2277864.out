@@ -1,0 +1,604 @@
+2024-11-28 02:05:21.297205: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:05:21.496679: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:05:22.192534: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: :/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:22.192719: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: :/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:22.192730: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:05:23 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] Logging to /scratch/network/yw0947/Junior-IW/exp/csf_half_cheetah/sd000_s_2277864.0.1732777523_half_cheetah_metra_sf
+2024-11-28 02:05:23 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] Git commit: 3e3540c61df9084cb09b6ad62fa754109d40e571
+2024-11-28 02:05:23 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] ARGS: Namespace(run_group='csf_half_cheetah', n_epochs_per_eval=1000, n_epochs_per_log=100, n_epochs_per_save=10000, n_epochs_per_pt_save=1000, n_epochs_per_pkl_update=None, num_random_trajectories=48, num_video_repeats=2, eval_record_video=0, eval_plot_axis=None, normalizer_type='preset', frame_stack=None, video_skip_frames=1, encoder=0, spectral_normalization=0, model_master_dim=1024, model_master_num_layers=2, model_master_nonlinearity=None, sd_const_std=1, sd_batch_norm=1, use_layer_norm=0, max_path_length=200, env='half_cheetah', use_gpu=1, sample_cpu=1, seed=0, n_parallel=8, n_thread=1, n_epochs=10001, traj_batch_size=8, trans_minibatch_size=256, trans_optimization_epochs=50, common_lr=0.0001, lr_op=None, lr_te=None, dim_option=2, discrete=0, alpha=0.01, algo='metra_sf', sac_tau=0.005, sac_lr_q=None, sac_lr_a=None, sac_discount=0.99, sac_scale_reward=1.0, sac_target_coef=1.0, sac_min_buffer_size=10000, sac_max_buffer_size=1000000, use_discrete_sac=0, unit_length=1, inner=1, turn_off_dones=1, num_alt_samples=100, split_group=65536, uniform_z=0, dual_reg=1, dual_lam=30, dual_slack=0.001, dual_dist='one', dual_lr=None, fixed_lam=None, self_normalizing=0, no_diff_in_rep=0, log_sum_exp=1, sample_new_z=1, num_negative_z=256, infonce_lam=5.0, diayn_include_baseline=0, add_log_sum_exp_to_rewards=0, add_penalty_to_rewards=0, metra_mlp_rep=0, goal_range=100.0, num_zero_shot_goals=50, eval_goal_metrics=1, cp_path=None, cp_path_idx=None, cp_multi_step=1, cp_unit_length=0, downstream_reward_type='esparse', downstream_num_goal_steps=50, policy_type='gaussian', cic_temp=0.5, cic_alpha=1.0, apt_knn_k=16, apt_use_icm=0, apt_rms=1, alive_reward=None, dual_dist_scaling='geom', const_scaler=1.0, wdm=0, wdm_cpc=0, wdm_idz=1, wdm_ids=0, wdm_diff=1, aug=0, joint_train=1, relabel_to_nearby_skill=False, noise_type=None, noise_factor=0.0)
+2024-11-28 02:05:24 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] Setting seed to 0
+2024-11-28 02:05:29.646840: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:05:29.846396: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:05:30.445007: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:30.445119: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:30.445127: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:05:36.012881: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:05:36.213603: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:05:36.813054: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:36.813171: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:36.813180: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:05:42.340988: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:05:42.540349: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:05:43.141016: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:43.141129: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:43.141138: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:05:48.680734: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:05:48.881606: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:05:49.488217: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:49.488333: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:49.488342: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:05:55.015506: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:05:55.214933: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:05:55.815284: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:55.815412: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:05:55.815421: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:06:01.347281: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:06:01.547811: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:06:02.148316: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:06:02.148434: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:06:02.148443: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:06:07.696110: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:06:07.895487: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:06:08.499555: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:06:08.499680: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:06:08.499696: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:06:14.809779: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-11-28 02:06:15.038374: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-28 02:06:15.715327: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:06:15.715500: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2024-11-28 02:06:15.715510: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-11-28 02:06:18 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] Obtaining samples...
+2024-11-28 02:06:18 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] epoch #0 | Saving snapshot...
+2024-11-28 02:06:19 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] epoch #0 | Saved
+Sampling
+_get_trajectories(option_policy) 8.198262929916382s
+------------------------------  -----------
+EvalOp/AtSuccess1                  0.0102
+EvalOp/AtSuccess3                  0.0221
+EvalOp/AverageDiscountedReturn    -0.336546
+EvalOp/AverageReturn              -0.33877
+EvalOp/CompletionRate              1
+EvalOp/DiffMaxMinReturn            2.7417
+EvalOp/EndSuccess1                 0
+EvalOp/EndSuccess3                 0.02
+EvalOp/GoalDistance               51.171
+EvalOp/GoalSquaredDistance      3500.62
+EvalOp/HitSuccess1                 0.02
+EvalOp/HitSuccess3                 0.06
+EvalOp/Iteration                   0
+EvalOp/MaxReturn                   0.947468
+EvalOp/MinReturn                  -1.79423
+EvalOp/MjAvgTrajLen              200
+EvalOp/MjNumCoords              9648
+EvalOp/MjNumTrajs                 48
+EvalOp/MjNumUniqueCoords           2
+EvalOp/NumTrajs                   48
+EvalOp/StdReturn                   0.599079
+TimeTotal                         30.8829
+TotalEnvSteps                      0
+TotalEpoch                         0
+------------------------------  -----------
+Sampling
+_get_trajectories(option_policy) 2.1766114234924316s
+Sampling
+_get_trajectories(option_policy) 2.1147327423095703s
+Sampling
+_get_trajectories(option_policy) 2.057500123977661s
+Sampling
+_get_trajectories(option_policy) 2.0483293533325195s
+Sampling
+_get_trajectories(option_policy) 2.066556215286255s
+Sampling
+_get_trajectories(option_policy) 2.0491387844085693s
+Sampling
+_get_trajectories(option_policy) 2.046255111694336s
+Sampling
+_get_trajectories(option_policy) 2.109921932220459s
+Sampling
+_get_trajectories(option_policy) 2.0374646186828613s
+Sampling
+_get_trajectories(option_policy) 2.0348637104034424s
+Sampling
+_get_trajectories(option_policy) 2.077808380126953s
+Sampling
+_get_trajectories(option_policy) 2.056400775909424s
+Sampling
+_get_trajectories(option_policy) 2.086303949356079s
+Sampling
+_get_trajectories(option_policy) 2.0340936183929443s
+Sampling
+_get_trajectories(option_policy) 2.050283670425415s
+Sampling
+_get_trajectories(option_policy) 2.0491690635681152s
+Sampling
+_get_trajectories(option_policy) 2.054840326309204s
+Sampling
+_get_trajectories(option_policy) 2.044024705886841s
+Sampling
+_get_trajectories(option_policy) 2.0476629734039307s
+Sampling
+_get_trajectories(option_policy) 2.0562121868133545s
+Sampling
+_get_trajectories(option_policy) 2.0756630897521973s
+Sampling
+_get_trajectories(option_policy) 2.0452611446380615s
+Sampling
+_get_trajectories(option_policy) 2.051389455795288s
+Sampling
+_get_trajectories(option_policy) 2.0472517013549805s
+Sampling
+_get_trajectories(option_policy) 2.0612549781799316s
+Sampling
+_get_trajectories(option_policy) 2.0354976654052734s
+Sampling
+_get_trajectories(option_policy) 2.050868034362793s
+Sampling
+_get_trajectories(option_policy) 2.0395028591156006s
+Sampling
+_get_trajectories(option_policy) 2.0382840633392334s
+Sampling
+_get_trajectories(option_policy) 2.0493149757385254s
+Sampling
+_get_trajectories(option_policy) 2.0635011196136475s
+Sampling
+_get_trajectories(option_policy) 2.037663221359253s
+Sampling
+_get_trajectories(option_policy) 2.035863161087036s
+Sampling
+_get_trajectories(option_policy) 2.0368621349334717s
+Sampling
+_get_trajectories(option_policy) 2.0440332889556885s
+Sampling
+_get_trajectories(option_policy) 2.034398078918457s
+Sampling
+_get_trajectories(option_policy) 2.030348777770996s
+Sampling
+_get_trajectories(option_policy) 2.0389418601989746s
+Sampling
+_get_trajectories(option_policy) 2.047825813293457s
+Sampling
+_get_trajectories(option_policy) 2.0350263118743896s
+Sampling
+_get_trajectories(option_policy) 2.048466920852661s
+Sampling
+_get_trajectories(option_policy) 2.055828094482422s
+Sampling
+_get_trajectories(option_policy) 2.0430092811584473s
+Sampling
+_get_trajectories(option_policy) 2.0366909503936768s
+Sampling
+_get_trajectories(option_policy) 2.0346145629882812s
+Sampling
+_get_trajectories(option_policy) 2.0346291065216064s
+Sampling
+_get_trajectories(option_policy) 2.0426182746887207s
+Sampling
+_get_trajectories(option_policy) 2.049039125442505s
+Sampling
+_get_trajectories(option_policy) 2.033376932144165s
+Sampling
+_get_trajectories(option_policy) 2.0318760871887207s
+Sampling
+_get_trajectories(option_policy) 2.034575939178467s
+Sampling
+_get_trajectories(option_policy) 2.0361127853393555s
+Sampling
+_get_trajectories(option_policy) 2.0395424365997314s
+Sampling
+_get_trajectories(option_policy) 2.0542142391204834s
+Sampling
+_get_trajectories(option_policy) 2.0506303310394287s
+Sampling
+_get_trajectories(option_policy) 2.040947675704956s
+Sampling
+_get_trajectories(option_policy) 2.040072202682495s
+Sampling
+_get_trajectories(option_policy) 2.0405678749084473s
+Sampling
+_get_trajectories(option_policy) 2.0306737422943115s
+Sampling
+_get_trajectories(option_policy) 2.041029930114746s
+Sampling
+_get_trajectories(option_policy) 2.0402626991271973s
+Sampling
+_get_trajectories(option_policy) 2.03721284866333s
+Sampling
+_get_trajectories(option_policy) 2.0386409759521484s
+Sampling
+_get_trajectories(option_policy) 2.0321712493896484s
+Sampling
+_get_trajectories(option_policy) 2.031769037246704s
+Sampling
+_get_trajectories(option_policy) 2.053826332092285s
+Sampling
+_get_trajectories(option_policy) 2.037339448928833s
+Sampling
+_get_trajectories(option_policy) 2.042811632156372s
+Sampling
+_get_trajectories(option_policy) 2.053658962249756s
+Sampling
+_get_trajectories(option_policy) 2.042006254196167s
+Sampling
+_get_trajectories(option_policy) 2.0307579040527344s
+Sampling
+_get_trajectories(option_policy) 2.0493130683898926s
+Sampling
+_get_trajectories(option_policy) 2.0335452556610107s
+Sampling
+_get_trajectories(option_policy) 2.0360515117645264s
+Sampling
+_get_trajectories(option_policy) 2.060767650604248s
+Sampling
+_get_trajectories(option_policy) 2.031547784805298s
+Sampling
+_get_trajectories(option_policy) 2.0440926551818848s
+Sampling
+_get_trajectories(option_policy) 2.036444664001465s
+Sampling
+_get_trajectories(option_policy) 2.0329346656799316s
+Sampling
+_get_trajectories(option_policy) 2.037233829498291s
+Sampling
+_get_trajectories(option_policy) 2.0312254428863525s
+Sampling
+_get_trajectories(option_policy) 2.032163619995117s
+Sampling
+_get_trajectories(option_policy) 2.0383236408233643s
+Sampling
+_get_trajectories(option_policy) 2.068000316619873s
+Sampling
+_get_trajectories(option_policy) 2.059352397918701s
+Sampling
+_get_trajectories(option_policy) 2.0404787063598633s
+Sampling
+_get_trajectories(option_policy) 2.037924289703369s
+Sampling
+_get_trajectories(option_policy) 2.0463578701019287s
+Sampling
+_get_trajectories(option_policy) 2.0341522693634033s
+Sampling
+_get_trajectories(option_policy) 2.030912160873413s
+Sampling
+_get_trajectories(option_policy) 2.041433334350586s
+Sampling
+_get_trajectories(option_policy) 2.0384504795074463s
+Sampling
+_get_trajectories(option_policy) 2.061305522918701s
+Sampling
+_get_trajectories(option_policy) 2.037898302078247s
+Sampling
+_get_trajectories(option_policy) 2.040231704711914s
+Sampling
+_get_trajectories(option_policy) 2.038379669189453s
+Sampling
+_get_trajectories(option_policy) 2.041334867477417s
+Sampling
+_get_trajectories(option_policy) 2.0348169803619385s
+Sampling
+_get_trajectories(option_policy) 2.0346970558166504s
+Sampling
+_get_trajectories(option_policy) 2.0356552600860596s
+2024-11-28 02:12:12 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] epoch #99 | Time 353.99 s
+2024-11-28 02:12:12 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] epoch #99 | EpochTime 3.29 s
+------------------------------------------  ---------------
+TimeEpoch                                        3.29078
+TimeTotal                                      353.989
+TotalEnvSteps                               160000
+TotalEpoch                                      99
+TrainSp/AverageDiscountedReturn                -26.3595
+TrainSp/AverageReturn                          -59.8192
+TrainSp/CompletionRate                           1
+TrainSp/DiffMaxMinReturn                        94.7916
+TrainSp/Iteration                               99
+TrainSp/MaxReturn                              -11.3952
+TrainSp/MinReturn                             -106.187
+TrainSp/NumTrajs                                 8
+TrainSp/StdReturn                               30.8625
+TrainSp/metra_sf/Alpha                           0.00624559
+TrainSp/metra_sf/DualCstPenalty                  0.001
+TrainSp/metra_sf/LossAlpha                     -32.1024
+TrainSp/metra_sf/LossOp                          0.0878354
+TrainSp/metra_sf/LossQf1                         0.00147335
+TrainSp/metra_sf/LossQf2                         0.00155704
+TrainSp/metra_sf/LossTe                         27.7262
+TrainSp/metra_sf/PathLengthMax                 200
+TrainSp/metra_sf/PathLengthMean                200
+TrainSp/metra_sf/PathLengthMin                 200
+TrainSp/metra_sf/PureRewardMean                  0.00185601
+TrainSp/metra_sf/PureRewardStd                   0.0300448
+TrainSp/metra_sf/Qf1Mean                        -0.0173512
+TrainSp/metra_sf/Qf2Mean                        -0.0180862
+TrainSp/metra_sf/QfTargetsMean                  -0.0187731
+TrainSp/metra_sf/QfTdErrsMean                   -0.00105438
+TrainSp/metra_sf/TeObjMean                     -27.7262
+TrainSp/metra_sf/TimeComputingMetrics            0
+TrainSp/metra_sf/TimeSampling                    2.0358
+TrainSp/metra_sf/TimeTraining                    1.24997
+TrainSp/metra_sf/TotalGradNormAll                6.39004
+TrainSp/metra_sf/TotalGradNormDualLam            0
+TrainSp/metra_sf/TotalGradNormLogAlpha           6.32449
+TrainSp/metra_sf/TotalGradNormOptionPolicy       0.027494
+TrainSp/metra_sf/TotalGradNormQf1                0.833141
+TrainSp/metra_sf/TotalGradNormQf2                0.307034
+TrainSp/metra_sf/TotalGradNormTrajEncoder        0.210336
+------------------------------------------  ---------------
+Sampling
+_get_trajectories(option_policy) 2.0368008613586426s
+Sampling
+_get_trajectories(option_policy) 2.0649752616882324s
+Sampling
+_get_trajectories(option_policy) 2.0564544200897217s
+Sampling
+_get_trajectories(option_policy) 2.0598533153533936s
+Sampling
+_get_trajectories(option_policy) 2.061016082763672s
+Sampling
+_get_trajectories(option_policy) 2.0310094356536865s
+Sampling
+_get_trajectories(option_policy) 2.0387988090515137s
+Sampling
+_get_trajectories(option_policy) 2.0339503288269043s
+Sampling
+_get_trajectories(option_policy) 2.039400815963745s
+Sampling
+_get_trajectories(option_policy) 2.0352017879486084s
+Sampling
+_get_trajectories(option_policy) 2.0447211265563965s
+Sampling
+_get_trajectories(option_policy) 2.0302977561950684s
+Sampling
+_get_trajectories(option_policy) 2.0311880111694336s
+Sampling
+_get_trajectories(option_policy) 2.036853075027466s
+Sampling
+_get_trajectories(option_policy) 2.0353150367736816s
+Sampling
+_get_trajectories(option_policy) 2.0339906215667725s
+Sampling
+_get_trajectories(option_policy) 2.039792776107788s
+Sampling
+_get_trajectories(option_policy) 2.0308079719543457s
+Sampling
+_get_trajectories(option_policy) 2.033897876739502s
+Sampling
+_get_trajectories(option_policy) 2.0357582569122314s
+Sampling
+_get_trajectories(option_policy) 2.031397581100464s
+Sampling
+_get_trajectories(option_policy) 2.04609751701355s
+Sampling
+_get_trajectories(option_policy) 2.04298734664917s
+Sampling
+_get_trajectories(option_policy) 2.0469210147857666s
+Sampling
+_get_trajectories(option_policy) 2.03641676902771s
+Sampling
+_get_trajectories(option_policy) 2.032339096069336s
+Sampling
+_get_trajectories(option_policy) 2.043930768966675s
+Sampling
+_get_trajectories(option_policy) 2.0308408737182617s
+Sampling
+_get_trajectories(option_policy) 2.0314579010009766s
+Sampling
+_get_trajectories(option_policy) 2.0328774452209473s
+Sampling
+_get_trajectories(option_policy) 2.030457019805908s
+Sampling
+_get_trajectories(option_policy) 2.0301082134246826s
+Sampling
+_get_trajectories(option_policy) 2.0345041751861572s
+Sampling
+_get_trajectories(option_policy) 2.03391432762146s
+Sampling
+_get_trajectories(option_policy) 2.041782855987549s
+Sampling
+_get_trajectories(option_policy) 2.0331504344940186s
+Sampling
+_get_trajectories(option_policy) 2.0320544242858887s
+Sampling
+_get_trajectories(option_policy) 2.0425257682800293s
+Sampling
+_get_trajectories(option_policy) 2.056293487548828s
+Sampling
+_get_trajectories(option_policy) 2.030893564224243s
+Sampling
+_get_trajectories(option_policy) 2.03639554977417s
+Sampling
+_get_trajectories(option_policy) 2.0347912311553955s
+Sampling
+_get_trajectories(option_policy) 2.037790298461914s
+Sampling
+_get_trajectories(option_policy) 2.035534143447876s
+Sampling
+_get_trajectories(option_policy) 2.031864881515503s
+Sampling
+_get_trajectories(option_policy) 2.042292833328247s
+Sampling
+_get_trajectories(option_policy) 2.0353915691375732s
+Sampling
+_get_trajectories(option_policy) 2.063176155090332s
+Sampling
+_get_trajectories(option_policy) 2.0518875122070312s
+Sampling
+_get_trajectories(option_policy) 2.038729190826416s
+Sampling
+_get_trajectories(option_policy) 2.029864549636841s
+Sampling
+_get_trajectories(option_policy) 2.0379045009613037s
+Sampling
+_get_trajectories(option_policy) 2.0364317893981934s
+Sampling
+_get_trajectories(option_policy) 2.0321226119995117s
+Sampling
+_get_trajectories(option_policy) 2.0320351123809814s
+Sampling
+_get_trajectories(option_policy) 2.0354387760162354s
+Sampling
+_get_trajectories(option_policy) 2.0540404319763184s
+Sampling
+_get_trajectories(option_policy) 2.036587953567505s
+Sampling
+_get_trajectories(option_policy) 2.0339455604553223s
+Sampling
+_get_trajectories(option_policy) 2.0370588302612305s
+Sampling
+_get_trajectories(option_policy) 2.029103994369507s
+Sampling
+_get_trajectories(option_policy) 2.0352954864501953s
+Sampling
+_get_trajectories(option_policy) 2.0318570137023926s
+Sampling
+_get_trajectories(option_policy) 2.0396902561187744s
+Sampling
+_get_trajectories(option_policy) 2.034560203552246s
+Sampling
+_get_trajectories(option_policy) 2.062642812728882s
+Sampling
+_get_trajectories(option_policy) 2.0444650650024414s
+Sampling
+_get_trajectories(option_policy) 2.0453336238861084s
+Sampling
+_get_trajectories(option_policy) 2.0340447425842285s
+Sampling
+_get_trajectories(option_policy) 2.036673069000244s
+Sampling
+_get_trajectories(option_policy) 2.0348918437957764s
+Sampling
+_get_trajectories(option_policy) 2.0335917472839355s
+Sampling
+_get_trajectories(option_policy) 2.038429021835327s
+Sampling
+_get_trajectories(option_policy) 2.041192054748535s
+Sampling
+_get_trajectories(option_policy) 2.0695793628692627s
+Sampling
+_get_trajectories(option_policy) 2.0477356910705566s
+Sampling
+_get_trajectories(option_policy) 2.03934383392334s
+Sampling
+_get_trajectories(option_policy) 2.038367986679077s
+Sampling
+_get_trajectories(option_policy) 2.043597936630249s
+Sampling
+_get_trajectories(option_policy) 2.039428472518921s
+Sampling
+_get_trajectories(option_policy) 2.0333709716796875s
+Sampling
+_get_trajectories(option_policy) 2.034519672393799s
+Sampling
+_get_trajectories(option_policy) 2.0271997451782227s
+Sampling
+_get_trajectories(option_policy) 2.0305140018463135s
+Sampling
+_get_trajectories(option_policy) 2.034130096435547s
+Sampling
+_get_trajectories(option_policy) 2.032460927963257s
+Sampling
+_get_trajectories(option_policy) 2.037320852279663s
+Sampling
+_get_trajectories(option_policy) 2.025954246520996s
+Sampling
+_get_trajectories(option_policy) 2.0310165882110596s
+Sampling
+_get_trajectories(option_policy) 2.03505539894104s
+Sampling
+_get_trajectories(option_policy) 2.0274384021759033s
+Sampling
+_get_trajectories(option_policy) 2.027601718902588s
+Sampling
+_get_trajectories(option_policy) 2.0313494205474854s
+Sampling
+_get_trajectories(option_policy) 2.031599521636963s
+Sampling
+_get_trajectories(option_policy) 2.040081024169922s
+Sampling
+_get_trajectories(option_policy) 2.0283610820770264s
+Sampling
+_get_trajectories(option_policy) 2.0305800437927246s
+Sampling
+_get_trajectories(option_policy) 2.0304834842681885s
+Sampling
+_get_trajectories(option_policy) 2.03391432762146s
+Sampling
+_get_trajectories(option_policy) 2.0341737270355225s
+2024-11-28 02:17:41 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] epoch #199 | Time 682.81 s
+2024-11-28 02:17:41 | [sd000_s_2277864.0.1732777523_half_cheetah_metra_sf] epoch #199 | EpochTime 3.28 s
+------------------------------------------  ---------------
+TimeEpoch                                        3.28136
+TimeTotal                                      682.805
+TotalEnvSteps                               320000
+TotalEpoch                                     199
+TrainSp/AverageDiscountedReturn               -100.143
+TrainSp/AverageReturn                         -262.853
+TrainSp/CompletionRate                           1
+TrainSp/DiffMaxMinReturn                       826.221
+TrainSp/Iteration                              199
+TrainSp/MaxReturn                               38.6972
+TrainSp/MinReturn                             -787.524
+TrainSp/NumTrajs                                 8
+TrainSp/StdReturn                              354.48
+TrainSp/metra_sf/Alpha                           0.00409574
+TrainSp/metra_sf/DualCstPenalty                  0.001
+TrainSp/metra_sf/LossAlpha                     -14.8429
+TrainSp/metra_sf/LossOp                         -0.810585
+TrainSp/metra_sf/LossQf1                         0.0128933
+TrainSp/metra_sf/LossQf2                         0.0127024
+TrainSp/metra_sf/LossTe                         27.7054
+TrainSp/metra_sf/PathLengthMax                 200
+TrainSp/metra_sf/PathLengthMean                200
+TrainSp/metra_sf/PathLengthMin                 200
+TrainSp/metra_sf/PureRewardMean                  0.022101
+TrainSp/metra_sf/PureRewardStd                   0.0611447
+TrainSp/metra_sf/Qf1Mean                         0.372897
+TrainSp/metra_sf/Qf2Mean                         0.374396
+TrainSp/metra_sf/QfTargetsMean                   0.391099
+TrainSp/metra_sf/QfTdErrsMean                    0.0174528
+TrainSp/metra_sf/TeObjMean                     -27.7054
+TrainSp/metra_sf/TimeComputingMetrics            0
+TrainSp/metra_sf/TimeSampling                    2.03432
+TrainSp/metra_sf/TimeTraining                    1.24235
+TrainSp/metra_sf/TotalGradNormAll                4.26348
+TrainSp/metra_sf/TotalGradNormDualLam            0
+TrainSp/metra_sf/TotalGradNormLogAlpha           2.69978
+TrainSp/metra_sf/TotalGradNormOptionPolicy       0.068051
+TrainSp/metra_sf/TotalGradNormQf1                2.4996
+TrainSp/metra_sf/TotalGradNormQf2                2.13877
+TrainSp/metra_sf/TotalGradNormTrajEncoder        0.247897
+------------------------------------------  ---------------
+Sampling
+_get_trajectories(option_policy) 2.030770778656006s
+Sampling
+_get_trajectories(option_policy) 2.032073974609375s
+Sampling
+_get_trajectories(option_policy) 2.0347964763641357s
+Sampling
+_get_trajectories(option_policy) 2.028221368789673s
+Sampling
+_get_trajectories(option_policy) 2.0308563709259033s
+Sampling
+_get_trajectories(option_policy) 2.034937620162964s
+Sampling
+_get_trajectories(option_policy) 2.0328166484832764s
+Sampling
+_get_trajectories(option_policy) 2.0550994873046875s
+Sampling
+_get_trajectories(option_policy) 2.030149221420288s
+Sampling
+_get_trajectories(option_policy) 2.03383731842041s
+Sampling
+_get_trajectories(option_policy) 2.032526731491089s
+Sampling
+_get_trajectories(option_policy) 2.055607318878174s
+Sampling
+scripts/pretrain/csf/csf_half_cheetah.sh: line 30: 3412018 Killed                  python3 -u run/train.py --run_group $job_name --env half_cheetah --max_path_length 200 --seed $seed --traj_batch_size 8 --n_parallel 8 --normalizer_type preset --trans_optimization_epochs 50 --n_epochs_per_log 100 --n_epochs_per_eval 1000 --n_epochs_per_save 10000 --n_epochs 10001 --sac_max_buffer_size 1000000 --algo metra_sf --discrete 0 --eval_goal_metrics 1 --goal_range 100 --sample_new_z 1 --num_negative_z 256 --log_sum_exp 1 --turn_off_dones 1 --infonce_lam 5.0 --dim_option $option_dim --eval_record_video 0
+slurmstepd: error: Detected 1 oom_kill event in StepId=2277864.batch. Some of the step tasks have been OOM Killed.
