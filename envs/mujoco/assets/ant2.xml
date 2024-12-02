@@ -2,7 +2,7 @@
   <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
   <option integrator="RK4" timestep="0.01"/>
   <custom>
-    <numeric data="0.0 0.0 0.55 1.0 0.0 0.0 0.0 0.0 1.0 0.0 -1.0 0.0 -1.0 0.0 1.0 0.5 0.00 -0.3" name="init_qpos"/>
+    <numeric data="0.0 0.0 0.55 1.0 0.0 0.0 0.0 0.0 1.0 0.0 -1.0 0.0 -1.0 0.0 1.0" name="init_qpos"/>
   </custom>
   <default>
     <joint armature="1" damping="1" limited="true"/>
@@ -67,12 +67,11 @@
         </body>
       </body>
     </body>
-    <body name="object" pos="0.5 0.00 -0.3" >
-      <geom rgba="1 1 1 0" type="sphere" size="0.05 0.05 0.05" density="0.00001" conaffinity="0"/>
-      <geom rgba="1 1 1 1" type="cylinder" size="0.05 0.05 0.05" density="0.00001" contype="1" conaffinity="0"/>
-      <joint name="obj_slidey" type="slide" pos="0 0 0" axis="0 1 0" range="-10.3213 10.3" damping="0.5"/>
-      <joint name="obj_slidex" type="slide" pos="0 0 0" axis="1 0 0" range="-10.3213 10.3" damping="0.5"/>
-    </body>
+    <geom conaffinity="1" condim="3" material="block" name="hurdle-1" pos="-3 0 0.20" rgba="0.8 0.9 0.8 1" size=".1 1 .1" type="box"/>
+    <geom conaffinity="1" condim="3" material="block" name="hurdle-1" pos="0 -3 0.20" rgba="0.8 0.9 0.8 1" size="1 .1 .1" type="box"/>
+    <geom conaffinity="1" condim="3" material="block" name="hurdle-1" pos="3 0 0.20" rgba="0.8 0.9 0.8 1" size=".1 1 .1" type="box"/>
+    <geom conaffinity="1" condim="3" material="block" name="hurdle-1" pos="0 3 0.20" rgba="0.8 0.9 0.8 1" size="1 .1 .1" type="box"/>
+
   </worldbody>
   <actuator>
     <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="hip_4" gear="150"/>

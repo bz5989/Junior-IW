@@ -16,4 +16,4 @@ module load anaconda3/2024.6
 conda activate /scratch/network/bz5989/anaconda3/envs/csf
 sh scripts/pretrain/csf/csf_ant2.sh
 
-# sbatch submit
+# sbatch submit_bryan
