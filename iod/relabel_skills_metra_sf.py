@@ -142,33 +142,37 @@ class RelabelMetraSf(IOD):
             sampler_key='option_policy',
         )
     
-    # def load_skill_vectors(self, dataset: Dict[str, torch.Tensor]) -> torch.Tensor:
-    #     """
-    #     Extracts the learned skill vectors from the trajectory encoder.
+    def _relabel_skills(self, obs, next_obs, options):
+        """
+        Relabel the skill vector to the closest existing skill and ensure consistency across transitions.
+        """
+        # Compute state representation differences
+        phi_s = self.traj_encoder(obs.to(self.device)).mean  # \phi(s)
+        phi_s_next = self.traj_encoder(next_obs.to(self.device)).mean  # \phi(s')
 
-    #     Args:
-    #         dataset (Dict[str, torch.Tensor]): A dataset containing observations or states.
-    #             Typically, this is a set of representative states for each skill/option.
+        # Transition vector: \phi(s') - \phi(s)
+        transition_vector = phi_s_next - phi_s
 
-    #     Returns:
-    #         torch.Tensor: A tensor of shape (num_skills, dim_option) containing the skill vectors.
-    #     """
-    #     obs = dataset["obs"]  # Use observations from the dataset
-    #     with torch.no_grad():
-    #         skill_distributions = self.traj_encoder(obs)  # Forward pass through trajectory encoder
-    #         skill_vectors = skill_distributions.mean  # Extract the mean of the skill distributions
-    #     return skill_vectors
+        if self.unit_length:
+            # Normalize transition vector to unit length
+            transition_vector /= torch.norm(transition_vector, dim=-1, keepdim=True) + 1e-8
 
-    # def initialize_learned_skills(self, dataset: Dict[str, torch.Tensor]):
-    #     """
-    #     Initializes the skill vectors using the learned trajectory encoder.
+        if self.discrete:
+            # For discrete skills, choose the skill with the highest alignment
+            relabeled_options = torch.nn.functional.one_hot(
+                (transition_vector @ options.T).argmax(dim=-1),
+                num_classes=self.dim_option
+            ).float().to(self.device)
+        else:
+            # For continuous skills, project onto the closest skill vector
+            normalized_options = options / (torch.norm(options, dim=-1, keepdim=True) + 1e-8)
+            projected_skills = transition_vector @ normalized_options.T
+            relabeled_options = options[projected_skills.argmax(dim=-1)]
 
-    #     Args:
-    #         dataset (Dict[str, torch.Tensor]): A dataset containing representative observations.
-    #     """
-    #     self.skill_vectors = self.load_skill_vectors(dataset)
+        # Ensure consistency between options and next_options
+        next_options = relabeled_options.clone()
 
-
+        return relabeled_options, next_options
 
 
     def _flatten_data(self, data: Dict[str, List[np.ndarray]]) -> Dict[str, torch.tensor]:
@@ -200,15 +204,24 @@ class RelabelMetraSf(IOD):
                 self.replay_buffer.add_path(path)
 
     def _sample_replay_buffer(self):
+        # torch.cuda.empty_cache()  # Clear cache before sampling from the replay buffer
         samples = self.replay_buffer.sample_transitions(self._trans_minibatch_size)
         data = {}
         for key, value in samples.items():
             if value.shape[1] == 1 and 'option' not in key:
                 value = np.squeeze(value, axis=1)
             data[key] = torch.from_numpy(value).float().to(self.device)
+
+        # Apply skill relabeling
+        if self.relabel_to_nearby_skill and self.noise_type == "relabel":
+            data['options'], data['next_options'] = self._relabel_skills(
+                data['obs'], data['next_obs'], data['options']
+            )
+
         return data
 
     def _train_once_inner(self, path_data: Dict[str, List[np.ndarray]]):
+        # torch.cuda.empty_cache()  # Clear cache before major training operations
         self._update_replay_buffer(path_data)
 
         epoch_data: Dict[str, torch.tensor] = self._flatten_data(path_data)
@@ -320,8 +333,11 @@ class RelabelMetraSf(IOD):
 
         # Calculate the transition target representation as before
         if self.inner:
+            # ϕ(s)
             cur_z = self.traj_encoder(obs).mean
+            # ϕ(s')
             next_z = self.traj_encoder(next_obs).mean
+            # ϕ(s')-ϕ(s)
             target_z = next_z - cur_z
 
             if self.no_diff_in_rep:
@@ -330,23 +346,12 @@ class RelabelMetraSf(IOD):
             if self.self_normalizing:
                 target_z = target_z / target_z.norm(dim=-1, keepdim=True)
 
-            # Skill relabeling: Adjust target_z to a nearby skill
-            if self.relabel_to_nearby_skill:  # New condition for relabeling to nearby skills
-                if self.noise_type == "random_noise":
-                    # Generate a small perturbation to simulate a nearby skill
-                    noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
-                    target_z += noise  # Adds noise to target_z to slightly change it towards a nearby skill
-                elif self.noise_type == 'relabel':
-                    if self.relabel_to_nearby_skill and self.skill_vectors is not None:
-                        # Compute distances to learned skill vectors
-                        distances = torch.norm(self.skill_vectors - target_z.unsqueeze(1), dim=2)  # Shape: (batch_size, num_skills)
-                        nearest_skill_idx = torch.argmin(distances, dim=1)  # Index of the closest skill
-                        nearest_skill = self.skill_vectors[nearest_skill_idx]  # Nearest skill vector
-
-                        # Relabel target_z to the nearest learned skill
-                        target_z = nearest_skill
-                else:
-                    raise ValueError("This is an example of a ValueError.")
+            # Noise perturbation
+            if self.relabel_to_nearby_skill and self.noise_type == "random_noise":
+                # Generate a small perturbation to simulate a nearby skill
+                noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
+                target_z += noise  # Adds noise to target_z to slightly change it towards a nearby skill
+                
             
             
 
@@ -367,6 +372,7 @@ class RelabelMetraSf(IOD):
                 masks = (v['options'] - v['options'].mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
                 rewards = (target_z * masks).sum(dim=1)
             else:
+                # [ϕ(s')-ϕ(s)]^T z     ->   z = v['options'] 
                 inner = (target_z * v['options']).sum(dim=1)
                 rewards = inner
 
@@ -375,6 +381,11 @@ class RelabelMetraSf(IOD):
                 'cur_z': cur_z,
                 'next_z': next_z,
             })
+            
+            
+            
+            
+            
 
         elif self.metra_mlp_rep:
             # Skill relabeling also applies here if `metra_mlp_rep` is true
@@ -388,7 +399,7 @@ class RelabelMetraSf(IOD):
             # Generate the transition encoding with optional perturbation for relabeling
             rep = self.f_encoder(obs, next_obs)
             
-            if self.relabel_to_nearby_skill:  # Apply relabeling perturbation for nearby skill
+            if self.relabel_to_nearby_skill and self.noise_type == "random_noise":  # Apply relabeling perturbation for nearby skill
                 noise = torch.randn_like(rep) * self.noise_factor
                 rep += noise  # Adjusts `rep` slightly toward a nearby skill
 

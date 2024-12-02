@@ -415,6 +415,9 @@ def get_gaussian_module_construction(args,
 
 @wrap_experiment(log_dir=get_log_dir(), name=get_exp_name()[0])
 def run(ctxt=None):
+    # # Clear the GPU memory cache before starting the training process
+    # torch.cuda.empty_cache()
+    
     dowel.logger.log('ARGS: ' + str(args))
     if args.n_thread is not None:
         torch.set_num_threads(args.n_thread)
