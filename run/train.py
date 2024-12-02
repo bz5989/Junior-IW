@@ -52,9 +52,9 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
 from iod.relabel_skills_metra_sf import RelabelMetraSf
-# from iod.dads import DADS
-# from iod.ppo import PPO
-# from iod.cic import CIC
+from iod.dads import DADS
+from iod.ppo import PPO
+from iod.cic import CIC
 from iod.sac import SAC
 from iod.utils import get_normalizer_preset
 
@@ -145,9 +145,9 @@ def make_env(args, max_path_length: int):
     else:
         raise NotImplementedError
 
-    # if args.frame_stack is not None:
-        # from envs.custom_dmc_tasks.pixel_wrappers import FrameStackWrapper
-        # env = FrameStackWrapper(env, args.frame_stack)
+    if args.frame_stack is not None:
+        from envs.custom_dmc_tasks.pixel_wrappers import FrameStackWrapper
+        env = FrameStackWrapper(env, args.frame_stack)
 
     normalizer_type = args.normalizer_type
     normalizer_kwargs = {}
@@ -173,21 +173,21 @@ def make_env(args, max_path_length: int):
             normalizer_std = np.concatenate([normalizer_std, np.ones(additional_dim)])
         env = consistent_normalize(env, normalize_obs=True, mean=normalizer_mean, std=normalizer_std, **normalizer_kwargs)
 
-    # if args.cp_path is not None:
-        # cp_path = args.cp_path
-        # if not os.path.exists(cp_path):
-        #     import glob
-        #     cp_path = glob.glob(cp_path)[0]
-        # cp_dict = torch.load(cp_path, map_location='cpu')
+    if args.cp_path is not None:
+        cp_path = args.cp_path
+        if not os.path.exists(cp_path):
+            import glob
+            cp_path = glob.glob(cp_path)[0]
+        cp_dict = torch.load(cp_path, map_location='cpu')
 
-        # env = ChildPolicyEnv(
-        #     env,
-        #     cp_dict,
-        #     cp_action_range=1.5,
-        #     cp_unit_length=args.cp_unit_length,
-        #     cp_multi_step=args.cp_multi_step,
-        #     cp_num_truncate_obs=cp_num_truncate_obs,
-        # )
+        env = ChildPolicyEnv(
+            env,
+            cp_dict,
+            cp_action_range=1.5,
+            cp_unit_length=args.cp_unit_length,
+            cp_multi_step=args.cp_multi_step,
+            cp_num_truncate_obs=cp_num_truncate_obs,
+        )
 
     return env
 
@@ -416,7 +416,7 @@ def get_gaussian_module_construction(args,
 @wrap_experiment(log_dir=get_log_dir(), name=get_exp_name()[0])
 def run(ctxt=None):
     # # Clear the GPU memory cache before starting the training process
-    # torch.cuda.empty_cache()
+    torch.cuda.empty_cache()
     
     dowel.logger.log('ARGS: ' + str(args))
     if args.n_thread is not None:
@@ -433,15 +433,14 @@ def run(ctxt=None):
     env = contextualized_make_env()
     example_ob = env.reset()
 
-    # if args.encoder:
-    #     if hasattr(env, 'ob_info'):
-    #         if env.ob_info['type'] in ['hybrid', 'pixel']:
-    #             pixel_shape = env.ob_info['pixel_shape']
-    #     else:
-    #         pixel_shape = (64, 64, 3)
-    # else:
-    #     pixel_shape = None
-    pixel_shape = None
+    if args.encoder:
+        if hasattr(env, 'ob_info'):
+            if env.ob_info['type'] in ['hybrid', 'pixel']:
+                pixel_shape = env.ob_info['pixel_shape']
+        else:
+            pixel_shape = (64, 64, 3)
+    else:
+        pixel_shape = None
 
     # uses cuda
     device = torch.device('cuda' if args.use_gpu else 'cpu')
@@ -460,23 +459,22 @@ def run(ctxt=None):
     obs_dim = env.spec.observation_space.flat_dim
     action_dim = env.spec.action_space.flat_dim
     
-    # if args.encoder:
-    #     def make_encoder(**kwargs):
-    #         return Encoder(pixel_shape=pixel_shape, **kwargs)
+    if args.encoder:
+        def make_encoder(**kwargs):
+            return Encoder(pixel_shape=pixel_shape, **kwargs)
 
-    #     def with_encoder(module, encoder=None):
-    #         if encoder is None:
-    #             kwargs = {}
-    #             encoder = make_encoder(**kwargs)
+        def with_encoder(module, encoder=None):
+            if encoder is None:
+                kwargs = {}
+                encoder = make_encoder(**kwargs)
 
-    #         return WithEncoder(encoder=encoder, module=module)
+            return WithEncoder(encoder=encoder, module=module)
 
-    #     kwargs = {}
-    #     example_encoder = make_encoder(**kwargs)
-    #     module_obs_dim = example_encoder(torch.as_tensor(example_ob).float().unsqueeze(0)).shape[-1]
-    # else:
-    #     module_obs_dim = obs_dim
-    module_obs_dim = obs_dim
+        kwargs = {}
+        example_encoder = make_encoder(**kwargs)
+        module_obs_dim = example_encoder(torch.as_tensor(example_ob).float().unsqueeze(0)).shape[-1]
+    else:
+        module_obs_dim = obs_dim
 
     option_info = {
         'dim_option': args.dim_option,
@@ -524,9 +522,9 @@ def run(ctxt=None):
         output_dim=action_dim,
         **module_kwargs
     )
-    # ignored (encoder is false)
-    # if args.encoder:
-        # policy_module = with_encoder(policy_module)
+
+    if args.encoder:
+        policy_module = with_encoder(policy_module)
 
     policy_kwargs['module'] = policy_module
     option_policy = PolicyEx(**policy_kwargs)
@@ -545,12 +543,12 @@ def run(ctxt=None):
         layer_normalization=args.use_layer_norm
     )
     traj_encoder = module_cls(**module_kwargs)
-    # if args.encoder:
-    #     if args.spectral_normalization:
-    #         te_encoder = make_encoder(spectral_normalization=True)
-    #     else:
-    #         te_encoder = None
-    #     traj_encoder = with_encoder(traj_encoder, encoder=te_encoder)    
+    if args.encoder:
+        if args.spectral_normalization:
+            te_encoder = make_encoder(spectral_normalization=True)
+        else:
+            te_encoder = None
+        traj_encoder = with_encoder(traj_encoder, encoder=te_encoder)    
 
     module_cls, module_kwargs = get_gaussian_module_construction(
         args,
@@ -628,11 +626,10 @@ def run(ctxt=None):
             lr = 0.0
         return lr
 
-    # if pred_net is not None:
-    #     te_params = list(traj_encoder.parameters()) + list(z_encoder.parameters()) + list(pred_net.parameters())
-    # else:
-        # te_params = list(traj_encoder.parameters())
-    te_params = list(traj_encoder.parameters())
+    if pred_net is not None:
+        te_params = list(traj_encoder.parameters()) + list(z_encoder.parameters()) + list(pred_net.parameters())
+    else:
+        te_params = list(traj_encoder.parameters())
 
     optimizers = {
         'option_policy': torch.optim.Adam([
@@ -647,12 +644,12 @@ def run(ctxt=None):
     }
 
     # both are none
-    # if skill_dynamics is not None:
-        # optimizers.update({
-        #     'skill_dynamics': torch.optim.Adam([
-        #         {'params': skill_dynamics.parameters(), 'lr': _finalize_lr(args.lr_te)},
-        #     ]),
-        # })
+    if skill_dynamics is not None:
+        optimizers.update({
+            'skill_dynamics': torch.optim.Adam([
+                {'params': skill_dynamics.parameters(), 'lr': _finalize_lr(args.lr_te)},
+            ]),
+        })
     if dist_predictor is not None:
         optimizers.update({
             'dist_predictor': torch.optim.Adam([
