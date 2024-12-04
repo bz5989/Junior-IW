@@ -627,7 +627,7 @@ class MetraSf(IOD):
                     goal_obs = np.tile(goal_obs, self.frame_stack or 1).flatten()
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
 
-            elif self.env_name in ['ant', 'ant_pixel', 'half_cheetah']:
+            elif self.env_name in ['ant', 'ant2', 'ant_pixel', 'half_cheetah']:
                 for i in range(self.num_zero_shot_goals):
                     env.reset()
                     state = env.unwrapped._get_obs().copy()
@@ -716,7 +716,7 @@ class MetraSf(IOD):
                         # if self.env_name == 'robobin_image':
                         #     success = max(success, info['success'])
                         #     staying_time += info['success']
-                        if self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant_pixel', 'half_cheetah']:
+                        if self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant2', 'ant_pixel', 'half_cheetah']:
                             if self.env_name in ['dmc_cheetah']:
                                 cur_loc = env.physics.get_state()[:1]
                             elif self.env_name in ['dmc_quadruped', 'dmc_humanoid']:
@@ -747,7 +747,7 @@ class MetraSf(IOD):
                         goal_metrics[f'Robobin{method}GoalStayingTime{goal_info["goal_name"]}'].append(staying_time)
                         goal_metrics[f'Robobin{method}GoalStayingTimeOverall'].append(staying_time)
 
-                    elif self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant_pixel', 'half_cheetah']:
+                    elif self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant2', 'ant_pixel', 'half_cheetah']:
                         if self.env_name in ['dmc_cheetah']:
                             cur_loc = env.physics.get_state()[:1]
                         elif self.env_name in ['dmc_quadruped', 'dmc_humanoid']:
