@@ -348,9 +348,8 @@ class RelabelMetraSf(IOD):
 
             # Noise perturbation
             if self.relabel_to_nearby_skill and self.noise_type == "random_noise":
-                # Generate a small perturbation to simulate a nearby skill
                 noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
-                target_z += noise  # Adds noise to target_z to slightly change it towards a nearby skill
+                target_z += noise
                 
             
             
