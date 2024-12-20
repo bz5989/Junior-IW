@@ -626,8 +626,27 @@ class MetraSf(IOD):
                     goal_obs = env.render(mode='rgb_array', width=64, height=64).copy().astype(np.float32)
                     goal_obs = np.tile(goal_obs, self.frame_stack or 1).flatten()
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
+            elif self.env_name in ['ant2']:
+                for i in range(self.num_zero_shot_goals):
+                    env.reset()
+                    state = env.unwrapped._get_obs().copy()
+                    # randomly generates a goal along one of the four axis
+                    while True:
+                        goal_loc = (np.random.rand(2) * 2 - 1) * self.goal_range
+                        if np.random.rand(1) > 0.5:
+                            goal_loc[0] = 0;
+                        else:
+                            goal_loc[1] = 0;
+                        if np.linalg.norm(goal_loc) > 2:
+                            break;
+                    state[:2] = goal_loc
+                    env.set_state(state[:15], state[15:])
+                    for _ in range(5):
+                        env.step(np.zeros_like(env.action_space.sample()))
+                    goal_obs = env._apply_normalize_obs(state).astype(np.float32)
+                    goals.append((goal_obs, {'goal_loc': goal_loc}))
 
-            elif self.env_name in ['ant', 'ant2', 'ant_pixel', 'half_cheetah']:
+            elif self.env_name in ['ant', 'ant_pixel', 'half_cheetah']:
                 for i in range(self.num_zero_shot_goals):
                     env.reset()
                     state = env.unwrapped._get_obs().copy()
@@ -716,7 +735,7 @@ class MetraSf(IOD):
                         # if self.env_name == 'robobin_image':
                         #     success = max(success, info['success'])
                         #     staying_time += info['success']
-                        if self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant2', 'ant_pixel', 'half_cheetah']:
+                        if self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant_pixel', 'half_cheetah']:
                             if self.env_name in ['dmc_cheetah']:
                                 cur_loc = env.physics.get_state()[:1]
                             elif self.env_name in ['dmc_quadruped', 'dmc_humanoid']:
@@ -732,7 +751,15 @@ class MetraSf(IOD):
                             if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 1:
                                 hit_success_1 = 1.
                                 at_success_1 += 1.
+                        elif self.env_name in ['ant2']:
+                            cur_loc = env.unwrapped._get_obs()[:2] 
+                            if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 3:
+                                hit_success_3 = 1.
+                                at_success_3 += 1.
 
+                            if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 1:
+                                hit_success_1 = 1.
+                                at_success_1 += 1.
                         step += 1
 
                     if self.env_name == 'kitchen':
@@ -746,8 +773,26 @@ class MetraSf(IOD):
                         goal_metrics[f'Robobin{method}GoalOverall'].append(success * len(goal_names))
                         goal_metrics[f'Robobin{method}GoalStayingTime{goal_info["goal_name"]}'].append(staying_time)
                         goal_metrics[f'Robobin{method}GoalStayingTimeOverall'].append(staying_time)
+                    elif self.env_name == 'ant2':
+                        cur_loc = env.unwrapped._get_obs()[:2]
+                        distance = np.linalg.norm(cur_loc - goal_info['goal_loc'])
+                        squared_distance = distance ** 2
+                        if distance < 3:
+                            end_success_3 = 1.
+                        if distance < 1:
+                            end_success_1 = 1.
+                    
+                        goal_metrics[f'HitSuccess3{method}'].append(hit_success_3)
+                        goal_metrics[f'EndSuccess3{method}'].append(end_success_3)
+                        goal_metrics[f'AtSuccess3{method}'].append(at_success_3 / step)
 
-                    elif self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant2', 'ant_pixel', 'half_cheetah']:
+                        goal_metrics[f'HitSuccess1{method}'].append(hit_success_1)
+                        goal_metrics[f'EndSuccess1{method}'].append(end_success_1)
+                        goal_metrics[f'AtSuccess1{method}'].append(at_success_1 / step)
+
+                        goal_metrics[f'Goal{method}Distance'].append(distance)
+                        goal_metrics[f'Goal{method}SquaredDistance'].append(squared_distance)
+                    elif self.env_name in ['dmc_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'ant', 'ant_pixel', 'half_cheetah']:
                         if self.env_name in ['dmc_cheetah']:
                             cur_loc = env.physics.get_state()[:1]
                         elif self.env_name in ['dmc_quadruped', 'dmc_humanoid']:
