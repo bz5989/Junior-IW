@@ -626,19 +626,18 @@ class MetraSf(IOD):
                     goal_obs = env.render(mode='rgb_array', width=64, height=64).copy().astype(np.float32)
                     goal_obs = np.tile(goal_obs, self.frame_stack or 1).flatten()
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
+            
+#–––––––––––# generate zero-shot goals
             elif self.env_name in ['ant2']:
                 for i in range(self.num_zero_shot_goals):
                     env.reset()
                     state = env.unwrapped._get_obs().copy()
-                    # randomly generates a goal along one of the four axis
-                    while True:
-                        goal_loc = (np.random.rand(2) * 2 - 1) * self.goal_range
-                        if np.random.rand(1) > 0.5:
-                            goal_loc[0] = 0;
-                        else:
-                            goal_loc[1] = 0;
-                        if np.linalg.norm(goal_loc) > 2:
-                            break;
+                    # randomly generates a goal along one of the four axes
+                    goal_loc = (np.random.rand(2) * 2 - 1) * self.goal_range
+                    if np.random.rand(1) > 0.5:
+                        goal_loc[0] = 0;
+                    else:
+                        goal_loc[1] = 0;
                     state[:2] = goal_loc
                     env.set_state(state[:15], state[15:])
                     for _ in range(5):
@@ -679,6 +678,8 @@ class MetraSf(IOD):
                     done = False
                     success = 0
                     staying_time = 0
+
+                    goal_pos = 0
 
                     hit_success_3 = 0
                     end_success_3 = 0
@@ -751,6 +752,8 @@ class MetraSf(IOD):
                             if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 1:
                                 hit_success_1 = 1.
                                 at_success_1 += 1.
+                        
+            #–––––––––––# track hit rates
                         elif self.env_name in ['ant2']:
                             cur_loc = env.unwrapped._get_obs()[:2] 
                             if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 3:
@@ -767,12 +770,13 @@ class MetraSf(IOD):
                         goal_metrics[f'Kitchen{method}GoalOverall'].append(success * len(goal_names))
                         goal_metrics[f'Kitchen{method}GoalStayingTime{goal_info["goal_name"]}'].append(staying_time)
                         goal_metrics[f'Kitchen{method}GoalStayingTimeOverall'].append(staying_time)
-
                     elif self.env_name == 'robobin_image':
                         goal_metrics[f'Robobin{method}Goal{goal_info["goal_name"]}'].append(success)
                         goal_metrics[f'Robobin{method}GoalOverall'].append(success * len(goal_names))
                         goal_metrics[f'Robobin{method}GoalStayingTime{goal_info["goal_name"]}'].append(staying_time)
                         goal_metrics[f'Robobin{method}GoalStayingTimeOverall'].append(staying_time)
+                    
+        #–––––––––––# note down hit rates
                     elif self.env_name == 'ant2':
                         cur_loc = env.unwrapped._get_obs()[:2]
                         distance = np.linalg.norm(cur_loc - goal_info['goal_loc'])
@@ -786,6 +790,9 @@ class MetraSf(IOD):
                         goal_metrics[f'EndSuccess3{method}'].append(end_success_3)
                         goal_metrics[f'AtSuccess3{method}'].append(at_success_3 / step)
 
+                        if end_success_3:
+                            goal_metrics[f'AvgSuccessGoalPos{method}'].append(np.linalg.norm(goal_info['goal_loc']))
+                        
                         goal_metrics[f'HitSuccess1{method}'].append(hit_success_1)
                         goal_metrics[f'EndSuccess1{method}'].append(end_success_1)
                         goal_metrics[f'AtSuccess1{method}'].append(at_success_1 / step)
