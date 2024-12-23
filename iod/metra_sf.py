@@ -547,18 +547,18 @@ class MetraSf(IOD):
             if self.unit_length:
                 random_options = random_options / np.linalg.norm(random_options, axis=1, keepdims=True)
             random_option_colors = get_option_colors(random_options * 4)
+        placeholder_m_env = runner._make_env
+        placeholder_env = runner._env
         if self.env_name == 'ant_base':
-            ctxt = None
-            runner2 = OptionLocalRunner(ctxt)
-            _make_env = functools.partial(make_env, args=runner._args)
-            runner2.setup(env=make_env(),  # Not use saved['env']
+            contextualized_make_env = functools.partial(make_env, env=runner._env)
+            env = contextualized_make_env()
+            runner.setup(env=env,  # Not use saved['env']
                    algo=runner._algo,
-                   make_env=_make_env,
+                   make_env=contextualized_make_env,
                    sampler_cls=runner._setup_args.sampler_cls,
                    sampler_args=runner._setup_args.sampler_args,
-                   n_workers=runner._n_workers,
+                   n_workers=1,
                 )
-            runner = runner2
         
         random_trajectories = self._get_trajectories(
             runner,
@@ -887,20 +887,20 @@ class MetraSf(IOD):
                 additional_records=eval_option_metrics,
             )
         self._log_eval_metrics(runner)
+        runner.setup(env=placeholder_env,  # Not use saved['env']
+                   algo=runner._algo,
+                   make_env=placeholder_m_env,
+                   sampler_cls=runner._setup_args.sampler_cls,
+                   sampler_args=runner._setup_args.sampler_args,
+                   n_workers=runner._n_workers,
+                )
 
-def make_env(args):
-    if args.env == 'ant_base':
+def make_env(env):
+    if env == 'ant_base':
         from envs.mujoco.ant_env2 import AntEnv
         env = AntEnv(render_hw=100, model_path='ant2.xml')
-
-    normalizer_type = args.normalizer_type
     normalizer_kwargs = {}
-
-    if normalizer_type == 'preset':
-        normalizer_name = args.env
-        if args.env in ['ant2', 'ant_base']:
-            normalizer_name = 'ant'
-        normalizer_mean, normalizer_std = get_normalizer_preset(f'{normalizer_name}_preset')
-        env = consistent_normalize(env, normalize_obs=True, mean=normalizer_mean, std=normalizer_std, **normalizer_kwargs)
+    normalizer_mean, normalizer_std = get_normalizer_preset(f'ant_preset')
+    env = consistent_normalize(env, normalize_obs=True, mean=normalizer_mean, std=normalizer_std, **normalizer_kwargs)
 
     return env
