@@ -4,13 +4,18 @@ from collections import defaultdict
 
 import numpy as np
 import torch
+import functools
 from torch.nn import functional as F
 
 import global_context
 from garage import TrajectoryBatch
 from garagei import log_performance_ex
+from garagei.experiment.option_local_runner import OptionLocalRunner
+from garagei.envs.consistent_normalized_env import consistent_normalize
+
 from iod import sac_utils
 from iod.iod import IOD
+from iod.utils import get_normalizer_preset
 
 from iod.utils import get_torch_concat_obs, FigManager, get_option_colors, record_video, draw_2d_gaussians
 from iod.sac_utils import _clip_actions
@@ -542,6 +547,18 @@ class MetraSf(IOD):
             if self.unit_length:
                 random_options = random_options / np.linalg.norm(random_options, axis=1, keepdims=True)
             random_option_colors = get_option_colors(random_options * 4)
+        if self.env_name == 'ant_base':
+            runner2 = OptionLocalRunner(None)
+            _make_env = functools.partial(make_env, args=runner._args)
+            runner2.setup(env=make_env(),  # Not use saved['env']
+                   algo=runner._algo,
+                   make_env=_make_env,
+                   sampler_cls=runner._setup_args.sampler_cls,
+                   sampler_args=runner._setup_args.sampler_args,
+                   n_workers=runner._n_workers,
+                )
+            runner = runner2
+        
         random_trajectories = self._get_trajectories(
             runner,
             sampler_key='option_policy',
@@ -628,7 +645,7 @@ class MetraSf(IOD):
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
             
 #–––––––––––# generate zero-shot goals
-            elif self.env_name in ['ant2']:
+            elif self.env_name in ['ant2', 'ant_base']:
                 for i in range(self.num_zero_shot_goals):
                     env.reset()
                     state = env.unwrapped._get_obs().copy()
@@ -754,7 +771,7 @@ class MetraSf(IOD):
                                 at_success_1 += 1.
                         
             #–––––––––––# track hit rates
-                        elif self.env_name in ['ant2']:
+                        elif self.env_name in ['ant2', 'ant_base']:
                             cur_loc = env.unwrapped._get_obs()[:2] 
                             if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 3:
                                 hit_success_3 = 1.
@@ -777,7 +794,7 @@ class MetraSf(IOD):
                         goal_metrics[f'Robobin{method}GoalStayingTimeOverall'].append(staying_time)
                     
         #–––––––––––# note down hit rates
-                    elif self.env_name == 'ant2':
+                    elif self.env_name in ['ant2', 'ant_base']:
                         cur_loc = env.unwrapped._get_obs()[:2]
                         distance = np.linalg.norm(cur_loc - goal_info['goal_loc'])
                         squared_distance = distance ** 2
@@ -869,3 +886,20 @@ class MetraSf(IOD):
                 additional_records=eval_option_metrics,
             )
         self._log_eval_metrics(runner)
+
+def make_env(args):
+    if args.env == 'ant_base':
+        from envs.mujoco.ant_env2 import AntEnv
+        env = AntEnv(render_hw=100, model_path='ant2.xml')
+
+    normalizer_type = args.normalizer_type
+    normalizer_kwargs = {}
+
+    if normalizer_type == 'preset':
+        normalizer_name = args.env
+        if args.env in ['ant2', 'ant_base']:
+            normalizer_name = 'ant'
+        normalizer_mean, normalizer_std = get_normalizer_preset(f'{normalizer_name}_preset')
+        env = consistent_normalize(env, normalize_obs=True, mean=normalizer_mean, std=normalizer_std, **normalizer_kwargs)
+
+    return env
