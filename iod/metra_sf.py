@@ -548,7 +548,8 @@ class MetraSf(IOD):
                 random_options = random_options / np.linalg.norm(random_options, axis=1, keepdims=True)
             random_option_colors = get_option_colors(random_options * 4)
         if self.env_name == 'ant_base':
-            runner2 = OptionLocalRunner(None)
+            ctxt = None
+            runner2 = OptionLocalRunner(ctxt)
             _make_env = functools.partial(make_env, args=runner._args)
             runner2.setup(env=make_env(),  # Not use saved['env']
                    algo=runner._algo,
