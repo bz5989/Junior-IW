@@ -892,7 +892,7 @@ class MetraSf(IOD):
                    make_env=placeholder_m_env,
                    sampler_cls=runner._setup_args.sampler_cls,
                    sampler_args=runner._setup_args.sampler_args,
-                   n_workers=runner._n_workers,
+                   n_workers=1,
                 )
 
 def make_env(env):
