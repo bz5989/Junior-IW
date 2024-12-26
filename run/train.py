@@ -26,6 +26,7 @@ import numpy as np
 better_exceptions.hook()
 
 import torch
+import gc
 from torch.distributions.one_hot_categorical import OneHotCategorical
 
 from garage import wrap_experiment
@@ -58,6 +59,8 @@ from iod.cic import CIC
 from iod.sac import SAC
 from iod.utils import get_normalizer_preset
 
+gc.collect()
+torch.cuda.empty_cache()
 
 EXP_DIR = 'exp'
 if os.environ.get('START_METHOD') is not None:
@@ -416,6 +419,7 @@ def get_gaussian_module_construction(args,
 @wrap_experiment(log_dir=get_log_dir(), name=get_exp_name()[0])
 def run(ctxt=None):
     # # Clear the GPU memory cache before starting the training process
+    gc.collect()
     torch.cuda.empty_cache()
     
     dowel.logger.log('ARGS: ' + str(args))
