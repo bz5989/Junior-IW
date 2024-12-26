@@ -12,6 +12,6 @@
 module purge
 module load anaconda3/2024.6
 conda activate /home/bz5989/.conda/envs/csf
-sh scripts/pretrain/csf/csf_ant2.sh
+sh scripts/pretrain/csf/csf_ant_base.sh
 
 # sbatch submit_bryan
