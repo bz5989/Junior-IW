@@ -552,13 +552,15 @@ class MetraSf(IOD):
         if self.env_name == 'ant_base':
             contextualized_make_env = functools.partial(make_env, env=runner._env)
             env = contextualized_make_env()
-            runner.setup(env=env,  # Not use saved['env']
-                   algo=runner._algo,
-                   make_env=contextualized_make_env,
-                   sampler_cls=runner._setup_args.sampler_cls,
-                   sampler_args=runner._setup_args.sampler_args,
-                   n_workers=1,
-                )
+            runner._env = env
+            runner._make_env = contextualized_make_env
+            # runner.setup(env=env,  # Not use saved['env']
+            #        algo=runner._algo,
+            #        make_env=contextualized_make_env,
+            #        sampler_cls=runner._setup_args.sampler_cls,
+            #        sampler_args=runner._setup_args.sampler_args,
+            #        n_workers=1,
+            #     )
         
         random_trajectories = self._get_trajectories(
             runner,
@@ -887,13 +889,16 @@ class MetraSf(IOD):
                 additional_records=eval_option_metrics,
             )
         self._log_eval_metrics(runner)
-        runner.setup(env=placeholder_env,  # Not use saved['env']
-                   algo=runner._algo,
-                   make_env=placeholder_m_env,
-                   sampler_cls=runner._setup_args.sampler_cls,
-                   sampler_args=runner._setup_args.sampler_args,
-                   n_workers=1,
-                )
+        if self.env_name == 'ant_base':
+            runner._env = placeholder_env
+            runner._make_env = placeholder_m_env
+        # runner.setup(env=placeholder_env,  # Not use saved['env']
+        #            algo=runner._algo,
+        #            make_env=placeholder_m_env,
+        #            sampler_cls=runner._setup_args.sampler_cls,
+        #            sampler_args=runner._setup_args.sampler_args,
+        #            n_workers=1,
+        #         )
 
 def make_env(env):
     if env == 'ant_base':
