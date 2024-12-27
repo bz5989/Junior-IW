@@ -1,0 +1,93 @@
+2024-12-26 15:50:26.340333: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-12-26 15:50:26.441514: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-12-26 15:50:26.467211: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-12-26 15:50:30 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] Logging to /home/bz5989/Princeton/397_COS/Junior-IW/exp/csf_ant_base/sd000_s_2310891.0.1735246229_ant_base_metra_sf
+2024-12-26 15:50:30 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] Git commit: a19eb6574c1e50411d5578287f0ed7811db0323f
+2024-12-26 15:50:30 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] ARGS: Namespace(run_group='csf_ant_base', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=5000, n_epochs_per_pt_save=1000, n_epochs_per_pkl_update=None, num_random_trajectories=48, num_video_repeats=2, eval_record_video=1, eval_plot_axis=[-50.0, 50.0, -50.0, 50.0], normalizer_type='preset', frame_stack=None, video_skip_frames=1, encoder=0, spectral_normalization=0, model_master_dim=1024, model_master_num_layers=2, model_master_nonlinearity=None, sd_const_std=1, sd_batch_norm=1, use_layer_norm=0, max_path_length=200, env='ant_base', use_gpu=1, sample_cpu=1, seed=0, n_parallel=1, n_thread=1, n_epochs=10001, traj_batch_size=8, trans_minibatch_size=256, trans_optimization_epochs=50, common_lr=0.0001, lr_op=None, lr_te=None, dim_option=2, discrete=0, alpha=0.01, algo='metra_sf', sac_tau=0.005, sac_lr_q=None, sac_lr_a=None, sac_discount=0.99, sac_scale_reward=1.0, sac_target_coef=1.0, sac_min_buffer_size=10000, sac_max_buffer_size=1000000, use_discrete_sac=0, unit_length=1, inner=1, turn_off_dones=1, num_alt_samples=100, split_group=65536, uniform_z=0, dual_reg=1, dual_lam=30, dual_slack=0.001, dual_dist='one', dual_lr=None, fixed_lam=None, self_normalizing=0, no_diff_in_rep=0, log_sum_exp=1, sample_new_z=1, num_negative_z=256, infonce_lam=5.0, diayn_include_baseline=0, add_log_sum_exp_to_rewards=0, add_penalty_to_rewards=0, metra_mlp_rep=0, goal_range=50.0, num_zero_shot_goals=50, eval_goal_metrics=1, cp_path=None, cp_path_idx=None, cp_multi_step=1, cp_unit_length=0, downstream_reward_type='esparse', downstream_num_goal_steps=50, policy_type='gaussian', cic_temp=0.5, cic_alpha=1.0, apt_knn_k=16, apt_use_icm=0, apt_rms=1, alive_reward=None, dual_dist_scaling='geom', const_scaler=1.0, wdm=0, wdm_cpc=0, wdm_idz=1, wdm_ids=0, wdm_diff=1, aug=0, joint_train=1, relabel_to_nearby_skill=False, noise_type=None, noise_factor=0.0)
+2024-12-26 15:50:30 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] Setting seed to 0
+2024-12-26 15:50:35.738498: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F AVX512_VNNI FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-12-26 15:50:35.841450: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-12-26 15:50:35.867103: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-12-26 15:50:37 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] Obtaining samples...
+2024-12-26 15:50:37 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] epoch #0 | Saving snapshot...
+2024-12-26 15:50:38 | [sd000_s_2310891.0.1735246229_ant_base_metra_sf] epoch #0 | Saved
+Sampling
+_get_trajectories(option_policy) 8.097790479660034s
+Traceback (most recent call last):
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/run/train.py", line 1051, in <module>
+    run()
+    └ <garage.experiment.experiment.ExperimentTemplate object at 0x1470867ca550>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garaged/src/garage/experiment/experiment.py", line 594, in __call__
+    result = self.function(ctxt, **kwargs)
+             │             │       └ {}
+             │             └ <garage.experiment.experiment.ExperimentContext object at 0x147086a35c70>
+             └ <garage.experiment.experiment.ExperimentTemplate object at 0x1470867ca550>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/run/train.py", line 1046, in run
+    runner.train(n_epochs=args.n_epochs, batch_size=args.traj_batch_size)
+    │                     │                         └ Namespace(run_group='csf_ant_base', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=5000, n_epochs_per_pt_save=10...
+    │                     └ Namespace(run_group='csf_ant_base', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=5000, n_epochs_per_pt_save=10...
+    └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x147086927250>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garaged/src/garage/experiment/local_runner.py", line 489, in train
+    average_return = self._algo.train(self)
+                     │                └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x147086927250>
+                     └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x147086927250>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/iod/iod.py", line 205, in train
+    self._evaluate_policy(runner)
+    │                     └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x147086927250>
+    └ <iod.metra_sf.MetraSf object at 0x14706cf27a60>
+  File "/home/bz5989/.conda/envs/csf/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           │     │       └ {}
+           │     └ (<iod.metra_sf.MetraSf object at 0x14706cf27a60>, <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x14708692...
+           └ <function MetraSf._evaluate_policy at 0x1470867c9ca0>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/iod/metra_sf.py", line 872, in _evaluate_policy
+    video_trajectories = self._get_trajectories(
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/iod/iod.py", line 241, in _get_trajectories
+    trajectories, infos = runner.obtain_exact_trajectories(
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garagei/experiment/option_local_runner.py", line 403, in obtain_exact_trajectories
+    paths, infos = sampler.obtain_exact_trajectories(
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garagei/sampler/option_local_sampler.py", line 79, in obtain_exact_trajectories
+    batch = worker.rollout()
+            └ <garagei.sampler.option_worker.OptionWorker object at 0x1470601c9b20>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garagei/sampler/option_worker.py", line 180, in rollout
+    while not self.step_rollout():
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garagei/sampler/option_worker.py", line 133, in step_rollout
+    next_o, r, d, env_info = self.env.step(a, render=self._render)
+                             │             │         └ <garagei.sampler.option_worker.OptionWorker object at 0x1470601c9b20>
+                             │             └ array([ 0.00399285,  0.02795016, -0.0098116 , -0.02079475,  0.03410679,
+       -0.01775807, -0.02598675,  0.02280364], dtype=flo...
+                             └ <garagei.sampler.option_worker.OptionWorker object at 0x1470601c9b20>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/garagei/envs/consistent_normalized_env.py", line 71, in step
+    next_obs, reward, done, info = self.env.step(scaled_action, **kwargs)
+                                   │             │                └ {'render': True}
+                                   │             └ array([ 0.0039928 ,  0.02795017, -0.00981158, -0.02079475,  0.03410673,
+       -0.01775807, -0.02598673,  0.02280366], dtype=flo...
+                                   └ <ConsistentNormalizedEnv<AntEnv instance>>
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/envs/mujoco/ant_env.py", line 137, in step
+    info['render'] = self.render(mode='rgb_array').transpose(2, 0, 1)
+    │                └ <envs.mujoco.ant_env.AntEnv object at 0x1470601c9f40>
+    └ {'coordinates': array([-0.09509547, -0.01367655]), 'next_coordinates': array([-0.09678115, -0.01463252]), 'ori_obs': array([-0.0...
+  File "/home/bz5989/Princeton/397_COS/Junior-IW/envs/mujoco/mujoco_utils.py", line 44, in render
+    return super().render(mode, width, height, camera_id, camera_name)
+                          │     │      │       │          └ None
+                          │     │      │       └ None
+                          │     │      └ 100
+                          │     └ 100
+                          └ 'rgb_array'
+  File "/home/bz5989/.conda/envs/csf/lib/python3.9/site-packages/gym/envs/mujoco/mujoco_env.py", line 145, in render
+    self._get_viewer(mode).render(width, height, camera_id=camera_id)
+    │                │            │      │                 └ 0
+    │                │            │      └ 100
+    │                │            └ 100
+    │                └ 'rgb_array'
+    └ <envs.mujoco.ant_env.AntEnv object at 0x1470601c9f40>
+  File "/home/bz5989/.conda/envs/csf/lib/python3.9/site-packages/gym/envs/mujoco/mujoco_env.py", line 172, in _get_viewer
+    self.viewer = mujoco_py.MjRenderContextOffscreen(self.sim, -1)
+    │             │                                  └ <envs.mujoco.ant_env.AntEnv object at 0x1470601c9f40>
+    │             └ <module 'mujoco_py' from '/home/bz5989/.conda/envs/csf/lib/python3.9/site-packages/mujoco_py/__init__.py'>
+    └ <envs.mujoco.ant_env.AntEnv object at 0x1470601c9f40>
+  File "mjrendercontext.pyx", line 46, in mujoco_py.cymj.MjRenderContext.__init__
+  File "mjrendercontext.pyx", line 110, in mujoco_py.cymj.MjRenderContext._setup_opengl_context
+ValueError: invalid literal for int() with base 10: 'MIG-41cbfb32-e72d-56ee-a74d-f6a4c0ed0c79'
