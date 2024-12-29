@@ -93,6 +93,8 @@ class OptionLocalRunner(LocalRunner):
         ret['placeholder_sampler'] = self._sampler
         ret['placeholder_n_workers'] = self._n_workers
         ret['placeholder_sampler_keys'] = self.sampler_keys
+        ret['placeholder_hanging_env_update'] = self._hanging_env_update
+        ret['placeholder_hanging_worker_update'] = self._hanging_worker_update
         self._make_env = contextualized_make_env
         self._env = contextualized_make_env()
         # have to also save and reset sampler
@@ -122,6 +124,11 @@ class OptionLocalRunner(LocalRunner):
             )
             self._n_workers[sampler_key] = 1
         self.sampler_keys = list(self._sampler.keys())
+        self._hanging_env_update = {}
+        self._hanging_worker_update = {}
+        for key in self.sampler_keys:
+            self._hanging_env_update[key] = None
+            self._hanging_worker_update[key] = None
         return ret
     
     def alt_return(self, ret):
@@ -130,6 +137,8 @@ class OptionLocalRunner(LocalRunner):
         self._sampler = ret['placeholder_sampler']
         self._n_workers = ret['placeholder_n_workers']
         self.sampler_keys = ret['placeholder_sampler_keys']
+        self._hanging_env_update = ret['placeholder_hanging_env_update']
+        self._hanging_worker_update = ret['placeholder_hanging_worker_update']
 
     def save(self, epoch, new_save=False, pt_save=False, pkl_update=False):
         """Save snapshot of current batch.
