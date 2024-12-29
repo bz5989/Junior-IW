@@ -526,7 +526,6 @@ class MetraSf(IOD):
     def _evaluate_policy(self, runner):
         ret = {}
         if self.env_name == 'ant_base':
-            print('\n\n\n\n\nGot to do this\n\n\n\n')
             contextualized_make_env = functools.partial(make_env, env=runner._env)
             ret = runner.alt_swap(contextualized_make_env)
 
