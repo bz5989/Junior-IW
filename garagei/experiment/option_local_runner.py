@@ -97,6 +97,7 @@ class OptionLocalRunner(LocalRunner):
         ret['placeholder_hanging_worker_update'] = self._hanging_worker_update
         self._make_env = contextualized_make_env
         self._env = contextualized_make_env()
+        self._env.reset()
         # have to also save and reset sampler
         self._sampler = {}
         worker_args = {}

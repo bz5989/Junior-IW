@@ -524,6 +524,12 @@ class MetraSf(IOD):
 
     @torch.no_grad()
     def _evaluate_policy(self, runner):
+        ret = {}
+        if self.env_name == 'ant_base':
+            print('\n\n\n\n\nGot to do this\n\n\n\n')
+            contextualized_make_env = functools.partial(make_env, env=runner._env)
+            ret = runner.alt_swap(contextualized_make_env)
+
         if self.discrete:
             eye_options = np.eye(self.dim_option)
             random_options = []
@@ -547,10 +553,6 @@ class MetraSf(IOD):
             if self.unit_length:
                 random_options = random_options / np.linalg.norm(random_options, axis=1, keepdims=True)
             random_option_colors = get_option_colors(random_options * 4)
-        ret = {}
-        if self.env_name == 'ant_base':
-            contextualized_make_env = functools.partial(make_env, env=runner._env)
-            ret = runner.alt_swap(contextualized_make_env)
         
         random_trajectories = self._get_trajectories(
             runner,
@@ -890,11 +892,10 @@ class MetraSf(IOD):
         #         )
 
 def make_env(env):
-    if env == 'ant_base':
-        from envs.mujoco.ant_env2 import AntEnv
-        env = AntEnv(render_hw=100, model_path='ant2.xml')
+    from envs.mujoco.ant_env2 import AntEnv
+    env = AntEnv(render_hw=100, model_path='ant2.xml')
     normalizer_kwargs = {}
     normalizer_mean, normalizer_std = get_normalizer_preset(f'ant_preset')
-    env = consistent_normalize(env, normalize_obs=True, mean=normalizer_mean, std=normalizer_std, **normalizer_kwargs)
 
+    env = consistent_normalize(env, normalize_obs=True, mean=normalizer_mean, std=normalizer_std, **normalizer_kwargs)
     return env
