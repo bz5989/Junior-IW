@@ -143,7 +143,7 @@ class OptionLocalRunner(LocalRunner):
         self.sampler_keys = ret['placeholder_sampler_keys']
         self._hanging_env_update = ret['placeholder_hanging_env_update']
         self._hanging_worker_update = ret['placeholder_hanging_worker_update']
-        self.algo._env_spec = ret['placeholder_env_spec']
+        self._algo._env_spec = ret['placeholder_env_spec']
 
     def save(self, epoch, new_save=False, pt_save=False, pkl_update=False):
         """Save snapshot of current batch.
