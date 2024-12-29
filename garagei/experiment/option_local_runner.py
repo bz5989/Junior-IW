@@ -19,6 +19,7 @@ from garage.sampler.sampler_deprecated import BaseSampler
 import global_context
 import dowel_wrapper
 from garagei.sampler.option_local_sampler import OptionLocalSampler
+from garagei.sampler.option_multiprocessing_sampler import OptionMultiprocessingSampler
 from garagei.sampler.option_worker import OptionWorker
 
 
@@ -84,6 +85,51 @@ class OptionLocalRunner(LocalRunner):
         for key in self.sampler_keys:
             self._hanging_env_update[key] = None
             self._hanging_worker_update[key] = None
+
+    def alt_swap(self, contextualized_make_env, sampler_cls=OptionMultiprocessingSampler, sampler_args=dict(n_thread=1)):
+        ret = {}
+        ret['placeholder_m_env'] = self._make_env
+        ret['placeholder_env'] = self._env
+        ret['placeholder_sampler'] = self._sampler
+        ret['placeholder_n_workers'] = self._n_workers
+        ret['placeholder_sampler_keys'] = self.sampler_keys
+        self._make_env = contextualized_make_env
+        self._env = contextualized_make_env()
+        # have to also save and reset sampler
+        self._sampler = {}
+        worker_args = {}
+        worker_class = self._worker_class
+        if worker_class is None:
+            worker_class = getattr(self._algo, 'worker_cls', OptionWorker)
+        for key, policy in self._algo.policy.items():
+            sampler_key = key
+            cur_worker_args = dict(worker_args, sampler_key=sampler_key)
+            self._sampler[sampler_key] = self.make_sampler(
+                sampler_cls,
+                sampler_args=sampler_args,
+                n_workers=1,
+                worker_class=worker_class,
+                worker_args=cur_worker_args,
+                policy=policy
+            )
+
+            sampler_key = f'local_{key}'
+            cur_worker_args = dict(worker_args, sampler_key=sampler_key)
+            self._n_workers[key] = 1
+            self._sampler[sampler_key] = self.make_local_sampler(
+                policy=policy,
+                worker_args=cur_worker_args,
+            )
+            self._n_workers[sampler_key] = 1
+        self.sampler_keys = list(self._sampler.keys())
+        return ret
+    
+    def alt_return(self, ret):
+        self._make_env = ret['placeholder_m_env']
+        self._env = ret['placeholder_env']
+        self._sampler = ret['placeholder_sampler']
+        self._n_workers = ret['placeholder_n_workers']
+        self.sampler_keys = ret['placeholder_sampler_keys']
 
     def save(self, epoch, new_save=False, pt_save=False, pkl_update=False):
         """Save snapshot of current batch.
