@@ -1,6 +1,6 @@
 # Configs
 job_name=relabel_skills_csf_ant
-seed=0
+seed=5
 option_dim=2
 
 # Run command
@@ -20,7 +20,7 @@ python3 -u run/train.py --run_group $job_name \
                         --sac_max_buffer_size 1000000 \
                         --algo relabel_skills_metra_sf \
                         --relabel_to_nearby_skill True \
-                        --noise_type random_noise\
+                        --noise_type random_noise \
                         --noise_factor 0.15 \
                         --discrete 0 \
                         --dim_option $option_dim \

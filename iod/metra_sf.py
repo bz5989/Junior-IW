@@ -310,9 +310,9 @@ class MetraSf(IOD):
                 masks = (v['options'] - v['options'].mean(dim=1, keepdim=True)) * self.dim_option / (self.dim_option - 1 if self.dim_option != 1 else 1)
                 rewards = (target_z * masks).sum(dim=1)
             else:
-                inner = (next_z * v['options']).sum(dim=1)
+                inner = (target_z * v['options']).sum(dim=1)
                 rewards = inner
-            inner = (next_z * v['options']).sum(dim=1)
+            inner = (target_z * v['options']).sum(dim=1)
             rewards = inner
 
             # For dual objectives
