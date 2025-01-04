@@ -8,3 +8,4311 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 2025-01-04 14:21:26 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] Git commit: ede62ecbdebc20997962e43c3850b3038d51dafd
 2025-01-04 14:21:26 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] ARGS: Namespace(run_group='relabel_skills_csf_ant', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=10000, n_epochs_per_pt_save=1000, n_epochs_per_pkl_update=None, num_random_trajectories=48, num_video_repeats=2, eval_record_video=0, eval_plot_axis=[-50.0, 50.0, -50.0, 50.0], normalizer_type='preset', frame_stack=None, video_skip_frames=1, encoder=0, spectral_normalization=0, model_master_dim=1024, model_master_num_layers=2, model_master_nonlinearity=None, sd_const_std=1, sd_batch_norm=1, use_layer_norm=0, max_path_length=200, env='ant', use_gpu=1, sample_cpu=1, seed=5, n_parallel=1, n_thread=1, n_epochs=10001, traj_batch_size=8, trans_minibatch_size=256, trans_optimization_epochs=50, common_lr=0.0001, lr_op=None, lr_te=None, dim_option=2, discrete=0, alpha=0.01, algo='relabel_skills_metra_sf', sac_tau=0.005, sac_lr_q=None, sac_lr_a=None, sac_discount=0.99, sac_scale_reward=1.0, sac_target_coef=1.0, sac_min_buffer_size=10000, sac_max_buffer_size=1000000, use_discrete_sac=0, unit_length=1, inner=1, turn_off_dones=1, num_alt_samples=100, split_group=65536, uniform_z=0, dual_reg=1, dual_lam=30, dual_slack=0.001, dual_dist='one', dual_lr=None, fixed_lam=None, self_normalizing=0, no_diff_in_rep=0, log_sum_exp=1, sample_new_z=1, num_negative_z=256, infonce_lam=5.0, diayn_include_baseline=0, add_log_sum_exp_to_rewards=0, add_penalty_to_rewards=0, metra_mlp_rep=0, goal_range=50.0, num_zero_shot_goals=50, eval_goal_metrics=1, cp_path=None, cp_path_idx=None, cp_multi_step=1, cp_unit_length=0, downstream_reward_type='esparse', downstream_num_goal_steps=50, policy_type='gaussian', cic_temp=0.5, cic_alpha=1.0, apt_knn_k=16, apt_use_icm=0, apt_rms=1, alive_reward=None, dual_dist_scaling='geom', const_scaler=1.0, wdm=0, wdm_cpc=0, wdm_idz=1, wdm_ids=0, wdm_diff=1, aug=0, joint_train=1, relabel_to_nearby_skill=True, noise_type='random_noise', noise_factor=0.15)
 2025-01-04 14:21:26 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] Setting seed to 5
+2025-01-04 14:21:31.426360: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-04 14:21:31.632651: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-04 14:21:32.231577: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2025-01-04 14:21:32.231696: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2025-01-04 14:21:32.231705: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-04 14:21:33 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] Obtaining samples...
+2025-01-04 14:21:33 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #0 | Saving snapshot...
+2025-01-04 14:21:33 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #0 | Saved
+Sampling
+_get_trajectories(option_policy) 10.206313371658325s
+------------------------------  ----------
+EvalOp/AtSuccess1                  0
+EvalOp/AtSuccess3                  0
+EvalOp/AverageDiscountedReturn    87.1391
+EvalOp/AverageReturn             201.018
+EvalOp/CompletionRate              1
+EvalOp/DiffMaxMinReturn           17.8992
+EvalOp/EndSuccess1                 0
+EvalOp/EndSuccess3                 0
+EvalOp/GoalDistance               39.9192
+EvalOp/GoalSquaredDistance      1717.59
+EvalOp/HitSuccess1                 0
+EvalOp/HitSuccess3                 0
+EvalOp/Iteration                   0
+EvalOp/MaxReturn                 212.009
+EvalOp/MinReturn                 194.11
+EvalOp/MjAvgTrajLen              200
+EvalOp/MjNumCoords              9648
+EvalOp/MjNumTrajs                 48
+EvalOp/MjNumUniqueCoords           4
+EvalOp/NumTrajs                   48
+EvalOp/StdReturn                   5.42962
+TimeTotal                         30.7501
+TotalEnvSteps                      0
+TotalEpoch                         0
+------------------------------  ----------
+Sampling
+_get_trajectories(option_policy) 1.9094221591949463s
+Sampling
+_get_trajectories(option_policy) 1.902946949005127s
+Sampling
+_get_trajectories(option_policy) 1.9003210067749023s
+Sampling
+_get_trajectories(option_policy) 1.8992903232574463s
+Sampling
+_get_trajectories(option_policy) 1.8933196067810059s
+Sampling
+_get_trajectories(option_policy) 1.9062049388885498s
+Sampling
+_get_trajectories(option_policy) 1.8965480327606201s
+Sampling
+_get_trajectories(option_policy) 1.9090816974639893s
+Sampling
+_get_trajectories(option_policy) 1.904585838317871s
+Sampling
+_get_trajectories(option_policy) 1.9133267402648926s
+Sampling
+_get_trajectories(option_policy) 1.9092609882354736s
+Sampling
+_get_trajectories(option_policy) 1.904738187789917s
+Sampling
+_get_trajectories(option_policy) 1.9036037921905518s
+Sampling
+_get_trajectories(option_policy) 1.9030821323394775s
+Sampling
+_get_trajectories(option_policy) 1.9168205261230469s
+Sampling
+_get_trajectories(option_policy) 1.8946754932403564s
+Sampling
+_get_trajectories(option_policy) 1.897646427154541s
+Sampling
+_get_trajectories(option_policy) 1.9049015045166016s
+Sampling
+_get_trajectories(option_policy) 1.9024014472961426s
+Sampling
+_get_trajectories(option_policy) 1.8997302055358887s
+Sampling
+_get_trajectories(option_policy) 1.8978142738342285s
+Sampling
+_get_trajectories(option_policy) 1.900573492050171s
+Sampling
+_get_trajectories(option_policy) 1.9058783054351807s
+Sampling
+_get_trajectories(option_policy) 1.8967475891113281s
+Sampling
+_get_trajectories(option_policy) 1.90132474899292s
+Sampling
+_get_trajectories(option_policy) 1.8975930213928223s
+Sampling
+_get_trajectories(option_policy) 1.9060955047607422s
+Sampling
+_get_trajectories(option_policy) 1.9020419120788574s
+Sampling
+_get_trajectories(option_policy) 1.9057068824768066s
+Sampling
+_get_trajectories(option_policy) 1.892465353012085s
+Sampling
+_get_trajectories(option_policy) 1.8991303443908691s
+Sampling
+_get_trajectories(option_policy) 1.8960940837860107s
+Sampling
+_get_trajectories(option_policy) 1.9036474227905273s
+Sampling
+_get_trajectories(option_policy) 1.902923345565796s
+Sampling
+_get_trajectories(option_policy) 1.9051640033721924s
+Sampling
+_get_trajectories(option_policy) 1.8937458992004395s
+Sampling
+_get_trajectories(option_policy) 1.905487298965454s
+Sampling
+_get_trajectories(option_policy) 1.8965985774993896s
+Sampling
+_get_trajectories(option_policy) 1.8968267440795898s
+Sampling
+_get_trajectories(option_policy) 1.890690803527832s
+Sampling
+_get_trajectories(option_policy) 1.901078462600708s
+Sampling
+_get_trajectories(option_policy) 1.8978114128112793s
+Sampling
+_get_trajectories(option_policy) 1.8954100608825684s
+Sampling
+_get_trajectories(option_policy) 1.9007461071014404s
+Sampling
+_get_trajectories(option_policy) 1.9014151096343994s
+Sampling
+_get_trajectories(option_policy) 1.9013738632202148s
+Sampling
+_get_trajectories(option_policy) 1.898660659790039s
+Sampling
+_get_trajectories(option_policy) 1.9034314155578613s
+Sampling
+_get_trajectories(option_policy) 1.9032235145568848s
+Sampling
+_get_trajectories(option_policy) 1.8970909118652344s
+Sampling
+_get_trajectories(option_policy) 1.8966114521026611s
+Sampling
+_get_trajectories(option_policy) 1.8955869674682617s
+Sampling
+_get_trajectories(option_policy) 1.8991572856903076s
+Sampling
+_get_trajectories(option_policy) 1.9027214050292969s
+Sampling
+_get_trajectories(option_policy) 1.9072670936584473s
+Sampling
+_get_trajectories(option_policy) 1.89898681640625s
+Sampling
+_get_trajectories(option_policy) 1.8981719017028809s
+Sampling
+_get_trajectories(option_policy) 1.8934001922607422s
+Sampling
+_get_trajectories(option_policy) 1.9074029922485352s
+Sampling
+_get_trajectories(option_policy) 1.8956289291381836s
+Sampling
+_get_trajectories(option_policy) 1.8993048667907715s
+Sampling
+_get_trajectories(option_policy) 1.9041924476623535s
+Sampling
+_get_trajectories(option_policy) 1.8968064785003662s
+Sampling
+_get_trajectories(option_policy) 1.899341344833374s
+Sampling
+_get_trajectories(option_policy) 1.8990159034729004s
+Sampling
+_get_trajectories(option_policy) 1.8968994617462158s
+Sampling
+_get_trajectories(option_policy) 1.8993587493896484s
+Sampling
+_get_trajectories(option_policy) 1.8973186016082764s
+Sampling
+_get_trajectories(option_policy) 1.8982746601104736s
+Sampling
+_get_trajectories(option_policy) 1.899949312210083s
+Sampling
+_get_trajectories(option_policy) 1.9030206203460693s
+Sampling
+_get_trajectories(option_policy) 1.896284818649292s
+Sampling
+_get_trajectories(option_policy) 1.8972277641296387s
+Sampling
+_get_trajectories(option_policy) 1.9058430194854736s
+Sampling
+_get_trajectories(option_policy) 1.9018058776855469s
+Sampling
+_get_trajectories(option_policy) 1.8965506553649902s
+Sampling
+_get_trajectories(option_policy) 1.8990178108215332s
+Sampling
+_get_trajectories(option_policy) 1.9043989181518555s
+Sampling
+_get_trajectories(option_policy) 1.9013402462005615s
+Sampling
+_get_trajectories(option_policy) 1.8970017433166504s
+Sampling
+_get_trajectories(option_policy) 1.8971710205078125s
+Sampling
+_get_trajectories(option_policy) 1.8938181400299072s
+Sampling
+_get_trajectories(option_policy) 1.9099218845367432s
+Sampling
+_get_trajectories(option_policy) 1.8988394737243652s
+Sampling
+_get_trajectories(option_policy) 1.8970990180969238s
+Sampling
+_get_trajectories(option_policy) 1.8997583389282227s
+Sampling
+_get_trajectories(option_policy) 1.8924994468688965s
+Sampling
+_get_trajectories(option_policy) 1.898639440536499s
+Sampling
+_get_trajectories(option_policy) 1.8966572284698486s
+Sampling
+_get_trajectories(option_policy) 1.8975555896759033s
+Sampling
+_get_trajectories(option_policy) 1.9027321338653564s
+Sampling
+_get_trajectories(option_policy) 1.9076743125915527s
+Sampling
+_get_trajectories(option_policy) 1.8971476554870605s
+Sampling
+_get_trajectories(option_policy) 1.9001009464263916s
+Sampling
+_get_trajectories(option_policy) 1.9017345905303955s
+Sampling
+_get_trajectories(option_policy) 1.898803472518921s
+Sampling
+_get_trajectories(option_policy) 1.9001519680023193s
+Sampling
+_get_trajectories(option_policy) 1.8960552215576172s
+Sampling
+_get_trajectories(option_policy) 1.8997201919555664s
+Sampling
+_get_trajectories(option_policy) 1.8992226123809814s
+Sampling
+_get_trajectories(option_policy) 1.8912334442138672s
+Sampling
+_get_trajectories(option_policy) 1.901578426361084s
+Sampling
+_get_trajectories(option_policy) 1.8957157135009766s
+Sampling
+_get_trajectories(option_policy) 1.9032316207885742s
+Sampling
+_get_trajectories(option_policy) 1.898258924484253s
+Sampling
+_get_trajectories(option_policy) 1.9017834663391113s
+Sampling
+_get_trajectories(option_policy) 1.905595064163208s
+Sampling
+_get_trajectories(option_policy) 1.895190954208374s
+Sampling
+_get_trajectories(option_policy) 1.8988208770751953s
+Sampling
+_get_trajectories(option_policy) 1.9010450839996338s
+Sampling
+_get_trajectories(option_policy) 1.9045002460479736s
+Sampling
+_get_trajectories(option_policy) 1.896423578262329s
+Sampling
+_get_trajectories(option_policy) 1.8938837051391602s
+Sampling
+_get_trajectories(option_policy) 1.8986210823059082s
+Sampling
+_get_trajectories(option_policy) 1.9015169143676758s
+Sampling
+_get_trajectories(option_policy) 1.9006004333496094s
+Sampling
+_get_trajectories(option_policy) 1.8979592323303223s
+Sampling
+_get_trajectories(option_policy) 1.9087154865264893s
+Sampling
+_get_trajectories(option_policy) 1.895979404449463s
+Sampling
+_get_trajectories(option_policy) 1.8988537788391113s
+Sampling
+_get_trajectories(option_policy) 1.8993937969207764s
+Sampling
+_get_trajectories(option_policy) 1.9017136096954346s
+Sampling
+_get_trajectories(option_policy) 1.8972649574279785s
+Sampling
+_get_trajectories(option_policy) 1.901336431503296s
+Sampling
+_get_trajectories(option_policy) 1.8955345153808594s
+Sampling
+_get_trajectories(option_policy) 1.900162696838379s
+Sampling
+_get_trajectories(option_policy) 1.9064135551452637s
+Sampling
+_get_trajectories(option_policy) 1.8947911262512207s
+Sampling
+_get_trajectories(option_policy) 1.9011573791503906s
+Sampling
+_get_trajectories(option_policy) 1.9025607109069824s
+Sampling
+_get_trajectories(option_policy) 1.896543025970459s
+Sampling
+_get_trajectories(option_policy) 1.8994872570037842s
+Sampling
+_get_trajectories(option_policy) 1.9001598358154297s
+Sampling
+_get_trajectories(option_policy) 1.9066033363342285s
+Sampling
+_get_trajectories(option_policy) 1.8971319198608398s
+Sampling
+_get_trajectories(option_policy) 1.897742748260498s
+Sampling
+_get_trajectories(option_policy) 1.8962047100067139s
+Sampling
+_get_trajectories(option_policy) 1.9011754989624023s
+Sampling
+_get_trajectories(option_policy) 1.9011409282684326s
+Sampling
+_get_trajectories(option_policy) 1.9012293815612793s
+Sampling
+_get_trajectories(option_policy) 1.8994815349578857s
+Sampling
+_get_trajectories(option_policy) 1.9025368690490723s
+Sampling
+_get_trajectories(option_policy) 1.9014647006988525s
+Sampling
+_get_trajectories(option_policy) 1.9082887172698975s
+Sampling
+_get_trajectories(option_policy) 1.9037554264068604s
+Sampling
+_get_trajectories(option_policy) 1.8908967971801758s
+Sampling
+_get_trajectories(option_policy) 1.899482011795044s
+Sampling
+_get_trajectories(option_policy) 1.8994755744934082s
+Sampling
+_get_trajectories(option_policy) 1.8930706977844238s
+Sampling
+_get_trajectories(option_policy) 1.904390811920166s
+Sampling
+_get_trajectories(option_policy) 1.8957080841064453s
+Sampling
+_get_trajectories(option_policy) 1.9000780582427979s
+Sampling
+_get_trajectories(option_policy) 1.9024512767791748s
+Sampling
+_get_trajectories(option_policy) 1.904709815979004s
+Sampling
+_get_trajectories(option_policy) 1.8936793804168701s
+Sampling
+_get_trajectories(option_policy) 1.9109647274017334s
+Sampling
+_get_trajectories(option_policy) 1.895406723022461s
+Sampling
+_get_trajectories(option_policy) 1.9060368537902832s
+Sampling
+_get_trajectories(option_policy) 1.8973228931427002s
+Sampling
+_get_trajectories(option_policy) 1.8984248638153076s
+Sampling
+_get_trajectories(option_policy) 1.8923225402832031s
+Sampling
+_get_trajectories(option_policy) 1.8893110752105713s
+Sampling
+_get_trajectories(option_policy) 1.899385690689087s
+Sampling
+_get_trajectories(option_policy) 1.8930206298828125s
+Sampling
+_get_trajectories(option_policy) 1.8994290828704834s
+Sampling
+_get_trajectories(option_policy) 1.8970465660095215s
+Sampling
+_get_trajectories(option_policy) 1.905839204788208s
+Sampling
+_get_trajectories(option_policy) 1.9049243927001953s
+Sampling
+_get_trajectories(option_policy) 1.9020915031433105s
+Sampling
+_get_trajectories(option_policy) 1.8999221324920654s
+Sampling
+_get_trajectories(option_policy) 1.8986835479736328s
+Sampling
+_get_trajectories(option_policy) 1.8955063819885254s
+Sampling
+_get_trajectories(option_policy) 1.9024431705474854s
+Sampling
+_get_trajectories(option_policy) 1.8987374305725098s
+Sampling
+_get_trajectories(option_policy) 1.9018127918243408s
+Sampling
+_get_trajectories(option_policy) 1.9043424129486084s
+Sampling
+_get_trajectories(option_policy) 1.9006357192993164s
+Sampling
+_get_trajectories(option_policy) 1.8977954387664795s
+Sampling
+_get_trajectories(option_policy) 1.9065077304840088s
+Sampling
+_get_trajectories(option_policy) 1.898972988128662s
+Sampling
+_get_trajectories(option_policy) 1.8958790302276611s
+Sampling
+_get_trajectories(option_policy) 1.9003582000732422s
+Sampling
+_get_trajectories(option_policy) 1.9039630889892578s
+Sampling
+_get_trajectories(option_policy) 1.9013381004333496s
+Sampling
+_get_trajectories(option_policy) 1.9034178256988525s
+Sampling
+_get_trajectories(option_policy) 1.9029951095581055s
+Sampling
+_get_trajectories(option_policy) 1.896902322769165s
+Sampling
+_get_trajectories(option_policy) 1.8969101905822754s
+Sampling
+_get_trajectories(option_policy) 1.897550106048584s
+Sampling
+_get_trajectories(option_policy) 1.9035847187042236s
+Sampling
+_get_trajectories(option_policy) 1.907273292541504s
+Sampling
+_get_trajectories(option_policy) 1.9045171737670898s
+Sampling
+_get_trajectories(option_policy) 1.8924369812011719s
+Sampling
+_get_trajectories(option_policy) 1.8913071155548096s
+Sampling
+_get_trajectories(option_policy) 1.8995375633239746s
+Sampling
+_get_trajectories(option_policy) 1.9001309871673584s
+Sampling
+_get_trajectories(option_policy) 1.897775411605835s
+Sampling
+_get_trajectories(option_policy) 1.896681547164917s
+Sampling
+_get_trajectories(option_policy) 1.9092371463775635s
+Sampling
+_get_trajectories(option_policy) 1.9093413352966309s
+Sampling
+_get_trajectories(option_policy) 1.8989183902740479s
+Sampling
+_get_trajectories(option_policy) 1.8957066535949707s
+Sampling
+_get_trajectories(option_policy) 1.8987386226654053s
+Sampling
+_get_trajectories(option_policy) 1.899674892425537s
+Sampling
+_get_trajectories(option_policy) 1.901899814605713s
+Sampling
+_get_trajectories(option_policy) 1.9028968811035156s
+Sampling
+_get_trajectories(option_policy) 1.9045510292053223s
+Sampling
+_get_trajectories(option_policy) 1.9014356136322021s
+Sampling
+_get_trajectories(option_policy) 1.9044756889343262s
+Sampling
+_get_trajectories(option_policy) 1.8988184928894043s
+Sampling
+_get_trajectories(option_policy) 1.8966763019561768s
+Sampling
+_get_trajectories(option_policy) 1.8955943584442139s
+Sampling
+_get_trajectories(option_policy) 1.9009978771209717s
+Sampling
+_get_trajectories(option_policy) 2.1631555557250977s
+Sampling
+_get_trajectories(option_policy) 1.9056026935577393s
+Sampling
+_get_trajectories(option_policy) 1.9021263122558594s
+Sampling
+_get_trajectories(option_policy) 1.9009904861450195s
+Sampling
+_get_trajectories(option_policy) 1.8979039192199707s
+Sampling
+_get_trajectories(option_policy) 1.9045369625091553s
+Sampling
+_get_trajectories(option_policy) 1.8969483375549316s
+Sampling
+_get_trajectories(option_policy) 1.9040076732635498s
+Sampling
+_get_trajectories(option_policy) 1.9031529426574707s
+Sampling
+_get_trajectories(option_policy) 1.907989740371704s
+Sampling
+_get_trajectories(option_policy) 1.914381980895996s
+Sampling
+_get_trajectories(option_policy) 1.9033732414245605s
+Sampling
+_get_trajectories(option_policy) 1.9018948078155518s
+Sampling
+_get_trajectories(option_policy) 1.9012057781219482s
+Sampling
+_get_trajectories(option_policy) 1.9041125774383545s
+Sampling
+_get_trajectories(option_policy) 1.904728889465332s
+Sampling
+_get_trajectories(option_policy) 1.8972909450531006s
+Sampling
+_get_trajectories(option_policy) 1.9015049934387207s
+Sampling
+_get_trajectories(option_policy) 1.9037253856658936s
+Sampling
+_get_trajectories(option_policy) 1.9001872539520264s
+Sampling
+_get_trajectories(option_policy) 1.9035050868988037s
+Sampling
+_get_trajectories(option_policy) 1.8962137699127197s
+Sampling
+_get_trajectories(option_policy) 1.8953015804290771s
+Sampling
+_get_trajectories(option_policy) 1.9078917503356934s
+Sampling
+_get_trajectories(option_policy) 1.8941733837127686s
+Sampling
+_get_trajectories(option_policy) 1.900848150253296s
+Sampling
+_get_trajectories(option_policy) 1.904761791229248s
+Sampling
+_get_trajectories(option_policy) 1.9008958339691162s
+Sampling
+_get_trajectories(option_policy) 1.9006192684173584s
+Sampling
+_get_trajectories(option_policy) 1.9044554233551025s
+Sampling
+_get_trajectories(option_policy) 1.9005885124206543s
+Sampling
+_get_trajectories(option_policy) 1.907768964767456s
+Sampling
+_get_trajectories(option_policy) 1.9001007080078125s
+Sampling
+_get_trajectories(option_policy) 1.9124038219451904s
+Sampling
+_get_trajectories(option_policy) 1.8997182846069336s
+Sampling
+_get_trajectories(option_policy) 1.9004878997802734s
+Sampling
+_get_trajectories(option_policy) 1.9020440578460693s
+Sampling
+_get_trajectories(option_policy) 1.897883653640747s
+Sampling
+_get_trajectories(option_policy) 1.905033826828003s
+Sampling
+_get_trajectories(option_policy) 1.905259370803833s
+Sampling
+_get_trajectories(option_policy) 1.90498685836792s
+Sampling
+_get_trajectories(option_policy) 1.9076056480407715s
+Sampling
+_get_trajectories(option_policy) 1.8937106132507324s
+Sampling
+_get_trajectories(option_policy) 1.8996970653533936s
+Sampling
+_get_trajectories(option_policy) 1.911649465560913s
+Sampling
+_get_trajectories(option_policy) 1.9068453311920166s
+Sampling
+_get_trajectories(option_policy) 1.8981449604034424s
+Sampling
+_get_trajectories(option_policy) 1.9006156921386719s
+Sampling
+_get_trajectories(option_policy) 1.8996613025665283s
+Sampling
+_get_trajectories(option_policy) 1.8985671997070312s
+Sampling
+_get_trajectories(option_policy) 1.902148723602295s
+Sampling
+_get_trajectories(option_policy) 1.913789987564087s
+Sampling
+_get_trajectories(option_policy) 1.9019992351531982s
+Sampling
+_get_trajectories(option_policy) 1.9028902053833008s
+Sampling
+_get_trajectories(option_policy) 1.899993658065796s
+Sampling
+_get_trajectories(option_policy) 1.9050688743591309s
+Sampling
+_get_trajectories(option_policy) 1.900946855545044s
+Sampling
+_get_trajectories(option_policy) 1.9018278121948242s
+Sampling
+_get_trajectories(option_policy) 1.904435396194458s
+Sampling
+_get_trajectories(option_policy) 1.9023497104644775s
+Sampling
+_get_trajectories(option_policy) 1.9019112586975098s
+Sampling
+_get_trajectories(option_policy) 1.90525221824646s
+Sampling
+_get_trajectories(option_policy) 1.9094319343566895s
+Sampling
+_get_trajectories(option_policy) 1.905599594116211s
+Sampling
+_get_trajectories(option_policy) 1.9117906093597412s
+Sampling
+_get_trajectories(option_policy) 1.9114346504211426s
+Sampling
+_get_trajectories(option_policy) 1.9048800468444824s
+Sampling
+_get_trajectories(option_policy) 1.9002387523651123s
+Sampling
+_get_trajectories(option_policy) 1.8997583389282227s
+Sampling
+_get_trajectories(option_policy) 1.901550531387329s
+Sampling
+_get_trajectories(option_policy) 1.9071288108825684s
+Sampling
+_get_trajectories(option_policy) 1.8947956562042236s
+Sampling
+_get_trajectories(option_policy) 1.9100160598754883s
+Sampling
+_get_trajectories(option_policy) 1.9014272689819336s
+Sampling
+_get_trajectories(option_policy) 1.901963233947754s
+Sampling
+_get_trajectories(option_policy) 1.8986079692840576s
+Sampling
+_get_trajectories(option_policy) 1.906062364578247s
+Sampling
+_get_trajectories(option_policy) 1.897200107574463s
+Sampling
+_get_trajectories(option_policy) 1.8961644172668457s
+Sampling
+_get_trajectories(option_policy) 1.9003357887268066s
+Sampling
+_get_trajectories(option_policy) 1.901127815246582s
+Sampling
+_get_trajectories(option_policy) 1.9039885997772217s
+Sampling
+_get_trajectories(option_policy) 1.902014970779419s
+Sampling
+_get_trajectories(option_policy) 1.8995561599731445s
+Sampling
+_get_trajectories(option_policy) 1.9047727584838867s
+Sampling
+_get_trajectories(option_policy) 1.8997235298156738s
+Sampling
+_get_trajectories(option_policy) 1.9045350551605225s
+Sampling
+_get_trajectories(option_policy) 1.9005274772644043s
+Sampling
+_get_trajectories(option_policy) 1.9186482429504395s
+Sampling
+_get_trajectories(option_policy) 1.898702621459961s
+Sampling
+_get_trajectories(option_policy) 1.8987224102020264s
+Sampling
+_get_trajectories(option_policy) 1.9029576778411865s
+Sampling
+_get_trajectories(option_policy) 1.895972728729248s
+Sampling
+_get_trajectories(option_policy) 1.9011244773864746s
+Sampling
+_get_trajectories(option_policy) 1.9026517868041992s
+Sampling
+_get_trajectories(option_policy) 1.8972663879394531s
+Sampling
+_get_trajectories(option_policy) 1.9026217460632324s
+Sampling
+_get_trajectories(option_policy) 1.9142286777496338s
+Sampling
+_get_trajectories(option_policy) 1.9067625999450684s
+Sampling
+_get_trajectories(option_policy) 1.9058313369750977s
+Sampling
+_get_trajectories(option_policy) 1.9147355556488037s
+Sampling
+_get_trajectories(option_policy) 1.9027533531188965s
+Sampling
+_get_trajectories(option_policy) 1.8964605331420898s
+Sampling
+_get_trajectories(option_policy) 1.898777723312378s
+Sampling
+_get_trajectories(option_policy) 1.900388479232788s
+Sampling
+_get_trajectories(option_policy) 1.9013519287109375s
+Sampling
+_get_trajectories(option_policy) 1.906843900680542s
+Sampling
+_get_trajectories(option_policy) 1.9000751972198486s
+Sampling
+_get_trajectories(option_policy) 1.9055259227752686s
+Sampling
+_get_trajectories(option_policy) 1.9109008312225342s
+Sampling
+_get_trajectories(option_policy) 1.9055242538452148s
+Sampling
+_get_trajectories(option_policy) 1.9008369445800781s
+Sampling
+_get_trajectories(option_policy) 1.909031867980957s
+Sampling
+_get_trajectories(option_policy) 1.9015758037567139s
+Sampling
+_get_trajectories(option_policy) 1.9061458110809326s
+Sampling
+_get_trajectories(option_policy) 1.902367115020752s
+Sampling
+_get_trajectories(option_policy) 1.9037165641784668s
+Sampling
+_get_trajectories(option_policy) 1.902087688446045s
+Sampling
+_get_trajectories(option_policy) 1.9002203941345215s
+Sampling
+_get_trajectories(option_policy) 1.9047565460205078s
+Sampling
+_get_trajectories(option_policy) 1.899174690246582s
+Sampling
+_get_trajectories(option_policy) 1.9070863723754883s
+Sampling
+_get_trajectories(option_policy) 1.9016807079315186s
+Sampling
+_get_trajectories(option_policy) 1.902423620223999s
+Sampling
+_get_trajectories(option_policy) 1.914250373840332s
+Sampling
+_get_trajectories(option_policy) 1.9001133441925049s
+Sampling
+_get_trajectories(option_policy) 1.9054462909698486s
+Sampling
+_get_trajectories(option_policy) 1.9079103469848633s
+Sampling
+_get_trajectories(option_policy) 1.9025073051452637s
+Sampling
+_get_trajectories(option_policy) 1.9107813835144043s
+Sampling
+_get_trajectories(option_policy) 1.9113807678222656s
+Sampling
+_get_trajectories(option_policy) 1.9119594097137451s
+Sampling
+_get_trajectories(option_policy) 1.9017305374145508s
+Sampling
+_get_trajectories(option_policy) 1.9104156494140625s
+Sampling
+_get_trajectories(option_policy) 1.8993499279022217s
+Sampling
+_get_trajectories(option_policy) 1.904611349105835s
+Sampling
+_get_trajectories(option_policy) 1.9050853252410889s
+Sampling
+_get_trajectories(option_policy) 1.9104995727539062s
+Sampling
+_get_trajectories(option_policy) 1.8961491584777832s
+Sampling
+_get_trajectories(option_policy) 1.9033730030059814s
+Sampling
+_get_trajectories(option_policy) 1.896956205368042s
+Sampling
+_get_trajectories(option_policy) 1.9038786888122559s
+Sampling
+_get_trajectories(option_policy) 1.898589849472046s
+Sampling
+_get_trajectories(option_policy) 1.904609203338623s
+Sampling
+_get_trajectories(option_policy) 1.8978822231292725s
+Sampling
+_get_trajectories(option_policy) 1.9143261909484863s
+Sampling
+_get_trajectories(option_policy) 1.895965576171875s
+Sampling
+_get_trajectories(option_policy) 1.8987255096435547s
+Sampling
+_get_trajectories(option_policy) 1.9000015258789062s
+Sampling
+_get_trajectories(option_policy) 1.8984203338623047s
+Sampling
+_get_trajectories(option_policy) 1.9041156768798828s
+Sampling
+_get_trajectories(option_policy) 1.901998519897461s
+Sampling
+_get_trajectories(option_policy) 1.9023480415344238s
+Sampling
+_get_trajectories(option_policy) 1.901606798171997s
+Sampling
+_get_trajectories(option_policy) 1.9008564949035645s
+Sampling
+_get_trajectories(option_policy) 1.9106805324554443s
+Sampling
+_get_trajectories(option_policy) 1.8968524932861328s
+Sampling
+_get_trajectories(option_policy) 1.917879343032837s
+Sampling
+_get_trajectories(option_policy) 1.9010694026947021s
+Sampling
+_get_trajectories(option_policy) 1.9055542945861816s
+Sampling
+_get_trajectories(option_policy) 1.898773431777954s
+Sampling
+_get_trajectories(option_policy) 1.9065325260162354s
+Sampling
+_get_trajectories(option_policy) 1.9011785984039307s
+Sampling
+_get_trajectories(option_policy) 1.8990116119384766s
+Sampling
+_get_trajectories(option_policy) 1.9027469158172607s
+Sampling
+_get_trajectories(option_policy) 1.9002666473388672s
+Sampling
+_get_trajectories(option_policy) 1.9034149646759033s
+Sampling
+_get_trajectories(option_policy) 1.89652681350708s
+Sampling
+_get_trajectories(option_policy) 1.9014241695404053s
+Sampling
+_get_trajectories(option_policy) 1.908186435699463s
+Sampling
+_get_trajectories(option_policy) 1.9073231220245361s
+Sampling
+_get_trajectories(option_policy) 1.9075555801391602s
+Sampling
+_get_trajectories(option_policy) 1.8986139297485352s
+Sampling
+_get_trajectories(option_policy) 1.9080908298492432s
+Sampling
+_get_trajectories(option_policy) 1.9028441905975342s
+Sampling
+_get_trajectories(option_policy) 1.9049935340881348s
+Sampling
+_get_trajectories(option_policy) 1.900397539138794s
+Sampling
+_get_trajectories(option_policy) 1.9029569625854492s
+Sampling
+_get_trajectories(option_policy) 1.9030485153198242s
+Sampling
+_get_trajectories(option_policy) 1.8996076583862305s
+Sampling
+_get_trajectories(option_policy) 1.8973922729492188s
+Sampling
+_get_trajectories(option_policy) 1.9060416221618652s
+Sampling
+_get_trajectories(option_policy) 1.9037420749664307s
+Sampling
+_get_trajectories(option_policy) 1.8996367454528809s
+Sampling
+_get_trajectories(option_policy) 1.90767502784729s
+Sampling
+_get_trajectories(option_policy) 1.9076154232025146s
+Sampling
+_get_trajectories(option_policy) 1.9014747142791748s
+Sampling
+_get_trajectories(option_policy) 1.8993616104125977s
+Sampling
+_get_trajectories(option_policy) 1.9037261009216309s
+Sampling
+_get_trajectories(option_policy) 1.9011268615722656s
+Sampling
+_get_trajectories(option_policy) 1.901865005493164s
+Sampling
+_get_trajectories(option_policy) 1.9050147533416748s
+Sampling
+_get_trajectories(option_policy) 1.8987905979156494s
+Sampling
+_get_trajectories(option_policy) 1.9101886749267578s
+Sampling
+_get_trajectories(option_policy) 1.918332815170288s
+Sampling
+_get_trajectories(option_policy) 1.910703420639038s
+Sampling
+_get_trajectories(option_policy) 1.9146099090576172s
+Sampling
+_get_trajectories(option_policy) 1.918100357055664s
+Sampling
+_get_trajectories(option_policy) 1.917964220046997s
+Sampling
+_get_trajectories(option_policy) 1.9157168865203857s
+Sampling
+_get_trajectories(option_policy) 1.8946216106414795s
+Sampling
+_get_trajectories(option_policy) 1.9000561237335205s
+Sampling
+_get_trajectories(option_policy) 1.9033384323120117s
+Sampling
+_get_trajectories(option_policy) 1.8936131000518799s
+Sampling
+_get_trajectories(option_policy) 1.9045765399932861s
+Sampling
+_get_trajectories(option_policy) 1.9063878059387207s
+Sampling
+_get_trajectories(option_policy) 1.9057633876800537s
+Sampling
+_get_trajectories(option_policy) 1.9011268615722656s
+Sampling
+_get_trajectories(option_policy) 1.9074323177337646s
+Sampling
+_get_trajectories(option_policy) 1.9105918407440186s
+Sampling
+_get_trajectories(option_policy) 1.9045891761779785s
+Sampling
+_get_trajectories(option_policy) 1.9035391807556152s
+Sampling
+_get_trajectories(option_policy) 1.9015750885009766s
+Sampling
+_get_trajectories(option_policy) 1.902691125869751s
+Sampling
+_get_trajectories(option_policy) 1.9014239311218262s
+Sampling
+_get_trajectories(option_policy) 1.9021766185760498s
+Sampling
+_get_trajectories(option_policy) 1.912090539932251s
+Sampling
+_get_trajectories(option_policy) 1.911947250366211s
+Sampling
+_get_trajectories(option_policy) 1.912187099456787s
+Sampling
+_get_trajectories(option_policy) 1.908926248550415s
+Sampling
+_get_trajectories(option_policy) 1.91556978225708s
+Sampling
+_get_trajectories(option_policy) 1.9042847156524658s
+Sampling
+_get_trajectories(option_policy) 1.9009425640106201s
+Sampling
+_get_trajectories(option_policy) 1.9134786128997803s
+Sampling
+_get_trajectories(option_policy) 1.9055817127227783s
+Sampling
+_get_trajectories(option_policy) 1.9106764793395996s
+Sampling
+_get_trajectories(option_policy) 1.9007799625396729s
+Sampling
+_get_trajectories(option_policy) 1.8994827270507812s
+Sampling
+_get_trajectories(option_policy) 1.9018807411193848s
+Sampling
+_get_trajectories(option_policy) 1.90269136428833s
+Sampling
+_get_trajectories(option_policy) 1.9044926166534424s
+Sampling
+_get_trajectories(option_policy) 1.9012367725372314s
+Sampling
+_get_trajectories(option_policy) 1.9037926197052002s
+Sampling
+_get_trajectories(option_policy) 1.911437749862671s
+Sampling
+_get_trajectories(option_policy) 1.9100267887115479s
+Sampling
+_get_trajectories(option_policy) 1.9099085330963135s
+Sampling
+_get_trajectories(option_policy) 1.9000952243804932s
+Sampling
+_get_trajectories(option_policy) 1.9053916931152344s
+Sampling
+_get_trajectories(option_policy) 1.9050178527832031s
+Sampling
+_get_trajectories(option_policy) 1.9008574485778809s
+Sampling
+_get_trajectories(option_policy) 1.8980793952941895s
+Sampling
+_get_trajectories(option_policy) 1.9065282344818115s
+Sampling
+_get_trajectories(option_policy) 1.9134938716888428s
+Sampling
+_get_trajectories(option_policy) 1.9155116081237793s
+Sampling
+_get_trajectories(option_policy) 1.901747703552246s
+Sampling
+_get_trajectories(option_policy) 1.9074432849884033s
+Sampling
+_get_trajectories(option_policy) 1.9067301750183105s
+Sampling
+_get_trajectories(option_policy) 1.9058213233947754s
+Sampling
+_get_trajectories(option_policy) 1.9027056694030762s
+Sampling
+_get_trajectories(option_policy) 1.9011297225952148s
+Sampling
+_get_trajectories(option_policy) 1.9030537605285645s
+Sampling
+_get_trajectories(option_policy) 1.9040071964263916s
+Sampling
+_get_trajectories(option_policy) 2.1365721225738525s
+Sampling
+_get_trajectories(option_policy) 1.9138307571411133s
+Sampling
+_get_trajectories(option_policy) 1.910036563873291s
+Sampling
+_get_trajectories(option_policy) 1.9132840633392334s
+Sampling
+_get_trajectories(option_policy) 1.9159042835235596s
+Sampling
+_get_trajectories(option_policy) 1.914539098739624s
+Sampling
+_get_trajectories(option_policy) 1.9136040210723877s
+Sampling
+_get_trajectories(option_policy) 1.901376724243164s
+Sampling
+_get_trajectories(option_policy) 1.9065029621124268s
+Sampling
+_get_trajectories(option_policy) 1.8997550010681152s
+Sampling
+_get_trajectories(option_policy) 1.9111394882202148s
+Sampling
+_get_trajectories(option_policy) 1.9050688743591309s
+Sampling
+_get_trajectories(option_policy) 1.9024908542633057s
+Sampling
+_get_trajectories(option_policy) 1.9132177829742432s
+Sampling
+_get_trajectories(option_policy) 1.9045906066894531s
+Sampling
+_get_trajectories(option_policy) 1.9114089012145996s
+Sampling
+_get_trajectories(option_policy) 1.9057209491729736s
+Sampling
+_get_trajectories(option_policy) 1.90887451171875s
+Sampling
+_get_trajectories(option_policy) 1.9170737266540527s
+Sampling
+_get_trajectories(option_policy) 1.9101817607879639s
+Sampling
+_get_trajectories(option_policy) 1.9088404178619385s
+Sampling
+_get_trajectories(option_policy) 1.9138562679290771s
+Sampling
+_get_trajectories(option_policy) 1.9002838134765625s
+Sampling
+_get_trajectories(option_policy) 1.9016056060791016s
+Sampling
+_get_trajectories(option_policy) 1.9051997661590576s
+Sampling
+_get_trajectories(option_policy) 1.906371831893921s
+Sampling
+_get_trajectories(option_policy) 1.901426076889038s
+Sampling
+_get_trajectories(option_policy) 1.907031536102295s
+Sampling
+_get_trajectories(option_policy) 1.9045958518981934s
+Sampling
+_get_trajectories(option_policy) 1.9072673320770264s
+Sampling
+_get_trajectories(option_policy) 1.9234404563903809s
+Sampling
+_get_trajectories(option_policy) 1.9054477214813232s
+Sampling
+_get_trajectories(option_policy) 1.9059696197509766s
+Sampling
+_get_trajectories(option_policy) 1.9146723747253418s
+Sampling
+_get_trajectories(option_policy) 1.9095838069915771s
+2025-01-04 14:42:35 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #499 | Time 1261.61 s
+2025-01-04 14:42:35 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #499 | EpochTime 2.47 s
+---------------------------------------------------------  ----------------
+TimeEpoch                                                       2.46738
+TimeTotal                                                    1261.61
+TotalEnvSteps                                              800000
+TotalEpoch                                                    499
+TrainSp/AverageDiscountedReturn                               -43.1679
+TrainSp/AverageReturn                                         -98.9684
+TrainSp/CompletionRate                                          1
+TrainSp/DiffMaxMinReturn                                      141.617
+TrainSp/Iteration                                             499
+TrainSp/MaxReturn                                              -1.64633
+TrainSp/MinReturn                                            -143.263
+TrainSp/NumTrajs                                                8
+TrainSp/StdReturn                                              42.655
+TrainSp/relabel_skills_metra_sf/Alpha                           0.00085138
+TrainSp/relabel_skills_metra_sf/DualCstPenalty                  0.001
+TrainSp/relabel_skills_metra_sf/LossAlpha                     -58.4374
+TrainSp/relabel_skills_metra_sf/LossOp                          0.184111
+TrainSp/relabel_skills_metra_sf/LossQf1                         3.05272e-05
+TrainSp/relabel_skills_metra_sf/LossQf2                         3.13873e-05
+TrainSp/relabel_skills_metra_sf/LossTe                         27.7769
+TrainSp/relabel_skills_metra_sf/PathLengthMax                 200
+TrainSp/relabel_skills_metra_sf/PathLengthMean                200
+TrainSp/relabel_skills_metra_sf/PathLengthMin                 200
+TrainSp/relabel_skills_metra_sf/PureRewardMean                  0.00115522
+TrainSp/relabel_skills_metra_sf/PureRewardStd                   0.147881
+TrainSp/relabel_skills_metra_sf/Qf1Mean                         0.00641765
+TrainSp/relabel_skills_metra_sf/Qf2Mean                         0.00765409
+TrainSp/relabel_skills_metra_sf/QfTargetsMean                   0.00713219
+TrainSp/relabel_skills_metra_sf/QfTdErrsMean                    9.63214e-05
+TrainSp/relabel_skills_metra_sf/TeObjMean                     -27.7769
+TrainSp/relabel_skills_metra_sf/TimeComputingMetrics            0
+TrainSp/relabel_skills_metra_sf/TimeSampling                    1.90971
+TrainSp/relabel_skills_metra_sf/TimeTraining                    0.55353
+TrainSp/relabel_skills_metra_sf/TotalGradNormAll                8.28676
+TrainSp/relabel_skills_metra_sf/TotalGradNormDualLam            0
+TrainSp/relabel_skills_metra_sf/TotalGradNormLogAlpha           8.26712
+TrainSp/relabel_skills_metra_sf/TotalGradNormOptionPolicy       0.00224948
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf1                0.424152
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf2                0.374164
+TrainSp/relabel_skills_metra_sf/TotalGradNormTrajEncoder        0.0713848
+---------------------------------------------------------  ----------------
+2025-01-04 14:42:35 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #500 | Saving snapshot...
+2025-01-04 14:42:35 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #500 | Saved
+Sampling
+_get_trajectories(option_policy) 9.27994179725647s
+------------------------------  -----------
+EvalOp/AtSuccess1                    0.0127
+EvalOp/AtSuccess3                    0.0184
+EvalOp/AverageDiscountedReturn      23.0682
+EvalOp/AverageReturn                53.2539
+EvalOp/CompletionRate                1
+EvalOp/DiffMaxMinReturn            174.63
+EvalOp/EndSuccess1                   0.02
+EvalOp/EndSuccess3                   0.02
+EvalOp/GoalDistance                 38.6784
+EvalOp/GoalSquaredDistance        1662.18
+EvalOp/HitSuccess1                   0.02
+EvalOp/HitSuccess3                   0.02
+EvalOp/Iteration                   500
+EvalOp/MaxReturn                   142.111
+EvalOp/MinReturn                   -32.5193
+EvalOp/MjAvgTrajLen                200
+EvalOp/MjNumCoords                9648
+EvalOp/MjNumTrajs                   48
+EvalOp/MjNumUniqueCoords             4
+EvalOp/NumTrajs                     48
+EvalOp/StdReturn                    52.3229
+TimeTotal                         1290.92
+TotalEnvSteps                   800000
+TotalEpoch                         500
+------------------------------  -----------
+Sampling
+_get_trajectories(option_policy) 1.916835069656372s
+Sampling
+_get_trajectories(option_policy) 1.907890796661377s
+Sampling
+_get_trajectories(option_policy) 1.907526969909668s
+Sampling
+_get_trajectories(option_policy) 1.900191307067871s
+Sampling
+_get_trajectories(option_policy) 1.8997397422790527s
+Sampling
+_get_trajectories(option_policy) 1.910140037536621s
+Sampling
+_get_trajectories(option_policy) 1.9140963554382324s
+Sampling
+_get_trajectories(option_policy) 1.907365083694458s
+Sampling
+_get_trajectories(option_policy) 1.9185912609100342s
+Sampling
+_get_trajectories(option_policy) 1.9077439308166504s
+Sampling
+_get_trajectories(option_policy) 1.9128496646881104s
+Sampling
+_get_trajectories(option_policy) 1.9033153057098389s
+Sampling
+_get_trajectories(option_policy) 1.9078452587127686s
+Sampling
+_get_trajectories(option_policy) 1.9154582023620605s
+Sampling
+_get_trajectories(option_policy) 1.9152545928955078s
+Sampling
+_get_trajectories(option_policy) 1.9039475917816162s
+Sampling
+_get_trajectories(option_policy) 1.9052281379699707s
+Sampling
+_get_trajectories(option_policy) 1.9118232727050781s
+Sampling
+_get_trajectories(option_policy) 1.9194843769073486s
+Sampling
+_get_trajectories(option_policy) 1.9106521606445312s
+Sampling
+_get_trajectories(option_policy) 1.9193413257598877s
+Sampling
+_get_trajectories(option_policy) 1.9129464626312256s
+Sampling
+_get_trajectories(option_policy) 1.9073855876922607s
+Sampling
+_get_trajectories(option_policy) 1.9019320011138916s
+Sampling
+_get_trajectories(option_policy) 1.902911901473999s
+Sampling
+_get_trajectories(option_policy) 1.907914161682129s
+Sampling
+_get_trajectories(option_policy) 1.91021728515625s
+Sampling
+_get_trajectories(option_policy) 1.908442497253418s
+Sampling
+_get_trajectories(option_policy) 1.907726764678955s
+Sampling
+_get_trajectories(option_policy) 1.9140386581420898s
+Sampling
+_get_trajectories(option_policy) 1.9141724109649658s
+Sampling
+_get_trajectories(option_policy) 1.9152910709381104s
+Sampling
+_get_trajectories(option_policy) 1.920884370803833s
+Sampling
+_get_trajectories(option_policy) 1.910461187362671s
+Sampling
+_get_trajectories(option_policy) 1.906092882156372s
+Sampling
+_get_trajectories(option_policy) 1.9091732501983643s
+Sampling
+_get_trajectories(option_policy) 1.9039955139160156s
+Sampling
+_get_trajectories(option_policy) 1.9047014713287354s
+Sampling
+_get_trajectories(option_policy) 1.9042932987213135s
+Sampling
+_get_trajectories(option_policy) 1.9073841571807861s
+Sampling
+_get_trajectories(option_policy) 1.9075627326965332s
+Sampling
+_get_trajectories(option_policy) 1.902095079421997s
+Sampling
+_get_trajectories(option_policy) 1.9102065563201904s
+Sampling
+_get_trajectories(option_policy) 1.9097480773925781s
+Sampling
+_get_trajectories(option_policy) 1.912541151046753s
+Sampling
+_get_trajectories(option_policy) 1.9130985736846924s
+Sampling
+_get_trajectories(option_policy) 1.9131639003753662s
+Sampling
+_get_trajectories(option_policy) 1.910628080368042s
+Sampling
+_get_trajectories(option_policy) 1.9096705913543701s
+Sampling
+_get_trajectories(option_policy) 1.9061675071716309s
+Sampling
+_get_trajectories(option_policy) 1.9099171161651611s
+Sampling
+_get_trajectories(option_policy) 1.9212110042572021s
+Sampling
+_get_trajectories(option_policy) 1.9157419204711914s
+Sampling
+_get_trajectories(option_policy) 1.9123435020446777s
+Sampling
+_get_trajectories(option_policy) 1.9070816040039062s
+Sampling
+_get_trajectories(option_policy) 1.9076714515686035s
+Sampling
+_get_trajectories(option_policy) 1.909597396850586s
+Sampling
+_get_trajectories(option_policy) 1.9085512161254883s
+Sampling
+_get_trajectories(option_policy) 1.910376787185669s
+Sampling
+_get_trajectories(option_policy) 1.9097075462341309s
+Sampling
+_get_trajectories(option_policy) 1.9096488952636719s
+Sampling
+_get_trajectories(option_policy) 1.9089314937591553s
+Sampling
+_get_trajectories(option_policy) 1.9037339687347412s
+Sampling
+_get_trajectories(option_policy) 1.91904878616333s
+Sampling
+_get_trajectories(option_policy) 1.912895679473877s
+Sampling
+_get_trajectories(option_policy) 1.9193050861358643s
+Sampling
+_get_trajectories(option_policy) 1.9125235080718994s
+Sampling
+_get_trajectories(option_policy) 1.9103975296020508s
+Sampling
+_get_trajectories(option_policy) 1.9120330810546875s
+Sampling
+_get_trajectories(option_policy) 1.909592628479004s
+Sampling
+_get_trajectories(option_policy) 1.903493881225586s
+Sampling
+_get_trajectories(option_policy) 1.9027535915374756s
+Sampling
+_get_trajectories(option_policy) 1.9106228351593018s
+Sampling
+_get_trajectories(option_policy) 1.9225378036499023s
+Sampling
+_get_trajectories(option_policy) 1.9083986282348633s
+Sampling
+_get_trajectories(option_policy) 1.9093530178070068s
+Sampling
+_get_trajectories(option_policy) 1.9102811813354492s
+Sampling
+_get_trajectories(option_policy) 1.9245812892913818s
+Sampling
+_get_trajectories(option_policy) 1.9139902591705322s
+Sampling
+_get_trajectories(option_policy) 1.9106581211090088s
+Sampling
+_get_trajectories(option_policy) 1.9065406322479248s
+Sampling
+_get_trajectories(option_policy) 1.9098448753356934s
+Sampling
+_get_trajectories(option_policy) 1.9098799228668213s
+Sampling
+_get_trajectories(option_policy) 1.9162178039550781s
+Sampling
+_get_trajectories(option_policy) 1.9121954441070557s
+Sampling
+_get_trajectories(option_policy) 1.9115724563598633s
+Sampling
+_get_trajectories(option_policy) 1.9148204326629639s
+Sampling
+_get_trajectories(option_policy) 1.9079084396362305s
+Sampling
+_get_trajectories(option_policy) 1.9081873893737793s
+Sampling
+_get_trajectories(option_policy) 1.9107277393341064s
+Sampling
+_get_trajectories(option_policy) 1.9045543670654297s
+Sampling
+_get_trajectories(option_policy) 1.9053847789764404s
+Sampling
+_get_trajectories(option_policy) 1.914522409439087s
+Sampling
+_get_trajectories(option_policy) 1.922170877456665s
+Sampling
+_get_trajectories(option_policy) 1.910839557647705s
+Sampling
+_get_trajectories(option_policy) 1.9090418815612793s
+Sampling
+_get_trajectories(option_policy) 1.9054408073425293s
+Sampling
+_get_trajectories(option_policy) 1.9105126857757568s
+Sampling
+_get_trajectories(option_policy) 1.9087610244750977s
+Sampling
+_get_trajectories(option_policy) 1.9120376110076904s
+Sampling
+_get_trajectories(option_policy) 1.910888433456421s
+Sampling
+_get_trajectories(option_policy) 2.155757427215576s
+Sampling
+_get_trajectories(option_policy) 1.92388916015625s
+Sampling
+_get_trajectories(option_policy) 1.918269395828247s
+Sampling
+_get_trajectories(option_policy) 1.9084696769714355s
+Sampling
+_get_trajectories(option_policy) 1.9148201942443848s
+Sampling
+_get_trajectories(option_policy) 1.9057538509368896s
+Sampling
+_get_trajectories(option_policy) 1.9116017818450928s
+Sampling
+_get_trajectories(option_policy) 1.9100193977355957s
+Sampling
+_get_trajectories(option_policy) 1.9134342670440674s
+Sampling
+_get_trajectories(option_policy) 1.9231677055358887s
+Sampling
+_get_trajectories(option_policy) 1.9158735275268555s
+Sampling
+_get_trajectories(option_policy) 1.9105489253997803s
+Sampling
+_get_trajectories(option_policy) 1.9192922115325928s
+Sampling
+_get_trajectories(option_policy) 1.9126431941986084s
+Sampling
+_get_trajectories(option_policy) 1.9119267463684082s
+Sampling
+_get_trajectories(option_policy) 1.9121356010437012s
+Sampling
+_get_trajectories(option_policy) 1.9230225086212158s
+Sampling
+_get_trajectories(option_policy) 1.9224908351898193s
+Sampling
+_get_trajectories(option_policy) 1.9214603900909424s
+Sampling
+_get_trajectories(option_policy) 1.928339958190918s
+Sampling
+_get_trajectories(option_policy) 1.9206674098968506s
+Sampling
+_get_trajectories(option_policy) 1.9404664039611816s
+Sampling
+_get_trajectories(option_policy) 1.9165403842926025s
+Sampling
+_get_trajectories(option_policy) 1.9177558422088623s
+Sampling
+_get_trajectories(option_policy) 1.9298443794250488s
+Sampling
+_get_trajectories(option_policy) 1.9167520999908447s
+Sampling
+_get_trajectories(option_policy) 1.9197583198547363s
+Sampling
+_get_trajectories(option_policy) 1.9156033992767334s
+Sampling
+_get_trajectories(option_policy) 1.9244070053100586s
+Sampling
+_get_trajectories(option_policy) 1.9217827320098877s
+Sampling
+_get_trajectories(option_policy) 1.9279742240905762s
+Sampling
+_get_trajectories(option_policy) 1.9208869934082031s
+Sampling
+_get_trajectories(option_policy) 1.9264907836914062s
+Sampling
+_get_trajectories(option_policy) 1.9226734638214111s
+Sampling
+_get_trajectories(option_policy) 1.916743278503418s
+Sampling
+_get_trajectories(option_policy) 1.916153907775879s
+Sampling
+_get_trajectories(option_policy) 1.9161345958709717s
+Sampling
+_get_trajectories(option_policy) 1.9178376197814941s
+Sampling
+_get_trajectories(option_policy) 1.9115886688232422s
+Sampling
+_get_trajectories(option_policy) 1.9102632999420166s
+Sampling
+_get_trajectories(option_policy) 1.920839786529541s
+Sampling
+_get_trajectories(option_policy) 1.9150092601776123s
+Sampling
+_get_trajectories(option_policy) 1.9145152568817139s
+Sampling
+_get_trajectories(option_policy) 1.9109435081481934s
+Sampling
+_get_trajectories(option_policy) 1.9117021560668945s
+Sampling
+_get_trajectories(option_policy) 1.9000060558319092s
+Sampling
+_get_trajectories(option_policy) 1.906804084777832s
+Sampling
+_get_trajectories(option_policy) 1.9049186706542969s
+Sampling
+_get_trajectories(option_policy) 1.9091482162475586s
+Sampling
+_get_trajectories(option_policy) 1.9161405563354492s
+Sampling
+_get_trajectories(option_policy) 1.9128384590148926s
+Sampling
+_get_trajectories(option_policy) 1.9071848392486572s
+Sampling
+_get_trajectories(option_policy) 1.9084546566009521s
+Sampling
+_get_trajectories(option_policy) 1.9087343215942383s
+Sampling
+_get_trajectories(option_policy) 1.9201328754425049s
+Sampling
+_get_trajectories(option_policy) 1.9130091667175293s
+Sampling
+_get_trajectories(option_policy) 1.916520595550537s
+Sampling
+_get_trajectories(option_policy) 1.9119434356689453s
+Sampling
+_get_trajectories(option_policy) 1.9080183506011963s
+Sampling
+_get_trajectories(option_policy) 1.9054477214813232s
+Sampling
+_get_trajectories(option_policy) 1.9105303287506104s
+Sampling
+_get_trajectories(option_policy) 1.90956449508667s
+Sampling
+_get_trajectories(option_policy) 1.90751051902771s
+Sampling
+_get_trajectories(option_policy) 1.9154114723205566s
+Sampling
+_get_trajectories(option_policy) 1.91593337059021s
+Sampling
+_get_trajectories(option_policy) 1.9222722053527832s
+Sampling
+_get_trajectories(option_policy) 1.9210405349731445s
+Sampling
+_get_trajectories(option_policy) 1.9197940826416016s
+Sampling
+_get_trajectories(option_policy) 1.913677453994751s
+Sampling
+_get_trajectories(option_policy) 1.9065840244293213s
+Sampling
+_get_trajectories(option_policy) 1.913015365600586s
+Sampling
+_get_trajectories(option_policy) 1.9138176441192627s
+Sampling
+_get_trajectories(option_policy) 1.9221704006195068s
+Sampling
+_get_trajectories(option_policy) 1.923340082168579s
+Sampling
+_get_trajectories(option_policy) 1.9154508113861084s
+Sampling
+_get_trajectories(option_policy) 1.917156457901001s
+Sampling
+_get_trajectories(option_policy) 1.9215600490570068s
+Sampling
+_get_trajectories(option_policy) 1.9240360260009766s
+Sampling
+_get_trajectories(option_policy) 1.9143412113189697s
+Sampling
+_get_trajectories(option_policy) 1.9240734577178955s
+Sampling
+_get_trajectories(option_policy) 1.9236586093902588s
+Sampling
+_get_trajectories(option_policy) 1.9182803630828857s
+Sampling
+_get_trajectories(option_policy) 1.906311273574829s
+Sampling
+_get_trajectories(option_policy) 1.9017302989959717s
+Sampling
+_get_trajectories(option_policy) 1.9066743850708008s
+Sampling
+_get_trajectories(option_policy) 1.9110922813415527s
+Sampling
+_get_trajectories(option_policy) 1.9144654273986816s
+Sampling
+_get_trajectories(option_policy) 1.9134743213653564s
+Sampling
+_get_trajectories(option_policy) 1.9030954837799072s
+Sampling
+_get_trajectories(option_policy) 1.9043025970458984s
+Sampling
+_get_trajectories(option_policy) 1.8937718868255615s
+Sampling
+_get_trajectories(option_policy) 1.900895357131958s
+Sampling
+_get_trajectories(option_policy) 1.9039475917816162s
+Sampling
+_get_trajectories(option_policy) 1.9125721454620361s
+Sampling
+_get_trajectories(option_policy) 1.9179363250732422s
+Sampling
+_get_trajectories(option_policy) 1.9048032760620117s
+Sampling
+_get_trajectories(option_policy) 1.907485008239746s
+Sampling
+_get_trajectories(option_policy) 1.9052257537841797s
+Sampling
+_get_trajectories(option_policy) 1.912346601486206s
+Sampling
+_get_trajectories(option_policy) 1.9062275886535645s
+Sampling
+_get_trajectories(option_policy) 1.9108240604400635s
+Sampling
+_get_trajectories(option_policy) 1.916086196899414s
+Sampling
+_get_trajectories(option_policy) 1.9125938415527344s
+Sampling
+_get_trajectories(option_policy) 1.9242925643920898s
+Sampling
+_get_trajectories(option_policy) 1.915574073791504s
+Sampling
+_get_trajectories(option_policy) 1.9096062183380127s
+Sampling
+_get_trajectories(option_policy) 1.914170742034912s
+Sampling
+_get_trajectories(option_policy) 1.9140667915344238s
+Sampling
+_get_trajectories(option_policy) 1.9122560024261475s
+Sampling
+_get_trajectories(option_policy) 1.9341189861297607s
+Sampling
+_get_trajectories(option_policy) 1.9202561378479004s
+Sampling
+_get_trajectories(option_policy) 1.9164156913757324s
+Sampling
+_get_trajectories(option_policy) 1.9128015041351318s
+Sampling
+_get_trajectories(option_policy) 1.9011473655700684s
+Sampling
+_get_trajectories(option_policy) 1.9035680294036865s
+Sampling
+_get_trajectories(option_policy) 1.8994841575622559s
+Sampling
+_get_trajectories(option_policy) 2.1223390102386475s
+Sampling
+_get_trajectories(option_policy) 1.9123504161834717s
+Sampling
+_get_trajectories(option_policy) 1.9258737564086914s
+Sampling
+_get_trajectories(option_policy) 1.9092814922332764s
+Sampling
+_get_trajectories(option_policy) 1.922264575958252s
+Sampling
+_get_trajectories(option_policy) 1.912637710571289s
+Sampling
+_get_trajectories(option_policy) 1.91050386428833s
+Sampling
+_get_trajectories(option_policy) 1.9036903381347656s
+Sampling
+_get_trajectories(option_policy) 1.9163134098052979s
+Sampling
+_get_trajectories(option_policy) 1.9154067039489746s
+Sampling
+_get_trajectories(option_policy) 1.908493995666504s
+Sampling
+_get_trajectories(option_policy) 1.907827615737915s
+Sampling
+_get_trajectories(option_policy) 1.9207966327667236s
+Sampling
+_get_trajectories(option_policy) 1.9032962322235107s
+Sampling
+_get_trajectories(option_policy) 1.9153480529785156s
+Sampling
+_get_trajectories(option_policy) 1.9028656482696533s
+Sampling
+_get_trajectories(option_policy) 1.9076743125915527s
+Sampling
+_get_trajectories(option_policy) 1.896785020828247s
+Sampling
+_get_trajectories(option_policy) 1.8965909481048584s
+Sampling
+_get_trajectories(option_policy) 1.8945205211639404s
+Sampling
+_get_trajectories(option_policy) 1.8993196487426758s
+Sampling
+_get_trajectories(option_policy) 1.9025607109069824s
+Sampling
+_get_trajectories(option_policy) 1.9049935340881348s
+Sampling
+_get_trajectories(option_policy) 1.9027578830718994s
+Sampling
+_get_trajectories(option_policy) 1.8929483890533447s
+Sampling
+_get_trajectories(option_policy) 1.8948078155517578s
+Sampling
+_get_trajectories(option_policy) 1.8992400169372559s
+Sampling
+_get_trajectories(option_policy) 1.9048328399658203s
+Sampling
+_get_trajectories(option_policy) 1.9067258834838867s
+Sampling
+_get_trajectories(option_policy) 1.9020779132843018s
+Sampling
+_get_trajectories(option_policy) 1.8968725204467773s
+Sampling
+_get_trajectories(option_policy) 1.897096872329712s
+Sampling
+_get_trajectories(option_policy) 1.896949052810669s
+Sampling
+_get_trajectories(option_policy) 1.9035265445709229s
+Sampling
+_get_trajectories(option_policy) 1.917910099029541s
+Sampling
+_get_trajectories(option_policy) 1.9070699214935303s
+Sampling
+_get_trajectories(option_policy) 1.9010992050170898s
+Sampling
+_get_trajectories(option_policy) 1.903761386871338s
+Sampling
+_get_trajectories(option_policy) 1.8908190727233887s
+Sampling
+_get_trajectories(option_policy) 1.9055757522583008s
+Sampling
+_get_trajectories(option_policy) 1.8942761421203613s
+Sampling
+_get_trajectories(option_policy) 1.9008753299713135s
+Sampling
+_get_trajectories(option_policy) 1.8972113132476807s
+Sampling
+_get_trajectories(option_policy) 1.893101453781128s
+Sampling
+_get_trajectories(option_policy) 1.8972280025482178s
+Sampling
+_get_trajectories(option_policy) 1.8930656909942627s
+Sampling
+_get_trajectories(option_policy) 1.9000732898712158s
+Sampling
+_get_trajectories(option_policy) 1.8894965648651123s
+Sampling
+_get_trajectories(option_policy) 1.8905019760131836s
+Sampling
+_get_trajectories(option_policy) 1.895880937576294s
+Sampling
+_get_trajectories(option_policy) 1.8925566673278809s
+Sampling
+_get_trajectories(option_policy) 1.9008524417877197s
+Sampling
+_get_trajectories(option_policy) 1.8998003005981445s
+Sampling
+_get_trajectories(option_policy) 1.8863210678100586s
+Sampling
+_get_trajectories(option_policy) 1.8858296871185303s
+Sampling
+_get_trajectories(option_policy) 1.8774964809417725s
+Sampling
+_get_trajectories(option_policy) 1.8917512893676758s
+Sampling
+_get_trajectories(option_policy) 1.9068071842193604s
+Sampling
+_get_trajectories(option_policy) 1.9030611515045166s
+Sampling
+_get_trajectories(option_policy) 1.899369239807129s
+Sampling
+_get_trajectories(option_policy) 1.8973817825317383s
+Sampling
+_get_trajectories(option_policy) 1.897493839263916s
+Sampling
+_get_trajectories(option_policy) 1.8860132694244385s
+Sampling
+_get_trajectories(option_policy) 1.8866369724273682s
+Sampling
+_get_trajectories(option_policy) 1.8809094429016113s
+Sampling
+_get_trajectories(option_policy) 1.878786563873291s
+Sampling
+_get_trajectories(option_policy) 1.8941686153411865s
+Sampling
+_get_trajectories(option_policy) 1.8918745517730713s
+Sampling
+_get_trajectories(option_policy) 1.899559736251831s
+Sampling
+_get_trajectories(option_policy) 1.8896243572235107s
+Sampling
+_get_trajectories(option_policy) 1.8946952819824219s
+Sampling
+_get_trajectories(option_policy) 1.891493320465088s
+Sampling
+_get_trajectories(option_policy) 1.8901259899139404s
+Sampling
+_get_trajectories(option_policy) 1.8967182636260986s
+Sampling
+_get_trajectories(option_policy) 1.9154675006866455s
+Sampling
+_get_trajectories(option_policy) 1.9094507694244385s
+Sampling
+_get_trajectories(option_policy) 1.9077601432800293s
+Sampling
+_get_trajectories(option_policy) 1.9013123512268066s
+Sampling
+_get_trajectories(option_policy) 1.9153416156768799s
+Sampling
+_get_trajectories(option_policy) 1.897118091583252s
+Sampling
+_get_trajectories(option_policy) 1.8904430866241455s
+Sampling
+_get_trajectories(option_policy) 1.898597002029419s
+Sampling
+_get_trajectories(option_policy) 1.893768072128296s
+Sampling
+_get_trajectories(option_policy) 1.8862788677215576s
+Sampling
+_get_trajectories(option_policy) 1.8906216621398926s
+Sampling
+_get_trajectories(option_policy) 1.8821771144866943s
+Sampling
+_get_trajectories(option_policy) 1.8862097263336182s
+Sampling
+_get_trajectories(option_policy) 1.8909106254577637s
+Sampling
+_get_trajectories(option_policy) 1.9058983325958252s
+Sampling
+_get_trajectories(option_policy) 1.8959074020385742s
+Sampling
+_get_trajectories(option_policy) 1.912168264389038s
+Sampling
+_get_trajectories(option_policy) 1.9043118953704834s
+Sampling
+_get_trajectories(option_policy) 1.913602590560913s
+Sampling
+_get_trajectories(option_policy) 1.8951787948608398s
+Sampling
+_get_trajectories(option_policy) 1.9045791625976562s
+Sampling
+_get_trajectories(option_policy) 1.9145212173461914s
+Sampling
+_get_trajectories(option_policy) 1.9005637168884277s
+Sampling
+_get_trajectories(option_policy) 1.9048542976379395s
+Sampling
+_get_trajectories(option_policy) 1.9070229530334473s
+Sampling
+_get_trajectories(option_policy) 1.8803684711456299s
+Sampling
+_get_trajectories(option_policy) 1.8999085426330566s
+Sampling
+_get_trajectories(option_policy) 1.9012322425842285s
+Sampling
+_get_trajectories(option_policy) 1.9031555652618408s
+Sampling
+_get_trajectories(option_policy) 1.911475419998169s
+Sampling
+_get_trajectories(option_policy) 1.9243719577789307s
+Sampling
+_get_trajectories(option_policy) 1.8981692790985107s
+Sampling
+_get_trajectories(option_policy) 1.8931496143341064s
+Sampling
+_get_trajectories(option_policy) 1.909771203994751s
+Sampling
+_get_trajectories(option_policy) 1.9006938934326172s
+Sampling
+_get_trajectories(option_policy) 1.9007158279418945s
+Sampling
+_get_trajectories(option_policy) 1.8944790363311768s
+Sampling
+_get_trajectories(option_policy) 1.8879036903381348s
+Sampling
+_get_trajectories(option_policy) 1.887422800064087s
+Sampling
+_get_trajectories(option_policy) 1.8980445861816406s
+Sampling
+_get_trajectories(option_policy) 1.9230811595916748s
+Sampling
+_get_trajectories(option_policy) 1.9059109687805176s
+Sampling
+_get_trajectories(option_policy) 1.8862900733947754s
+Sampling
+_get_trajectories(option_policy) 1.8795504570007324s
+Sampling
+_get_trajectories(option_policy) 1.887420892715454s
+Sampling
+_get_trajectories(option_policy) 1.8967041969299316s
+Sampling
+_get_trajectories(option_policy) 1.9166698455810547s
+Sampling
+_get_trajectories(option_policy) 1.891921043395996s
+Sampling
+_get_trajectories(option_policy) 1.8807940483093262s
+Sampling
+_get_trajectories(option_policy) 1.8795902729034424s
+Sampling
+_get_trajectories(option_policy) 1.8779873847961426s
+Sampling
+_get_trajectories(option_policy) 1.9082705974578857s
+Sampling
+_get_trajectories(option_policy) 1.9064035415649414s
+Sampling
+_get_trajectories(option_policy) 1.9228568077087402s
+Sampling
+_get_trajectories(option_policy) 1.9181029796600342s
+Sampling
+_get_trajectories(option_policy) 1.9000535011291504s
+Sampling
+_get_trajectories(option_policy) 1.9016475677490234s
+Sampling
+_get_trajectories(option_policy) 1.8922584056854248s
+Sampling
+_get_trajectories(option_policy) 1.9031593799591064s
+Sampling
+_get_trajectories(option_policy) 1.8861618041992188s
+Sampling
+_get_trajectories(option_policy) 1.8900213241577148s
+Sampling
+_get_trajectories(option_policy) 1.8849782943725586s
+Sampling
+_get_trajectories(option_policy) 1.882080316543579s
+Sampling
+_get_trajectories(option_policy) 1.9035444259643555s
+Sampling
+_get_trajectories(option_policy) 1.8910810947418213s
+Sampling
+_get_trajectories(option_policy) 1.897268533706665s
+Sampling
+_get_trajectories(option_policy) 1.899937391281128s
+Sampling
+_get_trajectories(option_policy) 1.8992788791656494s
+Sampling
+_get_trajectories(option_policy) 1.8891072273254395s
+Sampling
+_get_trajectories(option_policy) 1.9094583988189697s
+Sampling
+_get_trajectories(option_policy) 1.8958606719970703s
+Sampling
+_get_trajectories(option_policy) 1.8957901000976562s
+Sampling
+_get_trajectories(option_policy) 1.8873674869537354s
+Sampling
+_get_trajectories(option_policy) 1.8874866962432861s
+Sampling
+_get_trajectories(option_policy) 1.9078803062438965s
+Sampling
+_get_trajectories(option_policy) 1.9105896949768066s
+Sampling
+_get_trajectories(option_policy) 1.904174566268921s
+Sampling
+_get_trajectories(option_policy) 1.9174439907073975s
+Sampling
+_get_trajectories(option_policy) 1.9137327671051025s
+Sampling
+_get_trajectories(option_policy) 1.8961663246154785s
+Sampling
+_get_trajectories(option_policy) 1.8965182304382324s
+Sampling
+_get_trajectories(option_policy) 1.9044804573059082s
+Sampling
+_get_trajectories(option_policy) 1.9040977954864502s
+Sampling
+_get_trajectories(option_policy) 1.9055101871490479s
+Sampling
+_get_trajectories(option_policy) 1.9021012783050537s
+Sampling
+_get_trajectories(option_policy) 1.8957881927490234s
+Sampling
+_get_trajectories(option_policy) 1.901486873626709s
+Sampling
+_get_trajectories(option_policy) 1.895554780960083s
+Sampling
+_get_trajectories(option_policy) 1.9062464237213135s
+Sampling
+_get_trajectories(option_policy) 1.9052867889404297s
+Sampling
+_get_trajectories(option_policy) 1.9089610576629639s
+Sampling
+_get_trajectories(option_policy) 1.910860538482666s
+Sampling
+_get_trajectories(option_policy) 1.914123296737671s
+Sampling
+_get_trajectories(option_policy) 1.9050681591033936s
+Sampling
+_get_trajectories(option_policy) 1.9008753299713135s
+Sampling
+_get_trajectories(option_policy) 1.9323914051055908s
+Sampling
+_get_trajectories(option_policy) 1.9189984798431396s
+Sampling
+_get_trajectories(option_policy) 1.9035935401916504s
+Sampling
+_get_trajectories(option_policy) 1.9050750732421875s
+Sampling
+_get_trajectories(option_policy) 1.9160571098327637s
+Sampling
+_get_trajectories(option_policy) 1.8993942737579346s
+Sampling
+_get_trajectories(option_policy) 1.8997602462768555s
+Sampling
+_get_trajectories(option_policy) 1.9045894145965576s
+Sampling
+_get_trajectories(option_policy) 1.9091997146606445s
+Sampling
+_get_trajectories(option_policy) 1.9186365604400635s
+Sampling
+_get_trajectories(option_policy) 1.9065711498260498s
+Sampling
+_get_trajectories(option_policy) 1.9374151229858398s
+Sampling
+_get_trajectories(option_policy) 1.9172415733337402s
+Sampling
+_get_trajectories(option_policy) 1.9052867889404297s
+Sampling
+_get_trajectories(option_policy) 1.8948776721954346s
+Sampling
+_get_trajectories(option_policy) 1.8963346481323242s
+Sampling
+_get_trajectories(option_policy) 1.8964440822601318s
+Sampling
+_get_trajectories(option_policy) 1.9038419723510742s
+Sampling
+_get_trajectories(option_policy) 1.895420789718628s
+Sampling
+_get_trajectories(option_policy) 1.900825023651123s
+Sampling
+_get_trajectories(option_policy) 1.9090709686279297s
+Sampling
+_get_trajectories(option_policy) 1.8867037296295166s
+Sampling
+_get_trajectories(option_policy) 1.8945550918579102s
+Sampling
+_get_trajectories(option_policy) 1.8996000289916992s
+Sampling
+_get_trajectories(option_policy) 1.9061710834503174s
+Sampling
+_get_trajectories(option_policy) 1.924443006515503s
+Sampling
+_get_trajectories(option_policy) 1.9193720817565918s
+Sampling
+_get_trajectories(option_policy) 1.9042026996612549s
+Sampling
+_get_trajectories(option_policy) 1.8978376388549805s
+Sampling
+_get_trajectories(option_policy) 1.90504789352417s
+Sampling
+_get_trajectories(option_policy) 1.902113914489746s
+Sampling
+_get_trajectories(option_policy) 1.8959863185882568s
+Sampling
+_get_trajectories(option_policy) 1.8974456787109375s
+Sampling
+_get_trajectories(option_policy) 1.9005091190338135s
+Sampling
+_get_trajectories(option_policy) 1.9024152755737305s
+Sampling
+_get_trajectories(option_policy) 1.8893728256225586s
+Sampling
+_get_trajectories(option_policy) 1.9051425457000732s
+Sampling
+_get_trajectories(option_policy) 1.9082956314086914s
+Sampling
+_get_trajectories(option_policy) 1.906235694885254s
+Sampling
+_get_trajectories(option_policy) 1.9029150009155273s
+Sampling
+_get_trajectories(option_policy) 1.9115023612976074s
+Sampling
+_get_trajectories(option_policy) 1.9157805442810059s
+Sampling
+_get_trajectories(option_policy) 1.8993406295776367s
+Sampling
+_get_trajectories(option_policy) 1.9133365154266357s
+Sampling
+_get_trajectories(option_policy) 1.9088354110717773s
+Sampling
+_get_trajectories(option_policy) 1.9046192169189453s
+Sampling
+_get_trajectories(option_policy) 1.9048686027526855s
+Sampling
+_get_trajectories(option_policy) 1.8948898315429688s
+Sampling
+_get_trajectories(option_policy) 1.898392677307129s
+Sampling
+_get_trajectories(option_policy) 1.9040489196777344s
+Sampling
+_get_trajectories(option_policy) 1.914504051208496s
+Sampling
+_get_trajectories(option_policy) 1.9128913879394531s
+Sampling
+_get_trajectories(option_policy) 1.916574478149414s
+Sampling
+_get_trajectories(option_policy) 1.9158062934875488s
+Sampling
+_get_trajectories(option_policy) 1.9276692867279053s
+Sampling
+_get_trajectories(option_policy) 1.9141547679901123s
+Sampling
+_get_trajectories(option_policy) 1.9145233631134033s
+Sampling
+_get_trajectories(option_policy) 1.9355101585388184s
+Sampling
+_get_trajectories(option_policy) 1.9187936782836914s
+Sampling
+_get_trajectories(option_policy) 1.9147512912750244s
+Sampling
+_get_trajectories(option_policy) 1.9169745445251465s
+Sampling
+_get_trajectories(option_policy) 1.926180124282837s
+Sampling
+_get_trajectories(option_policy) 1.9025757312774658s
+Sampling
+_get_trajectories(option_policy) 1.8987181186676025s
+Sampling
+_get_trajectories(option_policy) 1.9022860527038574s
+Sampling
+_get_trajectories(option_policy) 1.8872411251068115s
+Sampling
+_get_trajectories(option_policy) 1.9105541706085205s
+Sampling
+_get_trajectories(option_policy) 1.902785301208496s
+Sampling
+_get_trajectories(option_policy) 1.90350341796875s
+Sampling
+_get_trajectories(option_policy) 1.9021921157836914s
+Sampling
+_get_trajectories(option_policy) 1.892324447631836s
+Sampling
+_get_trajectories(option_policy) 1.8941361904144287s
+Sampling
+_get_trajectories(option_policy) 1.892303228378296s
+Sampling
+_get_trajectories(option_policy) 1.898195743560791s
+Sampling
+_get_trajectories(option_policy) 1.9061570167541504s
+Sampling
+_get_trajectories(option_policy) 1.9184603691101074s
+Sampling
+_get_trajectories(option_policy) 1.9141132831573486s
+Sampling
+_get_trajectories(option_policy) 1.8966310024261475s
+Sampling
+_get_trajectories(option_policy) 1.9030413627624512s
+Sampling
+_get_trajectories(option_policy) 1.8885729312896729s
+Sampling
+_get_trajectories(option_policy) 1.9093222618103027s
+Sampling
+_get_trajectories(option_policy) 1.896984338760376s
+Sampling
+_get_trajectories(option_policy) 1.892876148223877s
+Sampling
+_get_trajectories(option_policy) 2.0890207290649414s
+Sampling
+_get_trajectories(option_policy) 1.911926507949829s
+Sampling
+_get_trajectories(option_policy) 1.9164056777954102s
+Sampling
+_get_trajectories(option_policy) 1.9045219421386719s
+Sampling
+_get_trajectories(option_policy) 1.8954834938049316s
+Sampling
+_get_trajectories(option_policy) 1.8968627452850342s
+Sampling
+_get_trajectories(option_policy) 1.9117941856384277s
+Sampling
+_get_trajectories(option_policy) 1.9253220558166504s
+Sampling
+_get_trajectories(option_policy) 1.9183502197265625s
+Sampling
+_get_trajectories(option_policy) 1.900414228439331s
+Sampling
+_get_trajectories(option_policy) 1.9162638187408447s
+Sampling
+_get_trajectories(option_policy) 1.904468059539795s
+Sampling
+_get_trajectories(option_policy) 1.9101815223693848s
+Sampling
+_get_trajectories(option_policy) 1.9171862602233887s
+Sampling
+_get_trajectories(option_policy) 1.9124393463134766s
+Sampling
+_get_trajectories(option_policy) 1.9099726676940918s
+Sampling
+_get_trajectories(option_policy) 1.91233491897583s
+Sampling
+_get_trajectories(option_policy) 1.9092750549316406s
+Sampling
+_get_trajectories(option_policy) 1.9174129962921143s
+Sampling
+_get_trajectories(option_policy) 1.9177837371826172s
+Sampling
+_get_trajectories(option_policy) 1.9179155826568604s
+Sampling
+_get_trajectories(option_policy) 1.9072763919830322s
+Sampling
+_get_trajectories(option_policy) 1.9018585681915283s
+Sampling
+_get_trajectories(option_policy) 1.9129469394683838s
+Sampling
+_get_trajectories(option_policy) 1.9109928607940674s
+Sampling
+_get_trajectories(option_policy) 1.8943603038787842s
+Sampling
+_get_trajectories(option_policy) 1.9046704769134521s
+Sampling
+_get_trajectories(option_policy) 1.9101824760437012s
+Sampling
+_get_trajectories(option_policy) 1.9058926105499268s
+Sampling
+_get_trajectories(option_policy) 1.902029037475586s
+Sampling
+_get_trajectories(option_policy) 1.9088869094848633s
+2025-01-04 15:03:34 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #999 | Time 2521.18 s
+2025-01-04 15:03:34 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #999 | EpochTime 2.46 s
+---------------------------------------------------------  --------------
+TimeEpoch                                                     2.46244
+TimeTotal                                                  2521.18
+TotalEnvSteps                                                 1.6e+06
+TotalEpoch                                                  999
+TrainSp/AverageDiscountedReturn                            -108.139
+TrainSp/AverageReturn                                      -254.326
+TrainSp/CompletionRate                                        1
+TrainSp/DiffMaxMinReturn                                    197.079
+TrainSp/Iteration                                           999
+TrainSp/MaxReturn                                          -169.303
+TrainSp/MinReturn                                          -366.382
+TrainSp/NumTrajs                                              8
+TrainSp/StdReturn                                            68.5189
+TrainSp/relabel_skills_metra_sf/Alpha                         9.26484e-05
+TrainSp/relabel_skills_metra_sf/DualCstPenalty                0.001
+TrainSp/relabel_skills_metra_sf/LossAlpha                   -33.1699
+TrainSp/relabel_skills_metra_sf/LossOp                       -0.0301705
+TrainSp/relabel_skills_metra_sf/LossQf1                       7.62669e-06
+TrainSp/relabel_skills_metra_sf/LossQf2                       7.88574e-06
+TrainSp/relabel_skills_metra_sf/LossTe                       27.7783
+TrainSp/relabel_skills_metra_sf/PathLengthMax               200
+TrainSp/relabel_skills_metra_sf/PathLengthMean              200
+TrainSp/relabel_skills_metra_sf/PathLengthMin               200
+TrainSp/relabel_skills_metra_sf/PureRewardMean                0.00491393
+TrainSp/relabel_skills_metra_sf/PureRewardStd                 0.156616
+TrainSp/relabel_skills_metra_sf/Qf1Mean                      -0.00636554
+TrainSp/relabel_skills_metra_sf/Qf2Mean                      -0.00604906
+TrainSp/relabel_skills_metra_sf/QfTargetsMean                -0.00650662
+TrainSp/relabel_skills_metra_sf/QfTdErrsMean                 -0.000299321
+TrainSp/relabel_skills_metra_sf/TeObjMean                   -27.7783
+TrainSp/relabel_skills_metra_sf/TimeComputingMetrics          0
+TrainSp/relabel_skills_metra_sf/TimeSampling                  1.90901
+TrainSp/relabel_skills_metra_sf/TimeTraining                  0.549313
+TrainSp/relabel_skills_metra_sf/TotalGradNormAll              3.5812
+TrainSp/relabel_skills_metra_sf/TotalGradNormDualLam          0
+TrainSp/relabel_skills_metra_sf/TotalGradNormLogAlpha         3.57176
+TrainSp/relabel_skills_metra_sf/TotalGradNormOptionPolicy     0.00138037
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf1              0.209253
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf2              0.147284
+TrainSp/relabel_skills_metra_sf/TotalGradNormTrajEncoder      0.0450987
+---------------------------------------------------------  --------------
+2025-01-04 15:03:34 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1000 | Saving snapshot...
+2025-01-04 15:03:35 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1000 | Saved
+Sampling
+_get_trajectories(option_policy) 9.17335319519043s
+------------------------------  ----------
+EvalOp/AtSuccess1                  0
+EvalOp/AtSuccess3                  0.0193
+EvalOp/AverageDiscountedReturn   -57.599
+EvalOp/AverageReturn            -132.069
+EvalOp/CompletionRate              1
+EvalOp/DiffMaxMinReturn          217.951
+EvalOp/EndSuccess1                 0
+EvalOp/EndSuccess3                 0.02
+EvalOp/GoalDistance               37.594
+EvalOp/GoalSquaredDistance      1616
+EvalOp/HitSuccess1                 0
+EvalOp/HitSuccess3                 0.02
+EvalOp/Iteration                1000
+EvalOp/MaxReturn                  -2.65662
+EvalOp/MinReturn                -220.608
+EvalOp/MjAvgTrajLen              200
+EvalOp/MjNumCoords              9648
+EvalOp/MjNumTrajs                 48
+EvalOp/MjNumUniqueCoords           5
+EvalOp/NumTrajs                   48
+EvalOp/StdReturn                  69.3005
+TimeTotal                       2550.39
+TotalEnvSteps                      1.6e+06
+TotalEpoch                      1000
+------------------------------  ----------
+Sampling
+_get_trajectories(option_policy) 1.8976337909698486s
+Sampling
+_get_trajectories(option_policy) 1.9089157581329346s
+Sampling
+_get_trajectories(option_policy) 1.8993628025054932s
+Sampling
+_get_trajectories(option_policy) 1.8961291313171387s
+Sampling
+_get_trajectories(option_policy) 1.9138820171356201s
+Sampling
+_get_trajectories(option_policy) 1.9185454845428467s
+Sampling
+_get_trajectories(option_policy) 1.9121801853179932s
+Sampling
+_get_trajectories(option_policy) 1.918276071548462s
+Sampling
+_get_trajectories(option_policy) 1.9091875553131104s
+Sampling
+_get_trajectories(option_policy) 1.8906834125518799s
+Sampling
+_get_trajectories(option_policy) 1.8968877792358398s
+Sampling
+_get_trajectories(option_policy) 1.901437759399414s
+Sampling
+_get_trajectories(option_policy) 1.9133796691894531s
+Sampling
+_get_trajectories(option_policy) 1.9095642566680908s
+Sampling
+_get_trajectories(option_policy) 1.9031426906585693s
+Sampling
+_get_trajectories(option_policy) 1.9220633506774902s
+Sampling
+_get_trajectories(option_policy) 1.922140121459961s
+Sampling
+_get_trajectories(option_policy) 1.9373528957366943s
+Sampling
+_get_trajectories(option_policy) 1.905616044998169s
+Sampling
+_get_trajectories(option_policy) 1.9024958610534668s
+Sampling
+_get_trajectories(option_policy) 1.907224416732788s
+Sampling
+_get_trajectories(option_policy) 1.9465246200561523s
+Sampling
+_get_trajectories(option_policy) 1.8891489505767822s
+Sampling
+_get_trajectories(option_policy) 1.8988580703735352s
+Sampling
+_get_trajectories(option_policy) 1.9137656688690186s
+Sampling
+_get_trajectories(option_policy) 1.9080142974853516s
+Sampling
+_get_trajectories(option_policy) 1.918257713317871s
+Sampling
+_get_trajectories(option_policy) 1.9035406112670898s
+Sampling
+_get_trajectories(option_policy) 1.8946375846862793s
+Sampling
+_get_trajectories(option_policy) 1.9206151962280273s
+Sampling
+_get_trajectories(option_policy) 1.9060039520263672s
+Sampling
+_get_trajectories(option_policy) 1.915757417678833s
+Sampling
+_get_trajectories(option_policy) 1.923152208328247s
+Sampling
+_get_trajectories(option_policy) 1.926621913909912s
+Sampling
+_get_trajectories(option_policy) 1.9264953136444092s
+Sampling
+_get_trajectories(option_policy) 1.8918688297271729s
+Sampling
+_get_trajectories(option_policy) 1.908341646194458s
+Sampling
+_get_trajectories(option_policy) 1.9074301719665527s
+Sampling
+_get_trajectories(option_policy) 1.905085563659668s
+Sampling
+_get_trajectories(option_policy) 1.90399169921875s
+Sampling
+_get_trajectories(option_policy) 1.912874698638916s
+Sampling
+_get_trajectories(option_policy) 1.9259912967681885s
+Sampling
+_get_trajectories(option_policy) 1.903036117553711s
+Sampling
+_get_trajectories(option_policy) 1.8983325958251953s
+Sampling
+_get_trajectories(option_policy) 1.9102909564971924s
+Sampling
+_get_trajectories(option_policy) 1.9128012657165527s
+Sampling
+_get_trajectories(option_policy) 1.9081110954284668s
+Sampling
+_get_trajectories(option_policy) 1.918412685394287s
+Sampling
+_get_trajectories(option_policy) 1.9093842506408691s
+Sampling
+_get_trajectories(option_policy) 1.900357961654663s
+Sampling
+_get_trajectories(option_policy) 1.906414270401001s
+Sampling
+_get_trajectories(option_policy) 1.90089750289917s
+Sampling
+_get_trajectories(option_policy) 1.9112346172332764s
+Sampling
+_get_trajectories(option_policy) 1.9188458919525146s
+Sampling
+_get_trajectories(option_policy) 1.9031238555908203s
+Sampling
+_get_trajectories(option_policy) 1.898927927017212s
+Sampling
+_get_trajectories(option_policy) 1.9134025573730469s
+Sampling
+_get_trajectories(option_policy) 1.9010756015777588s
+Sampling
+_get_trajectories(option_policy) 1.8981010913848877s
+Sampling
+_get_trajectories(option_policy) 1.9041261672973633s
+Sampling
+_get_trajectories(option_policy) 1.9076952934265137s
+Sampling
+_get_trajectories(option_policy) 1.9090571403503418s
+Sampling
+_get_trajectories(option_policy) 1.9250288009643555s
+Sampling
+_get_trajectories(option_policy) 1.9051954746246338s
+Sampling
+_get_trajectories(option_policy) 1.9305973052978516s
+Sampling
+_get_trajectories(option_policy) 1.915738821029663s
+Sampling
+_get_trajectories(option_policy) 1.9191389083862305s
+Sampling
+_get_trajectories(option_policy) 1.9288055896759033s
+Sampling
+_get_trajectories(option_policy) 1.90791654586792s
+Sampling
+_get_trajectories(option_policy) 1.9198694229125977s
+Sampling
+_get_trajectories(option_policy) 1.9212007522583008s
+Sampling
+_get_trajectories(option_policy) 1.913135051727295s
+Sampling
+_get_trajectories(option_policy) 1.907405138015747s
+Sampling
+_get_trajectories(option_policy) 1.8960750102996826s
+Sampling
+_get_trajectories(option_policy) 1.9118592739105225s
+Sampling
+_get_trajectories(option_policy) 1.899430274963379s
+Sampling
+_get_trajectories(option_policy) 1.8945283889770508s
+Sampling
+_get_trajectories(option_policy) 1.9152321815490723s
+Sampling
+_get_trajectories(option_policy) 1.9228501319885254s
+Sampling
+_get_trajectories(option_policy) 1.9129033088684082s
+Sampling
+_get_trajectories(option_policy) 1.9116218090057373s
+Sampling
+_get_trajectories(option_policy) 1.9336471557617188s
+Sampling
+_get_trajectories(option_policy) 1.9175770282745361s
+Sampling
+_get_trajectories(option_policy) 1.9195137023925781s
+Sampling
+_get_trajectories(option_policy) 1.927034854888916s
+Sampling
+_get_trajectories(option_policy) 1.9390013217926025s
+Sampling
+_get_trajectories(option_policy) 1.938528299331665s
+Sampling
+_get_trajectories(option_policy) 1.943176031112671s
+Sampling
+_get_trajectories(option_policy) 1.9395458698272705s
+Sampling
+_get_trajectories(option_policy) 1.9014718532562256s
+Sampling
+_get_trajectories(option_policy) 1.915886640548706s
+Sampling
+_get_trajectories(option_policy) 1.898860216140747s
+Sampling
+_get_trajectories(option_policy) 1.9104065895080566s
+Sampling
+_get_trajectories(option_policy) 1.9153270721435547s
+Sampling
+_get_trajectories(option_policy) 1.9274969100952148s
+Sampling
+_get_trajectories(option_policy) 1.930063009262085s
+Sampling
+_get_trajectories(option_policy) 1.9177019596099854s
+Sampling
+_get_trajectories(option_policy) 1.928525686264038s
+Sampling
+_get_trajectories(option_policy) 1.9162132740020752s
+Sampling
+_get_trajectories(option_policy) 1.9347167015075684s
+Sampling
+_get_trajectories(option_policy) 1.9274656772613525s
+Sampling
+_get_trajectories(option_policy) 1.9272730350494385s
+Sampling
+_get_trajectories(option_policy) 1.9320781230926514s
+Sampling
+_get_trajectories(option_policy) 1.937011957168579s
+Sampling
+_get_trajectories(option_policy) 1.925335168838501s
+Sampling
+_get_trajectories(option_policy) 1.9342503547668457s
+Sampling
+_get_trajectories(option_policy) 1.9120361804962158s
+Sampling
+_get_trajectories(option_policy) 1.9194540977478027s
+Sampling
+_get_trajectories(option_policy) 1.9263396263122559s
+Sampling
+_get_trajectories(option_policy) 1.9126460552215576s
+Sampling
+_get_trajectories(option_policy) 1.9073948860168457s
+Sampling
+_get_trajectories(option_policy) 1.9025461673736572s
+Sampling
+_get_trajectories(option_policy) 1.9127066135406494s
+Sampling
+_get_trajectories(option_policy) 1.9008572101593018s
+Sampling
+_get_trajectories(option_policy) 1.8996589183807373s
+Sampling
+_get_trajectories(option_policy) 1.9030959606170654s
+Sampling
+_get_trajectories(option_policy) 1.9003221988677979s
+Sampling
+_get_trajectories(option_policy) 1.920996904373169s
+Sampling
+_get_trajectories(option_policy) 1.9166712760925293s
+Sampling
+_get_trajectories(option_policy) 1.9152419567108154s
+Sampling
+_get_trajectories(option_policy) 1.918053150177002s
+Sampling
+_get_trajectories(option_policy) 1.9310224056243896s
+Sampling
+_get_trajectories(option_policy) 1.9080913066864014s
+Sampling
+_get_trajectories(option_policy) 1.9388835430145264s
+Sampling
+_get_trajectories(option_policy) 1.9032280445098877s
+Sampling
+_get_trajectories(option_policy) 1.930579423904419s
+Sampling
+_get_trajectories(option_policy) 1.952033281326294s
+Sampling
+_get_trajectories(option_policy) 1.9502203464508057s
+Sampling
+_get_trajectories(option_policy) 1.9262208938598633s
+Sampling
+_get_trajectories(option_policy) 1.9175832271575928s
+Sampling
+_get_trajectories(option_policy) 1.930891990661621s
+Sampling
+_get_trajectories(option_policy) 1.917842149734497s
+Sampling
+_get_trajectories(option_policy) 1.9191076755523682s
+Sampling
+_get_trajectories(option_policy) 1.9220800399780273s
+Sampling
+_get_trajectories(option_policy) 1.9191267490386963s
+Sampling
+_get_trajectories(option_policy) 1.9287114143371582s
+Sampling
+_get_trajectories(option_policy) 1.928095817565918s
+Sampling
+_get_trajectories(option_policy) 1.914276361465454s
+Sampling
+_get_trajectories(option_policy) 1.914538860321045s
+Sampling
+_get_trajectories(option_policy) 1.931105136871338s
+Sampling
+_get_trajectories(option_policy) 1.9193601608276367s
+Sampling
+_get_trajectories(option_policy) 1.9371237754821777s
+Sampling
+_get_trajectories(option_policy) 1.936598539352417s
+Sampling
+_get_trajectories(option_policy) 1.9402482509613037s
+Sampling
+_get_trajectories(option_policy) 1.924408197402954s
+Sampling
+_get_trajectories(option_policy) 1.9304161071777344s
+Sampling
+_get_trajectories(option_policy) 1.9009733200073242s
+Sampling
+_get_trajectories(option_policy) 1.924043893814087s
+Sampling
+_get_trajectories(option_policy) 1.9095916748046875s
+Sampling
+_get_trajectories(option_policy) 1.9133827686309814s
+Sampling
+_get_trajectories(option_policy) 1.9278550148010254s
+Sampling
+_get_trajectories(option_policy) 1.9096717834472656s
+Sampling
+_get_trajectories(option_policy) 1.904930830001831s
+Sampling
+_get_trajectories(option_policy) 1.8862395286560059s
+Sampling
+_get_trajectories(option_policy) 1.893747329711914s
+Sampling
+_get_trajectories(option_policy) 1.904289960861206s
+Sampling
+_get_trajectories(option_policy) 1.912818193435669s
+Sampling
+_get_trajectories(option_policy) 1.935443639755249s
+Sampling
+_get_trajectories(option_policy) 1.913379430770874s
+Sampling
+_get_trajectories(option_policy) 1.9155144691467285s
+Sampling
+_get_trajectories(option_policy) 1.9262480735778809s
+Sampling
+_get_trajectories(option_policy) 1.9031188488006592s
+Sampling
+_get_trajectories(option_policy) 1.8989949226379395s
+Sampling
+_get_trajectories(option_policy) 1.9078724384307861s
+Sampling
+_get_trajectories(option_policy) 1.9026868343353271s
+Sampling
+_get_trajectories(option_policy) 1.9172546863555908s
+Sampling
+_get_trajectories(option_policy) 1.9155714511871338s
+Sampling
+_get_trajectories(option_policy) 1.9176995754241943s
+Sampling
+_get_trajectories(option_policy) 1.9442734718322754s
+Sampling
+_get_trajectories(option_policy) 1.9230468273162842s
+Sampling
+_get_trajectories(option_policy) 1.911151647567749s
+Sampling
+_get_trajectories(option_policy) 1.92545485496521s
+Sampling
+_get_trajectories(option_policy) 1.9219231605529785s
+Sampling
+_get_trajectories(option_policy) 1.9254021644592285s
+Sampling
+_get_trajectories(option_policy) 1.925494909286499s
+Sampling
+_get_trajectories(option_policy) 1.9337422847747803s
+Sampling
+_get_trajectories(option_policy) 1.9402110576629639s
+Sampling
+_get_trajectories(option_policy) 1.9289531707763672s
+Sampling
+_get_trajectories(option_policy) 1.9276814460754395s
+Sampling
+_get_trajectories(option_policy) 1.9347329139709473s
+Sampling
+_get_trajectories(option_policy) 1.929792881011963s
+Sampling
+_get_trajectories(option_policy) 1.9073259830474854s
+Sampling
+_get_trajectories(option_policy) 1.9210336208343506s
+Sampling
+_get_trajectories(option_policy) 1.929795265197754s
+Sampling
+_get_trajectories(option_policy) 1.9202110767364502s
+Sampling
+_get_trajectories(option_policy) 1.9167311191558838s
+Sampling
+_get_trajectories(option_policy) 1.9307310581207275s
+Sampling
+_get_trajectories(option_policy) 1.926426887512207s
+Sampling
+_get_trajectories(option_policy) 1.9161179065704346s
+Sampling
+_get_trajectories(option_policy) 1.9400815963745117s
+Sampling
+_get_trajectories(option_policy) 1.960618257522583s
+Sampling
+_get_trajectories(option_policy) 1.940953254699707s
+Sampling
+_get_trajectories(option_policy) 1.944120168685913s
+Sampling
+_get_trajectories(option_policy) 1.9530112743377686s
+Sampling
+_get_trajectories(option_policy) 1.9288558959960938s
+Sampling
+_get_trajectories(option_policy) 1.9447298049926758s
+Sampling
+_get_trajectories(option_policy) 1.9427032470703125s
+Sampling
+_get_trajectories(option_policy) 1.947852611541748s
+Sampling
+_get_trajectories(option_policy) 1.9333364963531494s
+Sampling
+_get_trajectories(option_policy) 1.9213762283325195s
+Sampling
+_get_trajectories(option_policy) 1.9524204730987549s
+Sampling
+_get_trajectories(option_policy) 1.9243216514587402s
+Sampling
+_get_trajectories(option_policy) 1.9496335983276367s
+Sampling
+_get_trajectories(option_policy) 1.9261188507080078s
+Sampling
+_get_trajectories(option_policy) 1.9300272464752197s
+Sampling
+_get_trajectories(option_policy) 1.9039816856384277s
+Sampling
+_get_trajectories(option_policy) 1.9423291683197021s
+Sampling
+_get_trajectories(option_policy) 1.922609567642212s
+Sampling
+_get_trajectories(option_policy) 1.9570934772491455s
+Sampling
+_get_trajectories(option_policy) 1.9450008869171143s
+Sampling
+_get_trajectories(option_policy) 1.9306025505065918s
+Sampling
+_get_trajectories(option_policy) 1.9243733882904053s
+Sampling
+_get_trajectories(option_policy) 1.9439196586608887s
+Sampling
+_get_trajectories(option_policy) 1.944277286529541s
+Sampling
+_get_trajectories(option_policy) 1.966219425201416s
+Sampling
+_get_trajectories(option_policy) 1.9101388454437256s
+Sampling
+_get_trajectories(option_policy) 1.9037435054779053s
+Sampling
+_get_trajectories(option_policy) 1.9125285148620605s
+Sampling
+_get_trajectories(option_policy) 1.9172582626342773s
+Sampling
+_get_trajectories(option_policy) 1.8952200412750244s
+Sampling
+_get_trajectories(option_policy) 1.9293911457061768s
+Sampling
+_get_trajectories(option_policy) 1.956153392791748s
+Sampling
+_get_trajectories(option_policy) 1.9215826988220215s
+Sampling
+_get_trajectories(option_policy) 2.1228463649749756s
+Sampling
+_get_trajectories(option_policy) 1.9470014572143555s
+Sampling
+_get_trajectories(option_policy) 1.909106969833374s
+Sampling
+_get_trajectories(option_policy) 1.9527654647827148s
+Sampling
+_get_trajectories(option_policy) 1.9563496112823486s
+Sampling
+_get_trajectories(option_policy) 1.9161150455474854s
+Sampling
+_get_trajectories(option_policy) 1.9362659454345703s
+Sampling
+_get_trajectories(option_policy) 1.919428825378418s
+Sampling
+_get_trajectories(option_policy) 1.93204927444458s
+Sampling
+_get_trajectories(option_policy) 1.9358406066894531s
+Sampling
+_get_trajectories(option_policy) 1.9307172298431396s
+Sampling
+_get_trajectories(option_policy) 1.9233012199401855s
+Sampling
+_get_trajectories(option_policy) 1.9272477626800537s
+Sampling
+_get_trajectories(option_policy) 1.9241464138031006s
+Sampling
+_get_trajectories(option_policy) 1.928379774093628s
+Sampling
+_get_trajectories(option_policy) 1.936971664428711s
+Sampling
+_get_trajectories(option_policy) 1.923041582107544s
+Sampling
+_get_trajectories(option_policy) 1.9231626987457275s
+Sampling
+_get_trajectories(option_policy) 1.923379898071289s
+Sampling
+_get_trajectories(option_policy) 1.9300415515899658s
+Sampling
+_get_trajectories(option_policy) 1.9124655723571777s
+Sampling
+_get_trajectories(option_policy) 1.9230010509490967s
+Sampling
+_get_trajectories(option_policy) 1.939197063446045s
+Sampling
+_get_trajectories(option_policy) 1.932586669921875s
+Sampling
+_get_trajectories(option_policy) 1.9204249382019043s
+Sampling
+_get_trajectories(option_policy) 1.922940969467163s
+Sampling
+_get_trajectories(option_policy) 1.9241693019866943s
+Sampling
+_get_trajectories(option_policy) 1.9534406661987305s
+Sampling
+_get_trajectories(option_policy) 1.936417818069458s
+Sampling
+_get_trajectories(option_policy) 1.913008689880371s
+Sampling
+_get_trajectories(option_policy) 1.9230895042419434s
+Sampling
+_get_trajectories(option_policy) 1.927016019821167s
+Sampling
+_get_trajectories(option_policy) 1.916137456893921s
+Sampling
+_get_trajectories(option_policy) 1.9184010028839111s
+Sampling
+_get_trajectories(option_policy) 1.9184074401855469s
+Sampling
+_get_trajectories(option_policy) 1.9186372756958008s
+Sampling
+_get_trajectories(option_policy) 1.9317500591278076s
+Sampling
+_get_trajectories(option_policy) 1.914659023284912s
+Sampling
+_get_trajectories(option_policy) 1.9294414520263672s
+Sampling
+_get_trajectories(option_policy) 1.9329662322998047s
+Sampling
+_get_trajectories(option_policy) 1.9505398273468018s
+Sampling
+_get_trajectories(option_policy) 1.9529852867126465s
+Sampling
+_get_trajectories(option_policy) 1.9270539283752441s
+Sampling
+_get_trajectories(option_policy) 1.9612383842468262s
+Sampling
+_get_trajectories(option_policy) 1.9708449840545654s
+Sampling
+_get_trajectories(option_policy) 1.9521536827087402s
+Sampling
+_get_trajectories(option_policy) 1.9651374816894531s
+Sampling
+_get_trajectories(option_policy) 1.9161474704742432s
+Sampling
+_get_trajectories(option_policy) 1.908055305480957s
+Sampling
+_get_trajectories(option_policy) 1.9216129779815674s
+Sampling
+_get_trajectories(option_policy) 1.9149839878082275s
+Sampling
+_get_trajectories(option_policy) 1.9179599285125732s
+Sampling
+_get_trajectories(option_policy) 1.9457013607025146s
+Sampling
+_get_trajectories(option_policy) 1.9423959255218506s
+Sampling
+_get_trajectories(option_policy) 1.957179069519043s
+Sampling
+_get_trajectories(option_policy) 1.9367530345916748s
+Sampling
+_get_trajectories(option_policy) 1.9373133182525635s
+Sampling
+_get_trajectories(option_policy) 1.9438602924346924s
+Sampling
+_get_trajectories(option_policy) 1.9355154037475586s
+Sampling
+_get_trajectories(option_policy) 1.9387626647949219s
+Sampling
+_get_trajectories(option_policy) 1.9435245990753174s
+Sampling
+_get_trajectories(option_policy) 1.9481596946716309s
+Sampling
+_get_trajectories(option_policy) 1.9287631511688232s
+Sampling
+_get_trajectories(option_policy) 1.9390003681182861s
+Sampling
+_get_trajectories(option_policy) 1.9359962940216064s
+Sampling
+_get_trajectories(option_policy) 1.95749831199646s
+Sampling
+_get_trajectories(option_policy) 1.9367587566375732s
+Sampling
+_get_trajectories(option_policy) 1.9384849071502686s
+Sampling
+_get_trajectories(option_policy) 1.9223451614379883s
+Sampling
+_get_trajectories(option_policy) 1.9276020526885986s
+Sampling
+_get_trajectories(option_policy) 1.9485893249511719s
+Sampling
+_get_trajectories(option_policy) 1.9460422992706299s
+Sampling
+_get_trajectories(option_policy) 1.9500021934509277s
+Sampling
+_get_trajectories(option_policy) 1.9365921020507812s
+Sampling
+_get_trajectories(option_policy) 1.9348459243774414s
+Sampling
+_get_trajectories(option_policy) 1.9471449851989746s
+Sampling
+_get_trajectories(option_policy) 1.9341111183166504s
+Sampling
+_get_trajectories(option_policy) 1.9586760997772217s
+Sampling
+_get_trajectories(option_policy) 1.94288969039917s
+Sampling
+_get_trajectories(option_policy) 1.9463436603546143s
+Sampling
+_get_trajectories(option_policy) 1.9588241577148438s
+Sampling
+_get_trajectories(option_policy) 1.9430851936340332s
+Sampling
+_get_trajectories(option_policy) 1.9480581283569336s
+Sampling
+_get_trajectories(option_policy) 1.949432611465454s
+Sampling
+_get_trajectories(option_policy) 1.9243450164794922s
+Sampling
+_get_trajectories(option_policy) 1.9279448986053467s
+Sampling
+_get_trajectories(option_policy) 1.9347763061523438s
+Sampling
+_get_trajectories(option_policy) 1.9377470016479492s
+Sampling
+_get_trajectories(option_policy) 1.921118974685669s
+Sampling
+_get_trajectories(option_policy) 1.926823377609253s
+Sampling
+_get_trajectories(option_policy) 1.9317066669464111s
+Sampling
+_get_trajectories(option_policy) 1.9406564235687256s
+Sampling
+_get_trajectories(option_policy) 1.9292666912078857s
+Sampling
+_get_trajectories(option_policy) 1.9120087623596191s
+Sampling
+_get_trajectories(option_policy) 1.917715311050415s
+Sampling
+_get_trajectories(option_policy) 1.931729793548584s
+Sampling
+_get_trajectories(option_policy) 1.9241394996643066s
+Sampling
+_get_trajectories(option_policy) 1.9119904041290283s
+Sampling
+_get_trajectories(option_policy) 1.9232041835784912s
+Sampling
+_get_trajectories(option_policy) 1.932861566543579s
+Sampling
+_get_trajectories(option_policy) 1.9344778060913086s
+Sampling
+_get_trajectories(option_policy) 1.933835506439209s
+Sampling
+_get_trajectories(option_policy) 1.920638084411621s
+Sampling
+_get_trajectories(option_policy) 1.9233906269073486s
+Sampling
+_get_trajectories(option_policy) 1.9218106269836426s
+Sampling
+_get_trajectories(option_policy) 1.9348666667938232s
+Sampling
+_get_trajectories(option_policy) 1.932417392730713s
+Sampling
+_get_trajectories(option_policy) 1.9154961109161377s
+Sampling
+_get_trajectories(option_policy) 1.9128880500793457s
+Sampling
+_get_trajectories(option_policy) 1.9120104312896729s
+Sampling
+_get_trajectories(option_policy) 1.9151639938354492s
+Sampling
+_get_trajectories(option_policy) 1.924259901046753s
+Sampling
+_get_trajectories(option_policy) 1.9334535598754883s
+Sampling
+_get_trajectories(option_policy) 1.9316551685333252s
+Sampling
+_get_trajectories(option_policy) 1.9088878631591797s
+Sampling
+_get_trajectories(option_policy) 1.9469716548919678s
+Sampling
+_get_trajectories(option_policy) 1.9361546039581299s
+Sampling
+_get_trajectories(option_policy) 1.931701421737671s
+Sampling
+_get_trajectories(option_policy) 1.9195823669433594s
+Sampling
+_get_trajectories(option_policy) 1.9196135997772217s
+Sampling
+_get_trajectories(option_policy) 1.9468739032745361s
+Sampling
+_get_trajectories(option_policy) 1.9275846481323242s
+Sampling
+_get_trajectories(option_policy) 1.917973279953003s
+Sampling
+_get_trajectories(option_policy) 1.9119181632995605s
+Sampling
+_get_trajectories(option_policy) 1.9523510932922363s
+Sampling
+_get_trajectories(option_policy) 1.9310052394866943s
+Sampling
+_get_trajectories(option_policy) 1.929945945739746s
+Sampling
+_get_trajectories(option_policy) 1.929490089416504s
+Sampling
+_get_trajectories(option_policy) 1.9321799278259277s
+Sampling
+_get_trajectories(option_policy) 1.9293248653411865s
+Sampling
+_get_trajectories(option_policy) 1.922853946685791s
+Sampling
+_get_trajectories(option_policy) 1.9249067306518555s
+Sampling
+_get_trajectories(option_policy) 1.93609619140625s
+Sampling
+_get_trajectories(option_policy) 1.9299957752227783s
+Sampling
+_get_trajectories(option_policy) 1.9556300640106201s
+Sampling
+_get_trajectories(option_policy) 1.9318711757659912s
+Sampling
+_get_trajectories(option_policy) 1.932924747467041s
+Sampling
+_get_trajectories(option_policy) 1.9253907203674316s
+Sampling
+_get_trajectories(option_policy) 1.93402099609375s
+Sampling
+_get_trajectories(option_policy) 1.9269840717315674s
+Sampling
+_get_trajectories(option_policy) 1.9172956943511963s
+Sampling
+_get_trajectories(option_policy) 1.932079792022705s
+Sampling
+_get_trajectories(option_policy) 1.9223415851593018s
+Sampling
+_get_trajectories(option_policy) 1.927469253540039s
+Sampling
+_get_trajectories(option_policy) 1.9051976203918457s
+Sampling
+_get_trajectories(option_policy) 1.9151668548583984s
+Sampling
+_get_trajectories(option_policy) 1.91801118850708s
+Sampling
+_get_trajectories(option_policy) 1.918691635131836s
+Sampling
+_get_trajectories(option_policy) 1.931917428970337s
+Sampling
+_get_trajectories(option_policy) 1.9262168407440186s
+Sampling
+_get_trajectories(option_policy) 1.9314336776733398s
+Sampling
+_get_trajectories(option_policy) 1.9399912357330322s
+Sampling
+_get_trajectories(option_policy) 1.930859088897705s
+Sampling
+_get_trajectories(option_policy) 1.9262385368347168s
+Sampling
+_get_trajectories(option_policy) 1.9355037212371826s
+Sampling
+_get_trajectories(option_policy) 1.9212684631347656s
+Sampling
+_get_trajectories(option_policy) 1.9197726249694824s
+Sampling
+_get_trajectories(option_policy) 1.9120073318481445s
+Sampling
+_get_trajectories(option_policy) 1.932119369506836s
+Sampling
+_get_trajectories(option_policy) 1.9330861568450928s
+Sampling
+_get_trajectories(option_policy) 1.941514253616333s
+Sampling
+_get_trajectories(option_policy) 1.929067611694336s
+Sampling
+_get_trajectories(option_policy) 1.926025152206421s
+Sampling
+_get_trajectories(option_policy) 1.9427831172943115s
+Sampling
+_get_trajectories(option_policy) 1.9222569465637207s
+Sampling
+_get_trajectories(option_policy) 1.9211227893829346s
+Sampling
+_get_trajectories(option_policy) 1.9396977424621582s
+Sampling
+_get_trajectories(option_policy) 1.9383447170257568s
+Sampling
+_get_trajectories(option_policy) 1.9307219982147217s
+Sampling
+_get_trajectories(option_policy) 1.9313552379608154s
+Sampling
+_get_trajectories(option_policy) 1.9391613006591797s
+Sampling
+_get_trajectories(option_policy) 1.948087215423584s
+Sampling
+_get_trajectories(option_policy) 1.9309916496276855s
+Sampling
+_get_trajectories(option_policy) 1.9201512336730957s
+Sampling
+_get_trajectories(option_policy) 1.911374807357788s
+Sampling
+_get_trajectories(option_policy) 1.9137890338897705s
+Sampling
+_get_trajectories(option_policy) 1.9137647151947021s
+Sampling
+_get_trajectories(option_policy) 1.9242022037506104s
+Sampling
+_get_trajectories(option_policy) 1.9158780574798584s
+Sampling
+_get_trajectories(option_policy) 1.9246470928192139s
+Sampling
+_get_trajectories(option_policy) 1.9164338111877441s
+Sampling
+_get_trajectories(option_policy) 1.9276747703552246s
+Sampling
+_get_trajectories(option_policy) 1.92793869972229s
+Sampling
+_get_trajectories(option_policy) 1.9429888725280762s
+Sampling
+_get_trajectories(option_policy) 1.9314961433410645s
+Sampling
+_get_trajectories(option_policy) 1.9378855228424072s
+Sampling
+_get_trajectories(option_policy) 1.923335075378418s
+Sampling
+_get_trajectories(option_policy) 1.9130949974060059s
+Sampling
+_get_trajectories(option_policy) 1.928954839706421s
+Sampling
+_get_trajectories(option_policy) 1.935178279876709s
+Sampling
+_get_trajectories(option_policy) 1.9326140880584717s
+Sampling
+_get_trajectories(option_policy) 1.935983657836914s
+Sampling
+_get_trajectories(option_policy) 1.9277596473693848s
+Sampling
+_get_trajectories(option_policy) 1.9334073066711426s
+Sampling
+_get_trajectories(option_policy) 1.9474272727966309s
+Sampling
+_get_trajectories(option_policy) 1.938922643661499s
+Sampling
+_get_trajectories(option_policy) 1.9455053806304932s
+Sampling
+_get_trajectories(option_policy) 1.935302495956421s
+Sampling
+_get_trajectories(option_policy) 1.9128711223602295s
+Sampling
+_get_trajectories(option_policy) 1.9488615989685059s
+Sampling
+_get_trajectories(option_policy) 1.9118669033050537s
+Sampling
+_get_trajectories(option_policy) 1.9163405895233154s
+Sampling
+_get_trajectories(option_policy) 1.9238615036010742s
+Sampling
+_get_trajectories(option_policy) 1.933154582977295s
+Sampling
+_get_trajectories(option_policy) 1.9318740367889404s
+Sampling
+_get_trajectories(option_policy) 1.933579921722412s
+Sampling
+_get_trajectories(option_policy) 1.9331107139587402s
+Sampling
+_get_trajectories(option_policy) 1.9270365238189697s
+Sampling
+_get_trajectories(option_policy) 1.9216055870056152s
+Sampling
+_get_trajectories(option_policy) 1.9236044883728027s
+Sampling
+_get_trajectories(option_policy) 1.9251480102539062s
+Sampling
+_get_trajectories(option_policy) 1.9145662784576416s
+Sampling
+_get_trajectories(option_policy) 1.9243559837341309s
+Sampling
+_get_trajectories(option_policy) 1.9402594566345215s
+Sampling
+_get_trajectories(option_policy) 1.9336047172546387s
+Sampling
+_get_trajectories(option_policy) 1.9439020156860352s
+Sampling
+_get_trajectories(option_policy) 1.94820237159729s
+Sampling
+_get_trajectories(option_policy) 1.920677661895752s
+Sampling
+_get_trajectories(option_policy) 1.942310094833374s
+Sampling
+_get_trajectories(option_policy) 1.9269967079162598s
+Sampling
+_get_trajectories(option_policy) 1.9130010604858398s
+Sampling
+_get_trajectories(option_policy) 1.9297726154327393s
+Sampling
+_get_trajectories(option_policy) 1.929473638534546s
+Sampling
+_get_trajectories(option_policy) 1.9191946983337402s
+Sampling
+_get_trajectories(option_policy) 1.9209578037261963s
+Sampling
+_get_trajectories(option_policy) 1.9272582530975342s
+Sampling
+_get_trajectories(option_policy) 1.9471402168273926s
+Sampling
+_get_trajectories(option_policy) 1.9306371212005615s
+Sampling
+_get_trajectories(option_policy) 1.920017957687378s
+Sampling
+_get_trajectories(option_policy) 1.9291837215423584s
+Sampling
+_get_trajectories(option_policy) 1.9271154403686523s
+Sampling
+_get_trajectories(option_policy) 1.902930736541748s
+Sampling
+_get_trajectories(option_policy) 1.9265546798706055s
+Sampling
+_get_trajectories(option_policy) 1.92401123046875s
+Sampling
+_get_trajectories(option_policy) 1.9253582954406738s
+Sampling
+_get_trajectories(option_policy) 1.9118931293487549s
+Sampling
+_get_trajectories(option_policy) 1.9201667308807373s
+Sampling
+_get_trajectories(option_policy) 1.9305269718170166s
+Sampling
+_get_trajectories(option_policy) 1.9045588970184326s
+Sampling
+_get_trajectories(option_policy) 1.9076926708221436s
+Sampling
+_get_trajectories(option_policy) 1.9158709049224854s
+Sampling
+_get_trajectories(option_policy) 1.9021790027618408s
+Sampling
+_get_trajectories(option_policy) 1.9196419715881348s
+Sampling
+_get_trajectories(option_policy) 1.9157278537750244s
+Sampling
+_get_trajectories(option_policy) 1.898949146270752s
+Sampling
+_get_trajectories(option_policy) 1.9236395359039307s
+Sampling
+_get_trajectories(option_policy) 1.9400792121887207s
+Sampling
+_get_trajectories(option_policy) 1.9206891059875488s
+Sampling
+_get_trajectories(option_policy) 1.9065775871276855s
+Sampling
+_get_trajectories(option_policy) 1.9176506996154785s
+Sampling
+_get_trajectories(option_policy) 1.9076642990112305s
+Sampling
+_get_trajectories(option_policy) 1.9090750217437744s
+Sampling
+_get_trajectories(option_policy) 2.104341983795166s
+Sampling
+_get_trajectories(option_policy) 1.9387028217315674s
+Sampling
+_get_trajectories(option_policy) 1.932523488998413s
+Sampling
+_get_trajectories(option_policy) 1.928532361984253s
+Sampling
+_get_trajectories(option_policy) 1.920541524887085s
+Sampling
+_get_trajectories(option_policy) 1.9245185852050781s
+Sampling
+_get_trajectories(option_policy) 1.9230735301971436s
+Sampling
+_get_trajectories(option_policy) 1.8916714191436768s
+Sampling
+_get_trajectories(option_policy) 1.9095802307128906s
+Sampling
+_get_trajectories(option_policy) 1.8966188430786133s
+Sampling
+_get_trajectories(option_policy) 1.9178121089935303s
+Sampling
+_get_trajectories(option_policy) 1.9390838146209717s
+Sampling
+_get_trajectories(option_policy) 1.9098057746887207s
+Sampling
+_get_trajectories(option_policy) 1.902374267578125s
+Sampling
+_get_trajectories(option_policy) 1.92494797706604s
+Sampling
+_get_trajectories(option_policy) 1.914316177368164s
+Sampling
+_get_trajectories(option_policy) 1.9034485816955566s
+Sampling
+_get_trajectories(option_policy) 1.9193789958953857s
+Sampling
+_get_trajectories(option_policy) 1.9284088611602783s
+Sampling
+_get_trajectories(option_policy) 1.900808334350586s
+Sampling
+_get_trajectories(option_policy) 1.9045209884643555s
+Sampling
+_get_trajectories(option_policy) 1.9075064659118652s
+Sampling
+_get_trajectories(option_policy) 1.916189193725586s
+Sampling
+_get_trajectories(option_policy) 1.9168145656585693s
+Sampling
+_get_trajectories(option_policy) 1.9141173362731934s
+2025-01-04 15:24:43 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1499 | Time 3789.74 s
+2025-01-04 15:24:43 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1499 | EpochTime 2.47 s
+---------------------------------------------------------  --------------
+TimeEpoch                                                     2.47384
+TimeTotal                                                  3789.74
+TotalEnvSteps                                                 2.4e+06
+TotalEpoch                                                 1499
+TrainSp/AverageDiscountedReturn                             -98.0833
+TrainSp/AverageReturn                                      -240.604
+TrainSp/CompletionRate                                        1
+TrainSp/DiffMaxMinReturn                                    195.526
+TrainSp/Iteration                                          1499
+TrainSp/MaxReturn                                          -143.035
+TrainSp/MinReturn                                          -338.561
+TrainSp/NumTrajs                                              8
+TrainSp/StdReturn                                            63.2223
+TrainSp/relabel_skills_metra_sf/Alpha                         0.00016261
+TrainSp/relabel_skills_metra_sf/DualCstPenalty                0.001
+TrainSp/relabel_skills_metra_sf/LossAlpha                    41.0672
+TrainSp/relabel_skills_metra_sf/LossOp                       -0.280363
+TrainSp/relabel_skills_metra_sf/LossQf1                       0.000314692
+TrainSp/relabel_skills_metra_sf/LossQf2                       0.000313385
+TrainSp/relabel_skills_metra_sf/LossTe                       27.7829
+TrainSp/relabel_skills_metra_sf/PathLengthMax               200
+TrainSp/relabel_skills_metra_sf/PathLengthMean              200
+TrainSp/relabel_skills_metra_sf/PathLengthMin               200
+TrainSp/relabel_skills_metra_sf/PureRewardMean                0.00579712
+TrainSp/relabel_skills_metra_sf/PureRewardStd                 0.148919
+TrainSp/relabel_skills_metra_sf/Qf1Mean                       0.0650283
+TrainSp/relabel_skills_metra_sf/Qf2Mean                       0.0648856
+TrainSp/relabel_skills_metra_sf/QfTargetsMean                 0.0650929
+TrainSp/relabel_skills_metra_sf/QfTdErrsMean                  0.00013591
+TrainSp/relabel_skills_metra_sf/TeObjMean                   -27.7829
+TrainSp/relabel_skills_metra_sf/TimeComputingMetrics          0
+TrainSp/relabel_skills_metra_sf/TimeSampling                  1.91425
+TrainSp/relabel_skills_metra_sf/TimeTraining                  0.555443
+TrainSp/relabel_skills_metra_sf/TotalGradNormAll              4.75127
+TrainSp/relabel_skills_metra_sf/TotalGradNormDualLam          0
+TrainSp/relabel_skills_metra_sf/TotalGradNormLogAlpha         4.7073
+TrainSp/relabel_skills_metra_sf/TotalGradNormOptionPolicy     0.00693789
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf1              0.431151
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf2              0.4764
+TrainSp/relabel_skills_metra_sf/TotalGradNormTrajEncoder      0.0555039
+---------------------------------------------------------  --------------
+2025-01-04 15:24:43 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1500 | Saving snapshot...
+2025-01-04 15:24:43 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1500 | Saved
+Sampling
+_get_trajectories(option_policy) 9.125486850738525s
+------------------------------  ----------
+EvalOp/AtSuccess1                  0
+EvalOp/AtSuccess3                  0.0126
+EvalOp/AverageDiscountedReturn  -103.574
+EvalOp/AverageReturn            -241.416
+EvalOp/CompletionRate              1
+EvalOp/DiffMaxMinReturn          535.154
+EvalOp/EndSuccess1                 0
+EvalOp/EndSuccess3                 0.04
+EvalOp/GoalDistance               40.8145
+EvalOp/GoalSquaredDistance      1885.31
+EvalOp/HitSuccess1                 0
+EvalOp/HitSuccess3                 0.04
+EvalOp/Iteration                1500
+EvalOp/MaxReturn                  65.9823
+EvalOp/MinReturn                -469.172
+EvalOp/MjAvgTrajLen              200
+EvalOp/MjNumCoords              9648
+EvalOp/MjNumTrajs                 48
+EvalOp/MjNumUniqueCoords          43
+EvalOp/NumTrajs                   48
+EvalOp/StdReturn                 120.664
+TimeTotal                       3819.15
+TotalEnvSteps                      2.4e+06
+TotalEpoch                      1500
+------------------------------  ----------
+Sampling
+_get_trajectories(option_policy) 1.914093017578125s
+Sampling
+_get_trajectories(option_policy) 1.921844720840454s
+Sampling
+_get_trajectories(option_policy) 1.9124348163604736s
+Sampling
+_get_trajectories(option_policy) 1.9321260452270508s
+Sampling
+_get_trajectories(option_policy) 1.920543909072876s
+Sampling
+_get_trajectories(option_policy) 1.9175403118133545s
+Sampling
+_get_trajectories(option_policy) 1.9280970096588135s
+Sampling
+_get_trajectories(option_policy) 1.9078636169433594s
+Sampling
+_get_trajectories(option_policy) 1.899634599685669s
+Sampling
+_get_trajectories(option_policy) 1.909257173538208s
+Sampling
+_get_trajectories(option_policy) 1.899214267730713s
+Sampling
+_get_trajectories(option_policy) 1.9041862487792969s
+Sampling
+_get_trajectories(option_policy) 1.9096355438232422s
+Sampling
+_get_trajectories(option_policy) 1.903975248336792s
+Sampling
+_get_trajectories(option_policy) 1.9010884761810303s
+Sampling
+_get_trajectories(option_policy) 1.9119932651519775s
+Sampling
+_get_trajectories(option_policy) 1.9228522777557373s
+Sampling
+_get_trajectories(option_policy) 1.9044389724731445s
+Sampling
+_get_trajectories(option_policy) 1.9173979759216309s
+Sampling
+_get_trajectories(option_policy) 1.9185261726379395s
+Sampling
+_get_trajectories(option_policy) 1.9077751636505127s
+Sampling
+_get_trajectories(option_policy) 1.9311869144439697s
+Sampling
+_get_trajectories(option_policy) 1.9044883251190186s
+Sampling
+_get_trajectories(option_policy) 1.9562132358551025s
+Sampling
+_get_trajectories(option_policy) 1.9133615493774414s
+Sampling
+_get_trajectories(option_policy) 1.9229259490966797s
+Sampling
+_get_trajectories(option_policy) 1.9137227535247803s
+Sampling
+_get_trajectories(option_policy) 1.9187312126159668s
+Sampling
+_get_trajectories(option_policy) 1.9145903587341309s
+Sampling
+_get_trajectories(option_policy) 1.9287919998168945s
+Sampling
+_get_trajectories(option_policy) 1.9243662357330322s
+Sampling
+_get_trajectories(option_policy) 1.9097137451171875s
+Sampling
+_get_trajectories(option_policy) 1.902245283126831s
+Sampling
+_get_trajectories(option_policy) 1.9369533061981201s
+Sampling
+_get_trajectories(option_policy) 1.9161832332611084s
+Sampling
+_get_trajectories(option_policy) 1.9278712272644043s
+Sampling
+_get_trajectories(option_policy) 1.90120530128479s
+Sampling
+_get_trajectories(option_policy) 1.9070799350738525s
+Sampling
+_get_trajectories(option_policy) 1.9156830310821533s
+Sampling
+_get_trajectories(option_policy) 1.9193708896636963s
+Sampling
+_get_trajectories(option_policy) 1.9125285148620605s
+Sampling
+_get_trajectories(option_policy) 1.8992772102355957s
+Sampling
+_get_trajectories(option_policy) 1.9077723026275635s
+Sampling
+_get_trajectories(option_policy) 1.9062955379486084s
+Sampling
+_get_trajectories(option_policy) 1.8961637020111084s
+Sampling
+_get_trajectories(option_policy) 1.9094583988189697s
+Sampling
+_get_trajectories(option_policy) 1.9395384788513184s
+Sampling
+_get_trajectories(option_policy) 1.9089398384094238s
+Sampling
+_get_trajectories(option_policy) 1.9163691997528076s
+Sampling
+_get_trajectories(option_policy) 1.9126899242401123s
+Sampling
+_get_trajectories(option_policy) 1.9129066467285156s
+Sampling
+_get_trajectories(option_policy) 1.931617021560669s
+Sampling
+_get_trajectories(option_policy) 1.9360055923461914s
+Sampling
+_get_trajectories(option_policy) 1.9156696796417236s
+Sampling
+_get_trajectories(option_policy) 1.9022464752197266s
+Sampling
+_get_trajectories(option_policy) 1.9037671089172363s
+Sampling
+_get_trajectories(option_policy) 1.899651288986206s
+Sampling
+_get_trajectories(option_policy) 1.9029014110565186s
+Sampling
+_get_trajectories(option_policy) 1.9200637340545654s
+Sampling
+_get_trajectories(option_policy) 1.8990988731384277s
+Sampling
+_get_trajectories(option_policy) 1.9073076248168945s
+Sampling
+_get_trajectories(option_policy) 1.9173245429992676s
+Sampling
+_get_trajectories(option_policy) 1.905803918838501s
+Sampling
+_get_trajectories(option_policy) 1.9000837802886963s
+Sampling
+_get_trajectories(option_policy) 1.902775526046753s
+Sampling
+_get_trajectories(option_policy) 1.9315030574798584s
+Sampling
+_get_trajectories(option_policy) 1.903517246246338s
+Sampling
+_get_trajectories(option_policy) 1.92411470413208s
+Sampling
+_get_trajectories(option_policy) 1.9094974994659424s
+Sampling
+_get_trajectories(option_policy) 1.9019179344177246s
+Sampling
+_get_trajectories(option_policy) 1.9066743850708008s
+Sampling
+_get_trajectories(option_policy) 1.898132085800171s
+Sampling
+_get_trajectories(option_policy) 1.9115300178527832s
+Sampling
+_get_trajectories(option_policy) 1.8951416015625s
+Sampling
+_get_trajectories(option_policy) 1.9104242324829102s
+Sampling
+_get_trajectories(option_policy) 1.9397075176239014s
+Sampling
+_get_trajectories(option_policy) 1.9083516597747803s
+Sampling
+_get_trajectories(option_policy) 1.9151370525360107s
+Sampling
+_get_trajectories(option_policy) 1.9131534099578857s
+Sampling
+_get_trajectories(option_policy) 1.9182991981506348s
+Sampling
+_get_trajectories(option_policy) 1.9092631340026855s
+Sampling
+_get_trajectories(option_policy) 1.9134275913238525s
+Sampling
+_get_trajectories(option_policy) 1.9092254638671875s
+Sampling
+_get_trajectories(option_policy) 1.9200291633605957s
+Sampling
+_get_trajectories(option_policy) 1.9180331230163574s
+Sampling
+_get_trajectories(option_policy) 1.9171361923217773s
+Sampling
+_get_trajectories(option_policy) 1.9137401580810547s
+Sampling
+_get_trajectories(option_policy) 1.9172487258911133s
+Sampling
+_get_trajectories(option_policy) 1.9042415618896484s
+Sampling
+_get_trajectories(option_policy) 1.9284160137176514s
+Sampling
+_get_trajectories(option_policy) 1.9063477516174316s
+Sampling
+_get_trajectories(option_policy) 1.9058573246002197s
+Sampling
+_get_trajectories(option_policy) 1.9071080684661865s
+Sampling
+_get_trajectories(option_policy) 1.9065916538238525s
+Sampling
+_get_trajectories(option_policy) 1.906186580657959s
+Sampling
+_get_trajectories(option_policy) 1.9000766277313232s
+Sampling
+_get_trajectories(option_policy) 1.9003229141235352s
+Sampling
+_get_trajectories(option_policy) 1.9001991748809814s
+Sampling
+_get_trajectories(option_policy) 1.9149768352508545s
+Sampling
+_get_trajectories(option_policy) 1.9093778133392334s
+Sampling
+_get_trajectories(option_policy) 1.9038491249084473s
+Sampling
+_get_trajectories(option_policy) 1.9008500576019287s
+Sampling
+_get_trajectories(option_policy) 1.899148941040039s
+Sampling
+_get_trajectories(option_policy) 1.9007203578948975s
+Sampling
+_get_trajectories(option_policy) 1.904343843460083s
+Sampling
+_get_trajectories(option_policy) 1.909125566482544s
+Sampling
+_get_trajectories(option_policy) 1.9147701263427734s
+Sampling
+_get_trajectories(option_policy) 1.9111058712005615s
+Sampling
+_get_trajectories(option_policy) 1.913701057434082s
+Sampling
+_get_trajectories(option_policy) 1.894716501235962s
+Sampling
+_get_trajectories(option_policy) 1.916015386581421s
+Sampling
+_get_trajectories(option_policy) 1.912431240081787s
+Sampling
+_get_trajectories(option_policy) 1.914747714996338s
+Sampling
+_get_trajectories(option_policy) 1.8955333232879639s
+Sampling
+_get_trajectories(option_policy) 1.9015617370605469s
+Sampling
+_get_trajectories(option_policy) 1.9089713096618652s
+Sampling
+_get_trajectories(option_policy) 1.9080092906951904s
+Sampling
+_get_trajectories(option_policy) 1.9065420627593994s
+Sampling
+_get_trajectories(option_policy) 1.9054081439971924s
+Sampling
+_get_trajectories(option_policy) 1.8889224529266357s
+Sampling
+_get_trajectories(option_policy) 1.901360273361206s
+Sampling
+_get_trajectories(option_policy) 1.900960922241211s
+Sampling
+_get_trajectories(option_policy) 1.9062469005584717s
+Sampling
+_get_trajectories(option_policy) 1.8954670429229736s
+Sampling
+_get_trajectories(option_policy) 1.9037199020385742s
+Sampling
+_get_trajectories(option_policy) 1.90763521194458s
+Sampling
+_get_trajectories(option_policy) 1.9189658164978027s
+Sampling
+_get_trajectories(option_policy) 1.9066901206970215s
+Sampling
+_get_trajectories(option_policy) 1.8941361904144287s
+Sampling
+_get_trajectories(option_policy) 1.9174509048461914s
+Sampling
+_get_trajectories(option_policy) 1.8983912467956543s
+Sampling
+_get_trajectories(option_policy) 1.9006903171539307s
+Sampling
+_get_trajectories(option_policy) 1.8935232162475586s
+Sampling
+_get_trajectories(option_policy) 1.9056453704833984s
+Sampling
+_get_trajectories(option_policy) 1.9144022464752197s
+Sampling
+_get_trajectories(option_policy) 1.9101524353027344s
+Sampling
+_get_trajectories(option_policy) 1.9086744785308838s
+Sampling
+_get_trajectories(option_policy) 1.9165470600128174s
+Sampling
+_get_trajectories(option_policy) 1.9146509170532227s
+Sampling
+_get_trajectories(option_policy) 1.9053406715393066s
+Sampling
+_get_trajectories(option_policy) 1.91168212890625s
+Sampling
+_get_trajectories(option_policy) 1.8980295658111572s
+Sampling
+_get_trajectories(option_policy) 1.8955509662628174s
+Sampling
+_get_trajectories(option_policy) 1.9065234661102295s
+Sampling
+_get_trajectories(option_policy) 1.918027400970459s
+Sampling
+_get_trajectories(option_policy) 1.895967960357666s
+Sampling
+_get_trajectories(option_policy) 1.9059240818023682s
+Sampling
+_get_trajectories(option_policy) 1.905346393585205s
+Sampling
+_get_trajectories(option_policy) 1.902132272720337s
+Sampling
+_get_trajectories(option_policy) 1.9053664207458496s
+Sampling
+_get_trajectories(option_policy) 1.912799596786499s
+Sampling
+_get_trajectories(option_policy) 1.9115710258483887s
+Sampling
+_get_trajectories(option_policy) 1.902113914489746s
+Sampling
+_get_trajectories(option_policy) 1.894167184829712s
+Sampling
+_get_trajectories(option_policy) 1.9008870124816895s
+Sampling
+_get_trajectories(option_policy) 1.9043183326721191s
+Sampling
+_get_trajectories(option_policy) 1.8949098587036133s
+Sampling
+_get_trajectories(option_policy) 1.9207143783569336s
+Sampling
+_get_trajectories(option_policy) 1.9084341526031494s
+Sampling
+_get_trajectories(option_policy) 1.912651538848877s
+Sampling
+_get_trajectories(option_policy) 1.8979957103729248s
+Sampling
+_get_trajectories(option_policy) 1.9061567783355713s
+Sampling
+_get_trajectories(option_policy) 1.8959431648254395s
+Sampling
+_get_trajectories(option_policy) 1.9102985858917236s
+Sampling
+_get_trajectories(option_policy) 1.909360408782959s
+Sampling
+_get_trajectories(option_policy) 1.9044101238250732s
+Sampling
+_get_trajectories(option_policy) 1.9075934886932373s
+Sampling
+_get_trajectories(option_policy) 1.9025917053222656s
+Sampling
+_get_trajectories(option_policy) 1.8983094692230225s
+Sampling
+_get_trajectories(option_policy) 1.9106395244598389s
+Sampling
+_get_trajectories(option_policy) 1.9144937992095947s
+Sampling
+_get_trajectories(option_policy) 1.9153928756713867s
+Sampling
+_get_trajectories(option_policy) 1.9069576263427734s
+Sampling
+_get_trajectories(option_policy) 1.89314866065979s
+Sampling
+_get_trajectories(option_policy) 1.9118082523345947s
+Sampling
+_get_trajectories(option_policy) 1.9004862308502197s
+Sampling
+_get_trajectories(option_policy) 1.9063246250152588s
+Sampling
+_get_trajectories(option_policy) 1.9043352603912354s
+Sampling
+_get_trajectories(option_policy) 1.8955399990081787s
+Sampling
+_get_trajectories(option_policy) 1.914034366607666s
+Sampling
+_get_trajectories(option_policy) 1.914670705795288s
+Sampling
+_get_trajectories(option_policy) 1.905975580215454s
+Sampling
+_get_trajectories(option_policy) 1.9023053646087646s
+Sampling
+_get_trajectories(option_policy) 1.9098143577575684s
+Sampling
+_get_trajectories(option_policy) 1.8975024223327637s
+Sampling
+_get_trajectories(option_policy) 1.9196865558624268s
+Sampling
+_get_trajectories(option_policy) 1.9056065082550049s
+Sampling
+_get_trajectories(option_policy) 1.911238431930542s
+Sampling
+_get_trajectories(option_policy) 1.8962938785552979s
+Sampling
+_get_trajectories(option_policy) 1.9051682949066162s
+Sampling
+_get_trajectories(option_policy) 1.9025635719299316s
+Sampling
+_get_trajectories(option_policy) 1.904952049255371s
+Sampling
+_get_trajectories(option_policy) 1.9075531959533691s
+Sampling
+_get_trajectories(option_policy) 1.9111344814300537s
+Sampling
+_get_trajectories(option_policy) 1.9133307933807373s
+Sampling
+_get_trajectories(option_policy) 1.9053096771240234s
+Sampling
+_get_trajectories(option_policy) 1.908743143081665s
+Sampling
+_get_trajectories(option_policy) 1.9142124652862549s
+Sampling
+_get_trajectories(option_policy) 1.913461446762085s
+Sampling
+_get_trajectories(option_policy) 1.927734136581421s
+Sampling
+_get_trajectories(option_policy) 1.922025203704834s
+Sampling
+_get_trajectories(option_policy) 1.9063730239868164s
+Sampling
+_get_trajectories(option_policy) 1.9083149433135986s
+Sampling
+_get_trajectories(option_policy) 1.904116153717041s
+Sampling
+_get_trajectories(option_policy) 1.9099712371826172s
+Sampling
+_get_trajectories(option_policy) 1.902543067932129s
+Sampling
+_get_trajectories(option_policy) 1.896148443222046s
+Sampling
+_get_trajectories(option_policy) 1.9163641929626465s
+Sampling
+_get_trajectories(option_policy) 1.9049053192138672s
+Sampling
+_get_trajectories(option_policy) 1.896594524383545s
+Sampling
+_get_trajectories(option_policy) 1.9221701622009277s
+Sampling
+_get_trajectories(option_policy) 1.9070079326629639s
+Sampling
+_get_trajectories(option_policy) 1.9023544788360596s
+Sampling
+_get_trajectories(option_policy) 1.9009037017822266s
+Sampling
+_get_trajectories(option_policy) 1.9084868431091309s
+Sampling
+_get_trajectories(option_policy) 1.9172618389129639s
+Sampling
+_get_trajectories(option_policy) 1.8913273811340332s
+Sampling
+_get_trajectories(option_policy) 1.9079487323760986s
+Sampling
+_get_trajectories(option_policy) 1.8949644565582275s
+Sampling
+_get_trajectories(option_policy) 1.9076697826385498s
+Sampling
+_get_trajectories(option_policy) 1.9099085330963135s
+Sampling
+_get_trajectories(option_policy) 1.8964831829071045s
+Sampling
+_get_trajectories(option_policy) 1.8978428840637207s
+Sampling
+_get_trajectories(option_policy) 1.9118797779083252s
+Sampling
+_get_trajectories(option_policy) 1.9010004997253418s
+Sampling
+_get_trajectories(option_policy) 1.9050588607788086s
+Sampling
+_get_trajectories(option_policy) 2.0865046977996826s
+Sampling
+_get_trajectories(option_policy) 1.9011285305023193s
+Sampling
+_get_trajectories(option_policy) 1.903383731842041s
+Sampling
+_get_trajectories(option_policy) 1.903304100036621s
+Sampling
+_get_trajectories(option_policy) 1.9043471813201904s
+Sampling
+_get_trajectories(option_policy) 1.902367115020752s
+Sampling
+_get_trajectories(option_policy) 1.901885747909546s
+Sampling
+_get_trajectories(option_policy) 1.902026653289795s
+Sampling
+_get_trajectories(option_policy) 1.9023523330688477s
+Sampling
+_get_trajectories(option_policy) 1.928893804550171s
+Sampling
+_get_trajectories(option_policy) 1.8977665901184082s
+Sampling
+_get_trajectories(option_policy) 1.9032797813415527s
+Sampling
+_get_trajectories(option_policy) 1.9078378677368164s
+Sampling
+_get_trajectories(option_policy) 1.9003369808197021s
+Sampling
+_get_trajectories(option_policy) 1.893970012664795s
+Sampling
+_get_trajectories(option_policy) 1.9026470184326172s
+Sampling
+_get_trajectories(option_policy) 1.8966543674468994s
+Sampling
+_get_trajectories(option_policy) 1.9125196933746338s
+Sampling
+_get_trajectories(option_policy) 1.9037768840789795s
+Sampling
+_get_trajectories(option_policy) 1.9024035930633545s
+Sampling
+_get_trajectories(option_policy) 1.9074156284332275s
+Sampling
+_get_trajectories(option_policy) 1.8996410369873047s
+Sampling
+_get_trajectories(option_policy) 1.8987410068511963s
+Sampling
+_get_trajectories(option_policy) 1.8975460529327393s
+Sampling
+_get_trajectories(option_policy) 1.9004669189453125s
+Sampling
+_get_trajectories(option_policy) 1.8999385833740234s
+Sampling
+_get_trajectories(option_policy) 1.9175467491149902s
+Sampling
+_get_trajectories(option_policy) 1.9152960777282715s
+Sampling
+_get_trajectories(option_policy) 1.9155073165893555s
+Sampling
+_get_trajectories(option_policy) 1.9218926429748535s
+Sampling
+_get_trajectories(option_policy) 1.92510986328125s
+Sampling
+_get_trajectories(option_policy) 1.910219430923462s
+Sampling
+_get_trajectories(option_policy) 1.9264678955078125s
+Sampling
+_get_trajectories(option_policy) 1.918851375579834s
+Sampling
+_get_trajectories(option_policy) 1.9220201969146729s
+Sampling
+_get_trajectories(option_policy) 1.9269967079162598s
+Sampling
+_get_trajectories(option_policy) 1.9112639427185059s
+Sampling
+_get_trajectories(option_policy) 1.9080963134765625s
+Sampling
+_get_trajectories(option_policy) 1.901094675064087s
+Sampling
+_get_trajectories(option_policy) 1.912452220916748s
+Sampling
+_get_trajectories(option_policy) 1.8997900485992432s
+Sampling
+_get_trajectories(option_policy) 1.9168903827667236s
+Sampling
+_get_trajectories(option_policy) 1.9172606468200684s
+Sampling
+_get_trajectories(option_policy) 1.9137680530548096s
+Sampling
+_get_trajectories(option_policy) 1.9094314575195312s
+Sampling
+_get_trajectories(option_policy) 1.9112749099731445s
+Sampling
+_get_trajectories(option_policy) 1.9307224750518799s
+Sampling
+_get_trajectories(option_policy) 1.915588617324829s
+Sampling
+_get_trajectories(option_policy) 1.9084393978118896s
+Sampling
+_get_trajectories(option_policy) 1.9161005020141602s
+Sampling
+_get_trajectories(option_policy) 1.9106085300445557s
+Sampling
+_get_trajectories(option_policy) 1.913309097290039s
+Sampling
+_get_trajectories(option_policy) 1.9278886318206787s
+Sampling
+_get_trajectories(option_policy) 1.9123435020446777s
+Sampling
+_get_trajectories(option_policy) 1.9210851192474365s
+Sampling
+_get_trajectories(option_policy) 1.916102647781372s
+Sampling
+_get_trajectories(option_policy) 1.9063925743103027s
+Sampling
+_get_trajectories(option_policy) 1.9088754653930664s
+Sampling
+_get_trajectories(option_policy) 1.9263575077056885s
+Sampling
+_get_trajectories(option_policy) 1.923950433731079s
+Sampling
+_get_trajectories(option_policy) 1.911971092224121s
+Sampling
+_get_trajectories(option_policy) 1.9150745868682861s
+Sampling
+_get_trajectories(option_policy) 1.9023761749267578s
+Sampling
+_get_trajectories(option_policy) 1.8977575302124023s
+Sampling
+_get_trajectories(option_policy) 1.907135248184204s
+Sampling
+_get_trajectories(option_policy) 1.9082016944885254s
+Sampling
+_get_trajectories(option_policy) 1.904991626739502s
+Sampling
+_get_trajectories(option_policy) 1.916883945465088s
+Sampling
+_get_trajectories(option_policy) 1.9114882946014404s
+Sampling
+_get_trajectories(option_policy) 1.907332420349121s
+Sampling
+_get_trajectories(option_policy) 1.9059019088745117s
+Sampling
+_get_trajectories(option_policy) 1.9013524055480957s
+Sampling
+_get_trajectories(option_policy) 1.9157569408416748s
+Sampling
+_get_trajectories(option_policy) 1.914717435836792s
+Sampling
+_get_trajectories(option_policy) 1.9051592350006104s
+Sampling
+_get_trajectories(option_policy) 1.9139840602874756s
+Sampling
+_get_trajectories(option_policy) 1.9146344661712646s
+Sampling
+_get_trajectories(option_policy) 1.9061274528503418s
+Sampling
+_get_trajectories(option_policy) 1.9040184020996094s
+Sampling
+_get_trajectories(option_policy) 1.9101157188415527s
+Sampling
+_get_trajectories(option_policy) 1.9074878692626953s
+Sampling
+_get_trajectories(option_policy) 1.9021809101104736s
+Sampling
+_get_trajectories(option_policy) 1.910959243774414s
+Sampling
+_get_trajectories(option_policy) 1.9026131629943848s
+Sampling
+_get_trajectories(option_policy) 1.910301923751831s
+Sampling
+_get_trajectories(option_policy) 1.9085657596588135s
+Sampling
+_get_trajectories(option_policy) 1.9012925624847412s
+Sampling
+_get_trajectories(option_policy) 1.9072515964508057s
+Sampling
+_get_trajectories(option_policy) 1.9061145782470703s
+Sampling
+_get_trajectories(option_policy) 1.906705617904663s
+Sampling
+_get_trajectories(option_policy) 1.902374505996704s
+Sampling
+_get_trajectories(option_policy) 1.90879487991333s
+Sampling
+_get_trajectories(option_policy) 1.8976283073425293s
+Sampling
+_get_trajectories(option_policy) 1.9005999565124512s
+Sampling
+_get_trajectories(option_policy) 1.9006085395812988s
+Sampling
+_get_trajectories(option_policy) 1.9040718078613281s
+Sampling
+_get_trajectories(option_policy) 1.9055254459381104s
+Sampling
+_get_trajectories(option_policy) 1.9080584049224854s
+Sampling
+_get_trajectories(option_policy) 1.9071390628814697s
+Sampling
+_get_trajectories(option_policy) 1.9130167961120605s
+Sampling
+_get_trajectories(option_policy) 1.9102039337158203s
+Sampling
+_get_trajectories(option_policy) 1.9063429832458496s
+Sampling
+_get_trajectories(option_policy) 1.9054267406463623s
+Sampling
+_get_trajectories(option_policy) 1.899933099746704s
+Sampling
+_get_trajectories(option_policy) 1.903674840927124s
+Sampling
+_get_trajectories(option_policy) 1.9048326015472412s
+Sampling
+_get_trajectories(option_policy) 1.904444694519043s
+Sampling
+_get_trajectories(option_policy) 1.9086086750030518s
+Sampling
+_get_trajectories(option_policy) 1.9127821922302246s
+Sampling
+_get_trajectories(option_policy) 1.9146819114685059s
+Sampling
+_get_trajectories(option_policy) 1.9079704284667969s
+Sampling
+_get_trajectories(option_policy) 1.9103319644927979s
+Sampling
+_get_trajectories(option_policy) 1.9063794612884521s
+Sampling
+_get_trajectories(option_policy) 1.9089601039886475s
+Sampling
+_get_trajectories(option_policy) 1.9187562465667725s
+Sampling
+_get_trajectories(option_policy) 1.9061558246612549s
+Sampling
+_get_trajectories(option_policy) 1.9132235050201416s
+Sampling
+_get_trajectories(option_policy) 1.9031662940979004s
+Sampling
+_get_trajectories(option_policy) 1.9021661281585693s
+Sampling
+_get_trajectories(option_policy) 1.9114768505096436s
+Sampling
+_get_trajectories(option_policy) 1.9077396392822266s
+Sampling
+_get_trajectories(option_policy) 1.8981070518493652s
+Sampling
+_get_trajectories(option_policy) 1.9048893451690674s
+Sampling
+_get_trajectories(option_policy) 1.9076387882232666s
+Sampling
+_get_trajectories(option_policy) 1.9119725227355957s
+Sampling
+_get_trajectories(option_policy) 1.9061903953552246s
+Sampling
+_get_trajectories(option_policy) 1.9015443325042725s
+Sampling
+_get_trajectories(option_policy) 1.9014649391174316s
+Sampling
+_get_trajectories(option_policy) 1.9011893272399902s
+Sampling
+_get_trajectories(option_policy) 1.914973258972168s
+Sampling
+_get_trajectories(option_policy) 1.9025120735168457s
+Sampling
+_get_trajectories(option_policy) 1.9189858436584473s
+Sampling
+_get_trajectories(option_policy) 1.907268762588501s
+Sampling
+_get_trajectories(option_policy) 1.9058914184570312s
+Sampling
+_get_trajectories(option_policy) 1.900129795074463s
+Sampling
+_get_trajectories(option_policy) 1.9015469551086426s
+Sampling
+_get_trajectories(option_policy) 1.9014203548431396s
+Sampling
+_get_trajectories(option_policy) 1.9032986164093018s
+Sampling
+_get_trajectories(option_policy) 1.900841236114502s
+Sampling
+_get_trajectories(option_policy) 1.9084150791168213s
+Sampling
+_get_trajectories(option_policy) 1.910719394683838s
+Sampling
+_get_trajectories(option_policy) 1.9121897220611572s
+Sampling
+_get_trajectories(option_policy) 1.9148836135864258s
+Sampling
+_get_trajectories(option_policy) 1.9316363334655762s
+Sampling
+_get_trajectories(option_policy) 1.9113800525665283s
+Sampling
+_get_trajectories(option_policy) 1.911686658859253s
+Sampling
+_get_trajectories(option_policy) 1.913252592086792s
+Sampling
+_get_trajectories(option_policy) 1.9079475402832031s
+Sampling
+_get_trajectories(option_policy) 1.9211795330047607s
+Sampling
+_get_trajectories(option_policy) 1.9087553024291992s
+Sampling
+_get_trajectories(option_policy) 1.9178361892700195s
+Sampling
+_get_trajectories(option_policy) 1.919158935546875s
+Sampling
+_get_trajectories(option_policy) 1.9045321941375732s
+Sampling
+_get_trajectories(option_policy) 1.9112107753753662s
+Sampling
+_get_trajectories(option_policy) 1.9200994968414307s
+Sampling
+_get_trajectories(option_policy) 1.908113956451416s
+Sampling
+_get_trajectories(option_policy) 1.9141721725463867s
+Sampling
+_get_trajectories(option_policy) 1.905447244644165s
+Sampling
+_get_trajectories(option_policy) 1.9035379886627197s
+Sampling
+_get_trajectories(option_policy) 1.9117367267608643s
+Sampling
+_get_trajectories(option_policy) 1.9110627174377441s
+Sampling
+_get_trajectories(option_policy) 1.9144260883331299s
+Sampling
+_get_trajectories(option_policy) 1.9064524173736572s
+Sampling
+_get_trajectories(option_policy) 1.9122874736785889s
+Sampling
+_get_trajectories(option_policy) 1.9114465713500977s
+Sampling
+_get_trajectories(option_policy) 1.914417028427124s
+Sampling
+_get_trajectories(option_policy) 1.903151512145996s
+Sampling
+_get_trajectories(option_policy) 1.9089527130126953s
+Sampling
+_get_trajectories(option_policy) 1.914156436920166s
+Sampling
+_get_trajectories(option_policy) 1.9079313278198242s
+Sampling
+_get_trajectories(option_policy) 1.9140229225158691s
+Sampling
+_get_trajectories(option_policy) 1.910576343536377s
+Sampling
+_get_trajectories(option_policy) 1.9090518951416016s
+Sampling
+_get_trajectories(option_policy) 1.9100186824798584s
+Sampling
+_get_trajectories(option_policy) 1.9162471294403076s
+Sampling
+_get_trajectories(option_policy) 1.9093132019042969s
+Sampling
+_get_trajectories(option_policy) 1.9121959209442139s
+Sampling
+_get_trajectories(option_policy) 1.9163646697998047s
+Sampling
+_get_trajectories(option_policy) 1.9049441814422607s
+Sampling
+_get_trajectories(option_policy) 1.9106123447418213s
+Sampling
+_get_trajectories(option_policy) 1.919713020324707s
+Sampling
+_get_trajectories(option_policy) 1.9108457565307617s
+Sampling
+_get_trajectories(option_policy) 1.9075851440429688s
+Sampling
+_get_trajectories(option_policy) 1.9067556858062744s
+Sampling
+_get_trajectories(option_policy) 1.9059057235717773s
+Sampling
+_get_trajectories(option_policy) 1.9077956676483154s
+Sampling
+_get_trajectories(option_policy) 1.91215181350708s
+Sampling
+_get_trajectories(option_policy) 1.9098107814788818s
+Sampling
+_get_trajectories(option_policy) 1.905285120010376s
+Sampling
+_get_trajectories(option_policy) 1.8974010944366455s
+Sampling
+_get_trajectories(option_policy) 1.9044957160949707s
+Sampling
+_get_trajectories(option_policy) 1.9085414409637451s
+Sampling
+_get_trajectories(option_policy) 1.9189496040344238s
+Sampling
+_get_trajectories(option_policy) 1.9055464267730713s
+Sampling
+_get_trajectories(option_policy) 1.9007439613342285s
+Sampling
+_get_trajectories(option_policy) 1.9109761714935303s
+Sampling
+_get_trajectories(option_policy) 1.9036030769348145s
+Sampling
+_get_trajectories(option_policy) 1.9219403266906738s
+Sampling
+_get_trajectories(option_policy) 1.9010837078094482s
+Sampling
+_get_trajectories(option_policy) 1.898470163345337s
+Sampling
+_get_trajectories(option_policy) 1.8947041034698486s
+Sampling
+_get_trajectories(option_policy) 1.9007213115692139s
+Sampling
+_get_trajectories(option_policy) 1.8995273113250732s
+Sampling
+_get_trajectories(option_policy) 1.892869234085083s
+Sampling
+_get_trajectories(option_policy) 1.8991167545318604s
+Sampling
+_get_trajectories(option_policy) 1.9001078605651855s
+Sampling
+_get_trajectories(option_policy) 1.9033606052398682s
+Sampling
+_get_trajectories(option_policy) 1.8985557556152344s
+Sampling
+_get_trajectories(option_policy) 1.9107732772827148s
+Sampling
+_get_trajectories(option_policy) 1.8961029052734375s
+Sampling
+_get_trajectories(option_policy) 1.897329568862915s
+Sampling
+_get_trajectories(option_policy) 1.8990898132324219s
+Sampling
+_get_trajectories(option_policy) 1.9165818691253662s
+Sampling
+_get_trajectories(option_policy) 1.900153636932373s
+Sampling
+_get_trajectories(option_policy) 1.9054450988769531s
+Sampling
+_get_trajectories(option_policy) 1.9024553298950195s
+Sampling
+_get_trajectories(option_policy) 1.910233497619629s
+Sampling
+_get_trajectories(option_policy) 1.9069042205810547s
+Sampling
+_get_trajectories(option_policy) 1.896925687789917s
+Sampling
+_get_trajectories(option_policy) 1.8997375965118408s
+Sampling
+_get_trajectories(option_policy) 1.9023032188415527s
+Sampling
+_get_trajectories(option_policy) 1.9043772220611572s
+Sampling
+_get_trajectories(option_policy) 1.895378828048706s
+Sampling
+_get_trajectories(option_policy) 1.9039289951324463s
+Sampling
+_get_trajectories(option_policy) 1.8982059955596924s
+Sampling
+_get_trajectories(option_policy) 1.9030487537384033s
+Sampling
+_get_trajectories(option_policy) 1.905777931213379s
+Sampling
+_get_trajectories(option_policy) 1.898758888244629s
+Sampling
+_get_trajectories(option_policy) 1.8991272449493408s
+Sampling
+_get_trajectories(option_policy) 1.9063990116119385s
+Sampling
+_get_trajectories(option_policy) 1.9052460193634033s
+Sampling
+_get_trajectories(option_policy) 1.8942294120788574s
+Sampling
+_get_trajectories(option_policy) 1.8944010734558105s
+Sampling
+_get_trajectories(option_policy) 1.898104190826416s
+Sampling
+_get_trajectories(option_policy) 1.8975718021392822s
+Sampling
+_get_trajectories(option_policy) 1.9046194553375244s
+Sampling
+_get_trajectories(option_policy) 1.8982810974121094s
+Sampling
+_get_trajectories(option_policy) 1.8986012935638428s
+Sampling
+_get_trajectories(option_policy) 1.907362699508667s
+Sampling
+_get_trajectories(option_policy) 1.9016087055206299s
+Sampling
+_get_trajectories(option_policy) 1.8943445682525635s
+Sampling
+_get_trajectories(option_policy) 1.9104468822479248s
+Sampling
+_get_trajectories(option_policy) 1.8954541683197021s
+Sampling
+_get_trajectories(option_policy) 1.9011976718902588s
+Sampling
+_get_trajectories(option_policy) 1.9081883430480957s
+Sampling
+_get_trajectories(option_policy) 1.9021785259246826s
+Sampling
+_get_trajectories(option_policy) 1.9034013748168945s
+Sampling
+_get_trajectories(option_policy) 1.9010944366455078s
+Sampling
+_get_trajectories(option_policy) 1.8991765975952148s
+Sampling
+_get_trajectories(option_policy) 1.8982570171356201s
+Sampling
+_get_trajectories(option_policy) 1.8927404880523682s
+Sampling
+_get_trajectories(option_policy) 1.897700548171997s
+Sampling
+_get_trajectories(option_policy) 2.0870158672332764s
+Sampling
+_get_trajectories(option_policy) 1.9080491065979004s
+Sampling
+_get_trajectories(option_policy) 1.896892786026001s
+Sampling
+_get_trajectories(option_policy) 1.8975541591644287s
+Sampling
+_get_trajectories(option_policy) 1.8992085456848145s
+Sampling
+_get_trajectories(option_policy) 1.8971333503723145s
+Sampling
+_get_trajectories(option_policy) 1.9018754959106445s
+Sampling
+_get_trajectories(option_policy) 1.901984691619873s
+Sampling
+_get_trajectories(option_policy) 1.895453929901123s
+Sampling
+_get_trajectories(option_policy) 1.8983421325683594s
+Sampling
+_get_trajectories(option_policy) 1.9096388816833496s
+Sampling
+_get_trajectories(option_policy) 1.9005653858184814s
+Sampling
+_get_trajectories(option_policy) 1.9009068012237549s
+Sampling
+_get_trajectories(option_policy) 1.9114251136779785s
+Sampling
+_get_trajectories(option_policy) 1.8973071575164795s
+Sampling
+_get_trajectories(option_policy) 1.8958213329315186s
+Sampling
+_get_trajectories(option_policy) 1.9028303623199463s
+Sampling
+_get_trajectories(option_policy) 1.9028658866882324s
+Sampling
+_get_trajectories(option_policy) 1.8943455219268799s
+Sampling
+_get_trajectories(option_policy) 1.9024183750152588s
+Sampling
+_get_trajectories(option_policy) 1.8971903324127197s
+Sampling
+_get_trajectories(option_policy) 1.8940215110778809s
+2025-01-04 15:45:45 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1999 | Time 5051.77 s
+2025-01-04 15:45:45 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #1999 | EpochTime 2.45 s
+---------------------------------------------------------  --------------
+TimeEpoch                                                     2.45394
+TimeTotal                                                  5051.77
+TotalEnvSteps                                                 3.2e+06
+TotalEpoch                                                 1999
+TrainSp/AverageDiscountedReturn                            -112.246
+TrainSp/AverageReturn                                      -277.185
+TrainSp/CompletionRate                                        1
+TrainSp/DiffMaxMinReturn                                    490.302
+TrainSp/Iteration                                          1999
+TrainSp/MaxReturn                                           -93.5554
+TrainSp/MinReturn                                          -583.857
+TrainSp/NumTrajs                                              8
+TrainSp/StdReturn                                           198.124
+TrainSp/relabel_skills_metra_sf/Alpha                         0.00116359
+TrainSp/relabel_skills_metra_sf/DualCstPenalty                0.001
+TrainSp/relabel_skills_metra_sf/LossAlpha                     1.30499
+TrainSp/relabel_skills_metra_sf/LossOp                       -2.11895
+TrainSp/relabel_skills_metra_sf/LossQf1                       0.0424577
+TrainSp/relabel_skills_metra_sf/LossQf2                       0.0439636
+TrainSp/relabel_skills_metra_sf/LossTe                       27.7558
+TrainSp/relabel_skills_metra_sf/PathLengthMax               200
+TrainSp/relabel_skills_metra_sf/PathLengthMean              200
+TrainSp/relabel_skills_metra_sf/PathLengthMin               200
+TrainSp/relabel_skills_metra_sf/PureRewardMean                0.0394937
+TrainSp/relabel_skills_metra_sf/PureRewardStd                 0.16833
+TrainSp/relabel_skills_metra_sf/Qf1Mean                      -0.60469
+TrainSp/relabel_skills_metra_sf/Qf2Mean                      -0.595982
+TrainSp/relabel_skills_metra_sf/QfTargetsMean                -0.600954
+TrainSp/relabel_skills_metra_sf/QfTdErrsMean                 -0.000618196
+TrainSp/relabel_skills_metra_sf/TeObjMean                   -27.7558
+TrainSp/relabel_skills_metra_sf/TimeComputingMetrics          0
+TrainSp/relabel_skills_metra_sf/TimeSampling                  1.89415
+TrainSp/relabel_skills_metra_sf/TimeTraining                  0.555627
+TrainSp/relabel_skills_metra_sf/TotalGradNormAll              2.86425
+TrainSp/relabel_skills_metra_sf/TotalGradNormDualLam          0
+TrainSp/relabel_skills_metra_sf/TotalGradNormLogAlpha         0.193153
+TrainSp/relabel_skills_metra_sf/TotalGradNormOptionPolicy     0.0776152
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf1              1.63388
+TrainSp/relabel_skills_metra_sf/TotalGradNormQf2              2.33971
+TrainSp/relabel_skills_metra_sf/TotalGradNormTrajEncoder      0.129592
+---------------------------------------------------------  --------------
+2025-01-04 15:45:45 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #2000 | Saving snapshot...
+2025-01-04 15:45:45 | [sd005_s_2311637.0.1736018486_ant_relabel_skills_metra_sf] epoch #2000 | Saved
+Sampling
+_get_trajectories(option_policy) 9.13599967956543s
+slurmstepd: error: *** JOB 2311637 ON adroit-h11g3 CANCELLED AT 2025-01-04T15:46:12 ***

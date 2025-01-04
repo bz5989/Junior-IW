@@ -1,5 +1,5 @@
 # Configs
-job_name=relabel_skills_csf_ant
+job_name=new_method_csf_ant
 seed=5
 option_dim=2
 
@@ -18,8 +18,8 @@ python3 -u run/train.py --run_group $job_name \
                         --n_epochs_per_save 10000 \
                         --n_epochs 10001 \
                         --sac_max_buffer_size 1000000 \
-                        --algo relabel_skills_metra_sf \
-                        --relabel_to_nearby_skill True \
+                        --algo new_method_metra_sf \
+                        --is_new_method True \
                         --noise_type random_noise \
                         --noise_factor 0.15 \
                         --discrete 0 \

@@ -18,7 +18,7 @@ python3 -u run/train.py --run_group $job_name \
                         --n_epochs_per_save 10000 \
                         --n_epochs 10001 \
                         --sac_max_buffer_size 1000000 \
-                        --algo relabel_skills_metra_sf \
+                        --algo new_method_metra_sf \
                         --discrete 0 \
                         --dim_option $option_dim \
                         --eval_goal_metrics 1 \

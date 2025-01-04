@@ -52,7 +52,7 @@ class RelabelMetraSf(IOD):
             metra_mlp_rep: bool = False,
             f_encoder: torch.nn.Module = None,
             num_zero_shot_goals: int = 50,
-            relabel_to_nearby_skill: bool = False,  # relabel skills
+            is_new_method: bool = False,  # relabel skills
             noise_type: str = None, 
             noise_factor: float = 0.1, # relabel noise factor
             **kwargs,
@@ -113,7 +113,7 @@ class RelabelMetraSf(IOD):
             self.f_encoder = f_encoder.to(self.device)
         self.num_zero_shot_goals = num_zero_shot_goals
         
-        self.relabel_to_nearby_skill = relabel_to_nearby_skill
+        self.is_new_method = is_new_method
         self.noise_type = noise_type
         self.noise_factor = noise_factor
 
@@ -213,7 +213,7 @@ class RelabelMetraSf(IOD):
             data[key] = torch.from_numpy(value).float().to(self.device)
 
         # Apply skill relabeling
-        if self.relabel_to_nearby_skill and self.noise_type == "relabel":
+        if self.is_new_method and self.noise_type == "relabel":
             data['options'], data['next_options'] = self._relabel_skills(
                 data['obs'], data['next_obs'], data['options']
             )
@@ -347,7 +347,7 @@ class RelabelMetraSf(IOD):
                 target_z = target_z / target_z.norm(dim=-1, keepdim=True)
 
             # Noise perturbation
-            if self.relabel_to_nearby_skill and self.noise_type == "random_noise":
+            if self.is_new_method and self.noise_type == "random_noise":
                 noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
                 target_z += noise
                 
@@ -398,7 +398,7 @@ class RelabelMetraSf(IOD):
             # Generate the transition encoding with optional perturbation for relabeling
             rep = self.f_encoder(obs, next_obs)
             
-            if self.relabel_to_nearby_skill and self.noise_type == "random_noise":  # Apply relabeling perturbation for nearby skill
+            if self.is_new_method and self.noise_type == "random_noise":  # Apply relabeling perturbation for nearby skill
                 noise = torch.randn_like(rep) * self.noise_factor
                 rep += noise  # Adjusts `rep` slightly toward a nearby skill
 
