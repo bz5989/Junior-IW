@@ -76,7 +76,7 @@ def make_env(args, max_path_length: int):
     elif args.env in ['ant', 'ant_base']:
         from envs.mujoco.ant_env import AntEnv
         env = AntEnv(render_hw=100, model_path='ant.xml')
-    elif args.env == 'ant2':
+    elif args.env in ['ant2', 'ant3']:
         from envs.mujoco.ant_env2 import AntEnv
         env = AntEnv(render_hw=100, model_path='ant2.xml')
     elif args.env.startswith('dmc'):
@@ -163,7 +163,7 @@ def make_env(args, max_path_length: int):
         if args.env in ['ant_nav_prime']:
             normalizer_name = 'ant'
             additional_dim = cp_num_truncate_obs
-        elif args.env in ['ant2', 'ant_base']:
+        elif args.env in ['ant2', 'ant_base', 'ant3']:
             normalizer_name = 'ant'
         elif args.env in ['half_cheetah_goal', 'half_cheetah_hurdle']:
             normalizer_name = 'half_cheetah'
@@ -228,7 +228,7 @@ def get_argparser():
     parser.add_argument('--max_path_length', type=int, default=200, help="Specifies the maximum number of timesteps of a single rollout.")
     parser.add_argument('--env', type=str, default='maze', choices=[
         # Exploration & goal reaching environments
-        'ant', 'ant2', 'ant_base', 'half_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'kitchen', 'robobin_image',
+        'ant', 'ant2', 'ant3', 'ant_base', 'half_cheetah', 'dmc_quadruped', 'dmc_humanoid', 'kitchen', 'robobin_image',
         # Hierarchical control environments
         'ant_nav_prime', 'half_cheetah_hurdle', 'half_cheetah_goal', 'dmc_quadruped_goal', 'dmc_humanoid_goal'
     ])

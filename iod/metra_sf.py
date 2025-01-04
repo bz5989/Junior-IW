@@ -525,8 +525,8 @@ class MetraSf(IOD):
     @torch.no_grad()
     def _evaluate_policy(self, runner):
         ret = {}
-        if self.env_name == 'ant_base':
-            contextualized_make_env = functools.partial(make_env, env=runner._env)
+        if self.env_name in ['ant_base', 'ant3']:
+            contextualized_make_env = functools.partial(make_env, env=runner._env, name=self.env_name)
             ret = runner.alt_swap(contextualized_make_env)
 
         if self.discrete:
@@ -639,7 +639,7 @@ class MetraSf(IOD):
                     goals.append((goal_obs, {'goal_loc': goal_loc}))
             
 #–––––––––––# generate zero-shot goals
-            elif self.env_name in ['ant2', 'ant_base']:
+            elif self.env_name in ['ant2', 'ant3', 'ant_base']:
                 for i in range(self.num_zero_shot_goals):
                     env.reset()
                     state = env.unwrapped._get_obs().copy()
@@ -765,7 +765,7 @@ class MetraSf(IOD):
                                 at_success_1 += 1.
                         
             #–––––––––––# track hit rates
-                        elif self.env_name in ['ant2', 'ant_base']:
+                        elif self.env_name in ['ant2', 'ant3', 'ant_base']:
                             cur_loc = env.unwrapped._get_obs()[:2] 
                             if np.linalg.norm(cur_loc - goal_info['goal_loc']) < 3:
                                 hit_success_3 = 1.
@@ -788,7 +788,7 @@ class MetraSf(IOD):
                         goal_metrics[f'Robobin{method}GoalStayingTimeOverall'].append(staying_time)
                     
         #–––––––––––# note down hit rates
-                    elif self.env_name in ['ant2', 'ant_base']:
+                    elif self.env_name in ['ant2', 'ant3', 'ant_base']:
                         cur_loc = env.unwrapped._get_obs()[:2]
                         distance = np.linalg.norm(cur_loc - goal_info['goal_loc'])
                         squared_distance = distance ** 2
@@ -880,7 +880,7 @@ class MetraSf(IOD):
                 additional_records=eval_option_metrics,
             )
         self._log_eval_metrics(runner)
-        if self.env_name == 'ant_base':
+        if self.env_name in ['ant_base', 'ant3']:
             runner.alt_return(ret)
         # runner.setup(env=placeholder_env,  # Not use saved['env']
         #            algo=runner._algo,
@@ -890,9 +890,12 @@ class MetraSf(IOD):
         #            n_workers=1,
         #         )
 
-def make_env(env):
+def make_env(env, name):
     from envs.mujoco.ant_env2 import AntEnv
-    env = AntEnv(render_hw=100, model_path='ant2.xml')
+    if name == 'ant_base':
+        env = AntEnv(render_hw=100, model_path='ant2.xml')
+    else:
+        env = AntEnv(render_hw=100, model_path='ant3.xml')
     normalizer_kwargs = {}
     normalizer_mean, normalizer_std = get_normalizer_preset(f'ant_preset')
 
