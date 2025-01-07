@@ -1,0 +1,123 @@
+2025-01-04 16:33:11.577139: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-04 16:33:11.785764: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-04 16:33:12.509695: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: :/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2025-01-04 16:33:12.509808: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: :/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2025-01-04 16:33:12.509817: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-04 16:33:14 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] Logging to /scratch/network/yw0947/Junior-IW/exp/new_method_csf_ant/sd005_s_2311650.0.1736026394_ant_new_method_metra_sf
+2025-01-04 16:33:14 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] Git commit: 0161d6e8b4066f641e96b6256c260161959f6405
+2025-01-04 16:33:14 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] ARGS: Namespace(run_group='new_method_csf_ant', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=10000, n_epochs_per_pt_save=1000, n_epochs_per_pkl_update=None, num_random_trajectories=48, num_video_repeats=2, eval_record_video=0, eval_plot_axis=[-50.0, 50.0, -50.0, 50.0], normalizer_type='preset', frame_stack=None, video_skip_frames=1, encoder=0, spectral_normalization=0, model_master_dim=1024, model_master_num_layers=2, model_master_nonlinearity=None, sd_const_std=1, sd_batch_norm=1, use_layer_norm=0, max_path_length=200, env='ant', use_gpu=1, sample_cpu=1, seed=5, n_parallel=1, n_thread=1, n_epochs=10001, traj_batch_size=8, trans_minibatch_size=256, trans_optimization_epochs=50, common_lr=0.0001, lr_op=None, lr_te=None, dim_option=2, discrete=0, alpha=0.01, algo='new_method_metra_sf', sac_tau=0.005, sac_lr_q=None, sac_lr_a=None, sac_discount=0.99, sac_scale_reward=1.0, sac_target_coef=1.0, sac_min_buffer_size=10000, sac_max_buffer_size=1000000, use_discrete_sac=0, unit_length=1, inner=1, turn_off_dones=1, num_alt_samples=100, split_group=65536, uniform_z=0, dual_reg=1, dual_lam=30, dual_slack=0.001, dual_dist='one', dual_lr=None, fixed_lam=None, self_normalizing=0, no_diff_in_rep=0, log_sum_exp=1, sample_new_z=1, num_negative_z=256, infonce_lam=5.0, diayn_include_baseline=0, add_log_sum_exp_to_rewards=0, add_penalty_to_rewards=0, metra_mlp_rep=0, goal_range=50.0, num_zero_shot_goals=50, eval_goal_metrics=1, cp_path=None, cp_path_idx=None, cp_multi_step=1, cp_unit_length=0, downstream_reward_type='esparse', downstream_num_goal_steps=50, policy_type='gaussian', cic_temp=0.5, cic_alpha=1.0, apt_knn_k=16, apt_use_icm=0, apt_rms=1, alive_reward=None, dual_dist_scaling='geom', const_scaler=1.0, wdm=0, wdm_cpc=0, wdm_idz=1, wdm_ids=0, wdm_diff=1, aug=0, joint_train=1, is_new_method=True, noise_type='parametrization_option2', noise_factor=0.0)
+2025-01-04 16:33:14 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] Setting seed to 5
+2025-01-04 16:33:19.440954: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-01-04 16:33:19.646141: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2025-01-04 16:33:20.290299: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2025-01-04 16:33:20.290412: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /scratch/network/yw0947/anaconda3/envs/csf/lib/python3.9/site-packages/cv2/../../lib64::/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia:/scratch/network/yw0947/.mujoco/mujoco210/bin:/usr/lib/nvidia
+2025-01-04 16:33:20.290421: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2025-01-04 16:33:21 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] Obtaining samples...
+2025-01-04 16:33:21 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] epoch #0 | Saving snapshot...
+2025-01-04 16:33:21 | [sd005_s_2311650.0.1736026394_ant_new_method_metra_sf] epoch #0 | Saved
+Sampling
+_get_trajectories(option_policy) 10.042381048202515s
+------------------------------  ----------
+EvalOp/AtSuccess1                  0
+EvalOp/AtSuccess3                  0
+EvalOp/AverageDiscountedReturn    87.1391
+EvalOp/AverageReturn             201.018
+EvalOp/CompletionRate              1
+EvalOp/DiffMaxMinReturn           17.8992
+EvalOp/EndSuccess1                 0
+EvalOp/EndSuccess3                 0
+EvalOp/GoalDistance               39.9192
+EvalOp/GoalSquaredDistance      1717.59
+EvalOp/HitSuccess1                 0
+EvalOp/HitSuccess3                 0
+EvalOp/Iteration                   0
+EvalOp/MaxReturn                 212.009
+EvalOp/MinReturn                 194.11
+EvalOp/MjAvgTrajLen              200
+EvalOp/MjNumCoords              9648
+EvalOp/MjNumTrajs                 48
+EvalOp/MjNumUniqueCoords           4
+EvalOp/NumTrajs                   48
+EvalOp/StdReturn                   5.42962
+TimeTotal                         30.605
+TotalEnvSteps                      0
+TotalEpoch                         0
+------------------------------  ----------
+Sampling
+_get_trajectories(option_policy) 1.8831110000610352s
+Sampling
+_get_trajectories(option_policy) 1.8799998760223389s
+Sampling
+_get_trajectories(option_policy) 1.8665573596954346s
+Sampling
+_get_trajectories(option_policy) 1.8685541152954102s
+Sampling
+_get_trajectories(option_policy) 1.865243911743164s
+Sampling
+_get_trajectories(option_policy) 1.8754687309265137s
+Sampling
+_get_trajectories(option_policy) 1.8658838272094727s
+Traceback (most recent call last):
+  File "/scratch/network/yw0947/Junior-IW/run/train.py", line 1051, in <module>
+    run()
+    └ <garage.experiment.experiment.ExperimentTemplate object at 0x14dad305ca30>
+  File "/scratch/network/yw0947/Junior-IW/garaged/src/garage/experiment/experiment.py", line 594, in __call__
+    result = self.function(ctxt, **kwargs)
+             │             │       └ {}
+             │             └ <garage.experiment.experiment.ExperimentContext object at 0x14dad31aeb80>
+             └ <garage.experiment.experiment.ExperimentTemplate object at 0x14dad305ca30>
+  File "/scratch/network/yw0947/Junior-IW/run/train.py", line 1046, in run
+    runner.train(n_epochs=args.n_epochs, batch_size=args.traj_batch_size)
+    │                     │                         └ Namespace(run_group='new_method_csf_ant', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=10000, n_epochs_per_pt_...
+    │                     └ Namespace(run_group='new_method_csf_ant', n_epochs_per_eval=500, n_epochs_per_log=500, n_epochs_per_save=10000, n_epochs_per_pt_...
+    └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x14dad306a640>
+  File "/scratch/network/yw0947/Junior-IW/garaged/src/garage/experiment/local_runner.py", line 489, in train
+    average_return = self._algo.train(self)
+                     │                └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x14dad306a640>
+                     └ <garagei.experiment.option_local_runner.OptionLocalRunner object at 0x14dad306a640>
+  File "/scratch/network/yw0947/Junior-IW/iod/iod.py", line 215, in train
+    last_return = self.train_once(
+  File "/scratch/network/yw0947/Junior-IW/iod/iod.py", line 139, in train_once
+    tensors = self._train_once_inner(data)
+              │                      └ defaultdict(<class 'list'>, {'obs': [array([[-7.0490085e-02, -7.9150945e-02, -2.3963892e-01, ...,
+         9.7240143e-02,  1.695...
+              └ <iod.new_method_metra_sf.NewMetraSf object at 0x14dac3ff6760>
+  File "/scratch/network/yw0947/Junior-IW/iod/new_method_metra_sf.py", line 229, in _train_once_inner
+    tensors = self._train_components(epoch_data)
+              │                      └ {'obs': tensor([[-7.0490e-02, -7.9151e-02, -2.3964e-01,  ...,  9.7240e-02,
+          1.6951e-03, -9.7349e-02],
+        [-1.0597e...
+              └ <iod.new_method_metra_sf.NewMetraSf object at 0x14dac3ff6760>
+  File "/scratch/network/yw0947/Junior-IW/iod/new_method_metra_sf.py", line 245, in _train_components
+    self._optimize_te(tensors, v)
+    │                 │        └ {'obs': tensor([[ 0.3078, -3.1603,  2.5403,  ...,  0.0494, -0.0058, -1.0468],
+        [ 0.4058, -1.6510, -0.9917,  ..., -1.5684,...
+    │                 └ {}
+    └ <iod.new_method_metra_sf.NewMetraSf object at 0x14dac3ff6760>
+  File "/scratch/network/yw0947/Junior-IW/iod/new_method_metra_sf.py", line 252, in _optimize_te
+    self._update_loss_te(tensors, internal_vars)
+    │                    │        └ {'obs': tensor([[ 0.3078, -3.1603,  2.5403,  ...,  0.0494, -0.0058, -1.0468],
+        [ 0.4058, -1.6510, -0.9917,  ..., -1.5684,...
+    │                    └ {}
+    └ <iod.new_method_metra_sf.NewMetraSf object at 0x14dac3ff6760>
+  File "/scratch/network/yw0947/Junior-IW/iod/new_method_metra_sf.py", line 472, in _update_loss_te
+    self._update_rewards(tensors, v)
+    │                    │        └ {'obs': tensor([[ 0.3078, -3.1603,  2.5403,  ...,  0.0494, -0.0058, -1.0468],
+        [ 0.4058, -1.6510, -0.9917,  ..., -1.5684,...
+    │                    └ {}
+    └ <iod.new_method_metra_sf.NewMetraSf object at 0x14dac3ff6760>
+  File "/scratch/network/yw0947/Junior-IW/iod/new_method_metra_sf.py", line 393, in _update_rewards
+    pairwise_scores = target_z @ new_z.t()
+                      │          └ tensor([[ 1.8963e-01,  9.8186e-01],
+        [-6.7090e-02,  9.9775e-01],
+        [-9.9947e-01, -3.2687e-02],
+        [-3.4505e-01...
+                      └ tensor([[-8.2884e-02],
+        [ 1.5310e-02],
+        [ 7.2106e-02],
+        [-5.4519e-03],
+        [-1.7842e-02],
+        [ 2.0...
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (256x1 and 2x256)

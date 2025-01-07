@@ -15,7 +15,17 @@ from iod.iod import IOD
 from iod.utils import get_torch_concat_obs, FigManager, get_option_colors, record_video, draw_2d_gaussians
 from iod.sac_utils import _clip_actions
 
-class RelabelMetraSf(IOD):
+import torch.nn as nn
+
+# Define a wrapper module to store the bilinear matrix and latent vector
+class ParameterWrapper(nn.Module):
+    def __init__(self, bilinear_matrix, latent_vector):
+        super().__init__()
+        self.bilinear_matrix = bilinear_matrix
+        self.latent_vector = latent_vector
+
+
+class NewMetraSf(IOD):
     def __init__(
             self,
             *,
@@ -345,16 +355,72 @@ class RelabelMetraSf(IOD):
 
             if self.self_normalizing:
                 target_z = target_z / target_z.norm(dim=-1, keepdim=True)
+                
+            if self.noise_type == "parametrization_option1":
+                target_z = next_z
+            elif self.noise_type == "parametrization_option2":
+                # Compute state embeddings: ϕ(s) and ϕ(s′)
+                cur_z = self.traj_encoder(obs.to(self.device)).mean  # ϕ(s)
+                next_z = self.traj_encoder(next_obs.to(self.device)).mean  # ϕ(s′)
+
+                # Initialize the bilinear mapping matrix (W) and latent vector (u) in a wrapper module
+                if not hasattr(self, "parameter_wrapper"):
+                    bilinear_matrix = nn.Parameter(torch.eye(cur_z.size(-1), device=self.device))  # Initialize W as identity
+                    latent_vector = nn.Parameter(torch.randn(cur_z.size(-1), device=self.device))  # Random initialization
+                    self.parameter_wrapper = ParameterWrapper(bilinear_matrix, latent_vector).to(self.device)
+                    self.param_modules["parameter_wrapper"] = self.parameter_wrapper  # Track the wrapper module
+
+                # Retrieve parameters from the wrapper
+                bilinear_matrix = self.parameter_wrapper.bilinear_matrix
+                latent_vector = self.parameter_wrapper.latent_vector
+
+                # Generate or retrieve z
+                z = torch.randn((cur_z.size(0), cur_z.size(-1)), device=self.device)  # Random latent embeddings
+
+                # Compute the bilinear mapping: ϕ(s′)ᵀ W ϕ(s)
+                bilinear_term = torch.sum(next_z * torch.matmul(cur_z, bilinear_matrix), dim=-1, keepdim=True)
+
+                # Compute the latent conditioning: zᵀ u
+                z_u_scaling = torch.sum(z * latent_vector, dim=-1, keepdim=True)
+
+                # Combine the two terms: (ϕ(s′)ᵀ W ϕ(s)) ⋅ zᵀ u
+                target_z = bilinear_term * z_u_scaling
+
+                # Generate new_z
+                new_z = torch.randn((cur_z.size(0), 2), device=self.device)  # Random latent embeddings
+
+                # Adjust target_z for broadcasting
+                target_z = target_z.expand(-1, new_z.size(1))  # Expand to match new_z's second dimension
+
+                # Compute pairwise scores
+                pairwise_scores = target_z @ new_z.t()  # Shape (batch_size, batch_size)
 
             # Noise perturbation
             if self.is_new_method and self.noise_type == "random_noise":
                 noise = torch.randn_like(target_z) * self.noise_factor  # noise_factor is a tunable parameter
                 target_z += noise
                 
-            
-            
 
             if self.log_sum_exp:
+                # if self.noise_type == "parametrization_option2":
+                #     if self.sample_new_z:
+                #         new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)  # Shape: (num_negative_z, dim_option)
+                #         if self.unit_length:
+                #             new_z /= torch.norm(new_z, dim=-1, keepdim=True)
+
+                #         # Align target_z and new_z for element-wise multiplication
+                #         expanded_target_z = target_z.expand(-1, self.num_negative_z)  # Shape: (batch_size, num_negative_z)
+                #         new_z = new_z.t()  # Transpose new_z to shape: (dim_option, num_negative_z)
+                #         pairwise_scores = expanded_target_z * new_z  # Element-wise multiplication
+                #     else:
+                #         # Align target_z and v['options'] for element-wise multiplication
+                #         expanded_target_z = target_z.expand(-1, v['options'].size(1))  # Align target_z to match v['options']
+                #         pairwise_scores = expanded_target_z * v['options']  # Element-wise multiplication
+
+                #     # Apply log-sum-exp for option selection
+                #     log_sum_exp = torch.logsumexp(pairwise_scores, dim=-1)  # Shape: (batch_size,)
+
+                # else:
                 if self.sample_new_z:
                     new_z = torch.randn(self.num_negative_z, self.dim_option, device=v['options'].device)
                     if self.unit_length:

@@ -52,7 +52,7 @@ from garagei.envs.consistent_normalized_env import consistent_normalize
 
 from iod.metra import METRA
 from iod.metra_sf import MetraSf
-from iod.new_method_metra_sf import RelabelMetraSf
+from iod.new_method_metra_sf import NewMetraSf
 from iod.dads import DADS
 from iod.ppo import PPO
 from iod.cic import CIC
@@ -933,7 +933,7 @@ def run(ctxt=None):
             dual_slack=args.dual_slack,
             dual_dist=args.dual_dist,
         )
-        algo = RelabelMetraSf(
+        algo = NewMetraSf(
             **algo_kwargs,
             **skill_common_args,
         )

@@ -1,6 +1,6 @@
 # Configs
 job_name=new_method_csf_ant
-seed=5
+seed=2
 option_dim=2
 
 # Run command
@@ -20,8 +20,8 @@ python3 -u run/train.py --run_group $job_name \
                         --sac_max_buffer_size 1000000 \
                         --algo new_method_metra_sf \
                         --is_new_method True \
-                        --noise_type random_noise \
-                        --noise_factor 0.15 \
+                        --noise_type parametrization_option2 \
+                        --noise_factor 0 \
                         --discrete 0 \
                         --dim_option $option_dim \
                         --eval_goal_metrics 1 \
