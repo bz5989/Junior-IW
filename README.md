@@ -1,6 +1,3 @@
-# Can a MISL Fly? Analysis and Ingredients for Mutual Information Skill Learning
-Official code repo for the paper "Can a MISL Fly? Analysis and Ingredients for Mutual Information Skill Learning" by [Chongyi Zheng](https://chongyi-zheng.github.io), [Jens Tuyls](https://jens321.github.io), [Joanne Peng](https://www.joannepeng.com), and [Benjamin Eysenbach](https://ben-eysenbach.github.io). This paper introduces a new method which we call **Contrastive Successor Features (CSF)**, which achieves compareable performance to current SOTA unsupervised skill discovery methods while at its core relying on mutual information maximization.
-
 ## Installation 🔌
 
 After cloning this repo, please run the following commands at the root of the project:
@@ -58,28 +55,12 @@ For example, in order to run our CSF method on the Ant environment, you would ru
 sh scripts/pretrain/csf/csf_ant.sh
 ```
 
-> [!NOTE] 
-> The zero-shot goal reaching performance gets logged during the pretraining phase, and hence we don't have separate scripts for them.
-
-(2) For **hierarchical control**, you can use the following general command. Again, make sure to run this from the root of the project.
-```
-sh scripts/hierarchical_control/[task].sh [method_name]
-```
-For example, in order to run a pretrained CSF policy on the AntMultiGoal environment, you would run:
-```
-sh scripts/hierarchical_control/ant_multi_goal.sh csf
-```
-
-> [!WARNING]
-> All hierarchical control experiments require a pretrained policy path referred to using the `cp_path` argument. 
-> Make sure to update this in the corresponding scripts.
-
 Once experiments are running, they will be logged under the `exp` folder.
 
 > [!NOTE] 
 > All experiments were run on a single GPU, usually with between 8 - 10 workers (see the `--n_parallel` flag).
-> In addition, we found we needed 32GB of CPU memory (RAM) for all state-based experiments (Ant and HalfCheetah), while
-> we needed 40GB of CPU memory for all image-based experiments (Humanoid, Quadruped, Kitchen, Robobin).
 
 ## Acknowledgements
-This code repo was built on the original [METRA repo](https://github.com/seohongpark/METRA).
+This code repo was built on the [MISL repo] (https://anonymous.4open.science/r/csf-3BF4/README.md), which was built off the original [METRA repo](https://github.com/seohongpark/METRA).
+
+Descriptions, such as this README, are mostly maintained from the MISL repo.
